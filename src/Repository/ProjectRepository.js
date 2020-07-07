@@ -10,7 +10,7 @@ class ProjectRepository {
       'search': {
         version: 1,
         method: 'POST',
-        path: '/project/projects/search'
+        path: 'project/projects/search'
       }
     }
   }

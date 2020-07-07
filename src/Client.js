@@ -7,10 +7,12 @@ const ProjectRepository = require('./Repository/ProjectRepository')
  *
  */
 class LeankoalaClient {
-  constructor() {
+  constructor(environment = 'production') {
 
     this._repositories = {}
     this._connection = {}
+
+    this._environment = environment
   }
 
   async connect(args) {
@@ -19,12 +21,19 @@ class LeankoalaClient {
   }
 
   _initRepositories() {
-    this._repositories[ 'incident' ] = new IncidentRepository(this._connection)
     this._repositories[ 'project' ] = new ProjectRepository(this._connection)
   }
 
   async _initConnection(args) {
-    this._connection = new Connection()
+
+    let apiServer = ''
+    if (this._environment === 'stage') {
+      apiServer = 'https://stage.monitor.leankoala.com/kapi'
+    } else {
+      apiServer = 'https://api.cluster1.koalityengine.com'
+    }
+
+    this._connection = new Connection(apiServer)
     await this._connection.connect(args)
   }
 

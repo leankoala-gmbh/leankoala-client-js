@@ -10,12 +10,15 @@ class Connection {
 
   /**
    * Init routes and set default values
+   *
+   * @param apiServer
    */
-  constructor() {
+  constructor(apiServer) {
     this._accessToken = ''
     this._refreshToken = ''
     this._user = {}
     this._expireTimestamp = 0
+    this._apiServer = apiServer
 
     this._routes = {
       authenticateByPassword: {
@@ -38,22 +41,25 @@ class Connection {
    * @return {Promise<void>}
    */
   async connect(args) {
-    const defaultArgs = {
-      apiServer: 'https://api.cluster1.koalityengine.com'
-    }
+    const defaultArgs = {}
 
     this._connectionArgs = Object.assign(defaultArgs, args)
 
-    if (!this._connectionArgs.hasOwnProperty('username')) {
-      throw new Error('Mandatory username is missing')
-    }
-
-    if (!this._connectionArgs.hasOwnProperty('password')) {
-      throw new Error('Mandatory password is missing')
-    }
-
     this._initAxios()
-    await this._authenticate(args.username, args.password)
+
+    if (args.hasOwnProperty('refreshToken')) {
+      this._refreshToken = args[ 'refreshToken' ]
+      await this._refreshAccessToken()
+    } else {
+      if (!this._connectionArgs.hasOwnProperty('username')) {
+        throw new Error('Mandatory username is missing')
+      }
+
+      if (!this._connectionArgs.hasOwnProperty('password')) {
+        throw new Error('Mandatory password is missing')
+      }
+      await this._authenticate(args.username, args.password)
+    }
   }
 
   /**
@@ -81,7 +87,7 @@ class Connection {
   _getUrl(route, args) {
     const plainPath = route[ 'path' ]
     const version = route[ 'version' ]
-    const apiServer = this._connectionArgs[ 'apiServer' ]
+    const apiServer = this._apiServer
 
     let url = apiServer + '/v' + version + '/' + plainPath
 
@@ -124,7 +130,11 @@ class Connection {
     try {
       response = await axios({ method, url, data })
     } catch (e) {
-      response = e.response
+      if (e.response) {
+        response = e.response
+      } else {
+        throw e
+      }
     }
 
     this._assertValidResponse(response, url, data)
