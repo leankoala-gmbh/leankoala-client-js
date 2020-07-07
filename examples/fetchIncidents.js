@@ -4,7 +4,7 @@ const LeankoalaClient = require('../src/Client');
   try {
 
     const client = new LeankoalaClient()
-    await client.connect('demo', 'demo')
+    await client.connect({ username: 'demo', password: 'demo' })
     const user = client.getUser()
 
     /** @var ProjectRepository projectRepo **/

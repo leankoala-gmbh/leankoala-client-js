@@ -13,8 +13,8 @@ class LeankoalaClient {
     this._connection = {}
   }
 
-  async connect(username, password) {
-    await this._initConnection(username, password)
+  async connect(args) {
+    await this._initConnection(args)
     this._initRepositories()
   }
 
@@ -23,9 +23,9 @@ class LeankoalaClient {
     this._repositories[ 'project' ] = new ProjectRepository(this._connection)
   }
 
-  async _initConnection(username, password) {
+  async _initConnection(args) {
     this._connection = new Connection()
-    await this._connection.connect({ username, password })
+    await this._connection.connect(args)
   }
 
   getRepository(entityType) {
