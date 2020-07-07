@@ -1,0 +1,10 @@
+{
+  "name": "leankoala-client",
+  "version": "0.0.1",
+  "description": "",
+  "author": "Nils Langner (nils.langner@leankoala.com)",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.19.0"
+  }
+}
