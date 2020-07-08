@@ -9,7 +9,7 @@ const LeankoalaClient = require('../src/Client');
 
     /** @var ProjectRepository projectRepo **/
     const projectRepo = client.getRepository('project')
-    const projects = await projectRepo.search(user.id)
+    const projects = await projectRepo.find({ user: user.id })
 
     console.log(projects)
 
