@@ -12,6 +12,7 @@ module.exports = (env) => {
 
     output: {
       filename: 'client.js',
+      libraryTarget: 'umd',
       path: path.join(root, 'dist')
     },
 
