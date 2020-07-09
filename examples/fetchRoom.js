@@ -8,11 +8,12 @@ const LeankoalaClient = require('../src/Client');
     const user = client.getUser()
 
     /** @var ProjectRepository projectRepo **/
-    const rooms = await client.getRepository('websocket').getRoom()
+    const rooms = await client.getRepository('websocket').getRooms()
 
     console.log(rooms)
 
   } catch (e) {
+    throw e
     console.error(e.message)
   }
 })()

@@ -1,14 +1,6 @@
 const Connection = require('./Connection/Connection')
 
-const CheckRepository = require('./Repository/CheckRepository')
-const CrawlerRepository = require('./Repository/CrawlerRepository')
-const IncidentRepository = require('./Repository/IncidentRepository')
-const MemoryRepository = require('./Repository/MemoryRepository')
-const ScoreRepository = require('./Repository/ScoreRepository')
-const UserRepository = require('./Repository/UserRepository')
-const ProjectRepository = require('./Repository/ProjectRepository')
-const SystemRepository = require('./Repository/SystemRepository')
-const WebsocketRepository = require('./Repository/WebsocketRepository')
+const RepositoryCollection = require('./Repository/RepositoryCollection')
 
 /**
  * The KoalityEngine client is used to connect to an instance of the KoalityEngine
@@ -25,7 +17,7 @@ class LeankoalaClient {
 
   async connect(args) {
     await this._initConnection(args)
-    this._initRepositories()
+    this._repositoryCollection = new RepositoryCollection(this._connection)
   }
 
   isConnected() {
@@ -42,18 +34,6 @@ class LeankoalaClient {
     return this._connection.getWakeUpToken()
   }
 
-  _initRepositories() {
-    this._repositories[ 'project' ] = new ProjectRepository(this._connection)
-    this._repositories[ 'check' ] = new CheckRepository(this._connection)
-    this._repositories[ 'crawler' ] = new CrawlerRepository(this._connection)
-    this._repositories[ 'memory' ] = new MemoryRepository(this._connection)
-    this._repositories[ 'incident' ] = new IncidentRepository(this._connection)
-    this._repositories[ 'score' ] = new ScoreRepository(this._connection)
-    this._repositories[ 'user' ] = new UserRepository(this._connection)
-    this._repositories[ 'system' ] = new SystemRepository(this._connection)
-    this._repositories[ 'websocket' ] = new WebsocketRepository(this._connection)
-  }
-
   async _initConnection(args) {
 
     let apiServer = ''
@@ -68,12 +48,7 @@ class LeankoalaClient {
   }
 
   getRepository(entityType) {
-    const repositoryName = entityType.toLowerCase()
-    if (this._repositories.hasOwnProperty(repositoryName)) {
-      return this._repositories[ repositoryName ]
-    } else {
-      throw new Error('No repository with name ' + repositoryName + ' found. Registered repositories are: ' + JSON.stringify(Object.keys(this._repositories)))
-    }
+    return this._repositoryCollection.getRepository(entityType)
   }
 
   getUser() {
