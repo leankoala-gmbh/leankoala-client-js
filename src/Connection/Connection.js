@@ -49,11 +49,14 @@ class Connection {
     this._initAxios()
 
     if (args.hasOwnProperty('wakeUpToken')) {
-      this._refreshToken = args[ 'wakeUpToken' ][ 'refreshToken' ]
-      this._user = args[ 'wakeUpToken' ][ 'user' ]
-      this._refreshExpireTimestamp = args[ 'wakeUpToken' ][ 'expireDate' ]
+      const wakeUpToken = JSON.parse(args[ 'wakeUpToken' ])
+      this._refreshToken = wakeUpToken[ 'refreshToken' ]
+      this._user = wakeUpToken[ 'user' ]
+      this._refreshExpireTimestamp = wakeUpToken[ 'expireDate' ]
       this._accessExpireTimestamp = 0
+
       await this._refreshAccessToken()
+
     } else {
       if (!this._connectionArgs.hasOwnProperty('username')) {
         throw new Error('Mandatory username is missing')
@@ -70,18 +73,9 @@ class Connection {
     return this._refreshExpireTimestamp
   }
 
-  /**
-   * Return the current refresh token
-   *
-   * @return {string}
-   */
-  getRefreshToken() {
-    return this._refreshToken
-  }
-
   getWakeUpToken() {
     return JSON.stringify({
-      token: this.getRefreshToken(),
+      refreshToken: this._refreshToken,
       user: this.getUser(),
       expireDate: this.getExpireDate()
     })
@@ -137,15 +131,15 @@ class Connection {
    *
    * @param route
    * @param data
-   * @param withOutToken
+   * @param withoutToken
    *
    * @return {Promise<*>}
    */
-  async send(route, data, withOutToken) {
+  async send(route, data, withoutToken = false) {
     const method = route[ 'method' ].toUpperCase()
     const url = this._getUrl(route, data)
 
-    if (withOutToken !== true) {
+    if (withoutToken !== true) {
       await this._refreshAccessToken()
       data[ 'access_token' ] = this._accessToken
     }
@@ -240,8 +234,9 @@ class Connection {
    * @private
    */
   async _refreshAccessToken() {
-    if (Date.now() + 10 < this._accessExpireTimestamp) {
+    if (Date.now() + 10 > this._accessExpireTimestamp) {
       const user = this.getUser()
+
       const tokens = await this.send(this._routes[ 'refresh' ], {
         user_id: user.id,
         access_token: this._refreshToken

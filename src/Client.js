@@ -59,10 +59,6 @@ class LeankoalaClient {
       apiServer = 'https://api.cluster1.koalityengine.com'
     }
 
-    if (args.hasOwnProperty('wakeUpToken')) {
-      args[ 'wakeUpToken' ] = JSON.parse(args[ 'wakeUpToken' ])
-    }
-
     this._connection = new Connection(apiServer)
     await this._connection.connect(args)
   }
