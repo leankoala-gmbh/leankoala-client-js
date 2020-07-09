@@ -109,8 +109,8 @@ class Connection {
    * It will replace placeholder strings by the actual values from the given
    * arguments.
    *
-   * @param route
-   * @param args
+   * @param {String} route
+   * @param {Object} args
    *
    * @return {string}
    *
@@ -121,7 +121,7 @@ class Connection {
     const version = route[ 'version' ]
     const apiServer = this._apiServer
 
-    let url = apiServer + '/v' + version + '/' + plainPath
+    let url = `${apiServer}/v${version}/${plainPath}`
 
     const matches = url.match(/{(.*?)}/gi)
 

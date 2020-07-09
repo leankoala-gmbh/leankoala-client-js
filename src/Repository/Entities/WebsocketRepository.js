@@ -1,3 +1,5 @@
+const Repository = require('../Repository')
+
 /**
  * This class was created by the LeanApiBundle.
  *
@@ -5,43 +7,16 @@
  *
  * @created 2020-07-09
  */
-class WebsocketRepository {
-
-  constructor(connection) {
-    this._connection = connection
-  }
+class WebsocketRepository extends Repository {
 
   /**
    * Return a websocket server with the room names for the given user.
-   *
    */
   async getRooms(args) {
-    const route = {
-      path: 'websockets/rooms',
-      method: 'POST',
-      version: 1
-    }
-
+    const route = { path: 'websockets/rooms', method: 'POST', version: 1 }
     const argList = Object.assign({  }, args)
 
     return this._connection.send(route, argList)
-  }
-
-  /**
-   * Throw an exception if a mandatory argument is not set.
-   *
-   * @param requiredArguments
-   * @param actualArguments
-   * @private
-   *
-   * @todo this should be done in a parent class
-   */
-  _assertValidArguments(requiredArguments, actualArguments) {
-    requiredArguments.forEach(function (argument) {
-      if (!actualArguments.hasOwnProperty(argument)) {
-        throw new Error('The mandatory argument ' + argument + ' could not be found in the argument object.')
-      }
-    })
   }
 }
 

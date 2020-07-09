@@ -1,3 +1,5 @@
+const Repository = require('../Repository')
+
 /**
  * This class was created by the LeanApiBundle.
  *
@@ -5,11 +7,7 @@
  *
  * @created 2020-07-09
  */
-class MetricRepository {
-
-  constructor(connection) {
-    this._connection = connection
-  }
+class MetricRepository extends Repository {
 
   /**
    * Search for the metrics for all eventIdentifiers in the given projects that are defined by the given tool.
@@ -23,32 +21,10 @@ class MetricRepository {
    * @param {*} args.min_value Replace all values that are smaller than the min value with the min value.
    */
   async findBySystem(system, args) {
-    const route = {
-      path: 'metric/eventidentifier/{system}/search',
-      method: 'POST',
-      version: 1
-    }
-
+    const route = { path: 'metric/eventidentifier/{system}/search', method: 'POST', version: 1 }
     const argList = Object.assign({ system }, args)
 
     return this._connection.send(route, argList)
-  }
-
-  /**
-   * Throw an exception if a mandatory argument is not set.
-   *
-   * @param requiredArguments
-   * @param actualArguments
-   * @private
-   *
-   * @todo this should be done in a parent class
-   */
-  _assertValidArguments(requiredArguments, actualArguments) {
-    requiredArguments.forEach(function (argument) {
-      if (!actualArguments.hasOwnProperty(argument)) {
-        throw new Error('The mandatory argument ' + argument + ' could not be found in the argument object.')
-      }
-    })
   }
 }
 
