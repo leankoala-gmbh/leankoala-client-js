@@ -69,10 +69,23 @@ class Connection {
     }
   }
 
+  /**
+   * Return the expire date (timestamp) of the refresh token
+   *
+   * @return {Number}
+   */
   getExpireDate() {
     return this._refreshExpireTimestamp
   }
 
+  /**
+   * Return a wake up token
+   *
+   * This token can be used to wake the connection up without re-entering the username
+   * and password.
+   *
+   * @return {string}
+   */
   getWakeUpToken() {
     return JSON.stringify({
       refreshToken: this._refreshToken,
@@ -129,11 +142,11 @@ class Connection {
   /**
    * Send a request to the KoalityEngine and handle the result.
    *
-   * @param route
-   * @param data
-   * @param withoutToken
+   * @param {String} route
+   * @param {Object} data
+   * @param {Boolean} withoutToken
    *
-   * @return {Promise<*>}
+   * @return {Array}
    */
   async send(route, data, withoutToken = false) {
     const method = route[ 'method' ].toUpperCase()
@@ -164,9 +177,10 @@ class Connection {
   /**
    * Throw an exception if the response is not a valid or successful KoalityEngine response.
    *
-   * @param response
-   * @param url
-   * @param data
+   * @param {Object} response
+   * @param {String} url
+   * @param {String} method
+   * @param {Array} data
    *
    * @private
    */
@@ -215,6 +229,8 @@ class Connection {
    *
    * This function should be called after a new token is generated
    *
+   * @param {Boolean} withFreshToken
+   *
    * @private
    */
   _refreshTokenExpireDate(withFreshToken = false) {
@@ -228,9 +244,8 @@ class Connection {
   }
 
   /**
-   * Use the refrsh token to create a new access token.
+   * Use the refresh token to create a new access token.
    *
-   * @return {Promise<void>}
    * @private
    */
   async _refreshAccessToken() {

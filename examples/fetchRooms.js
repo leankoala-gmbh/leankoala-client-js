@@ -4,10 +4,13 @@ const LeankoalaClient = require('../src/Client');
   try {
 
     const client = new LeankoalaClient('stage')
-    await client.connect({ username: 'demo', password: 'demo' })
-    const user = client.getUser()
 
-    /** @var ProjectRepository projectRepo **/
+    console.log(client.isConnected())
+
+    await client.connect({ username: 'demo', password: 'demo' })
+
+    console.log(client.isConnected())
+
     const rooms = await client.getRepository('websocket').getRooms()
 
     console.log(rooms)
