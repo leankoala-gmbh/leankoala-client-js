@@ -28,8 +28,8 @@ class IncidentRepository {
     const argList = Object.assign({ project }, args)
 
     // validate arguments
-    const requiredArguments = ['system']
-    this._assertValidArguments(requiredArguments, argList)
+    // const requiredArguments = ['system']
+    // this._assertValidArguments(requiredArguments, argList)
 
     return this._connection.send(route, argList)
   }
