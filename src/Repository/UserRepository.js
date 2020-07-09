@@ -1,10 +1,9 @@
-const assertValidArguments = require('../utils/assertValidArguments')
 /**
  * This class was created by the LeanApiBundle.
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-07-08
+ * @created 2020-07-09
  */
 class UserRepository {
 
@@ -33,8 +32,8 @@ class UserRepository {
     const argList = Object.assign({ provider }, args)
 
     // validate arguments
-    const requiredArguments = ['username', 'email', 'company_id']
-    assertValidArguments(requiredArguments, argList)
+    const requiredArguments = ['username', 'email']
+    this._assertValidArguments(requiredArguments, argList)
 
     return this._connection.send(route, argList)
   }
@@ -58,7 +57,7 @@ class UserRepository {
 
     // validate arguments
     const requiredArguments = ['provider', 'provider_user_id']
-    assertValidArguments(requiredArguments, argList)
+    this._assertValidArguments(requiredArguments, argList)
 
     return this._connection.send(route, argList)
   }
@@ -76,11 +75,11 @@ class UserRepository {
       version: 1
     }
 
-    const argList = Object.assign({}, args)
+    const argList = Object.assign({  }, args)
 
     // validate arguments
     const requiredArguments = ['query']
-    assertValidArguments(requiredArguments, argList)
+    this._assertValidArguments(requiredArguments, argList)
 
     return this._connection.send(route, argList)
   }
@@ -98,11 +97,11 @@ class UserRepository {
       version: 1
     }
 
-    const argList = Object.assign({}, args)
+    const argList = Object.assign({  }, args)
 
     // validate arguments
     const requiredArguments = ['query']
-    assertValidArguments(requiredArguments, argList)
+    this._assertValidArguments(requiredArguments, argList)
 
     return this._connection.send(route, argList)
   }
@@ -125,9 +124,26 @@ class UserRepository {
 
     // validate arguments
     const requiredArguments = ['system_count']
-    assertValidArguments(requiredArguments, argList)
+    this._assertValidArguments(requiredArguments, argList)
 
     return this._connection.send(route, argList)
+  }
+
+  /**
+   * Throw an exception if a mandatory argument is not set.
+   *
+   * @param requiredArguments
+   * @param actualArguments
+   * @private
+   *
+   * @todo this should be done in a parent class
+   */
+  _assertValidArguments(requiredArguments, actualArguments) {
+    requiredArguments.forEach(function (argument) {
+      if (!actualArguments.hasOwnProperty(argument)) {
+        throw new Error('The mandatory argument ' + argument + ' could not be found in the argument object.')
+      }
+    })
   }
 }
 

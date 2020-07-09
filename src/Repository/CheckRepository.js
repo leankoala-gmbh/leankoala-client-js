@@ -1,11 +1,9 @@
-const assertValidArguments = require('../utils/assertValidArguments')
-
 /**
  * This class was created by the LeanApiBundle.
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-07-08
+ * @created 2020-07-09
  */
 class CheckRepository {
 
@@ -22,7 +20,7 @@ class CheckRepository {
    * @param {*} args.targetGroup The target group. It can be either an integer or an string.
    * @param {Boolean} args.use_cache Use the cache for json document fetch
    */
-   async getResults(system, category, args) {
+  async getResults(system, category, args) {
     const route = {
       path: 'check/checks/{system}/lighthouse/results/{category}',
       method: 'GET',
@@ -39,7 +37,7 @@ class CheckRepository {
    *
    * @param system
    */
-   async getDomains(system, args) {
+  async getDomains(system, args) {
     const route = {
       path: 'check/checks/{system}/cookies/domains',
       method: 'GET',
@@ -49,6 +47,23 @@ class CheckRepository {
     const argList = Object.assign({ system }, args)
 
     return this._connection.send(route, argList)
+  }
+
+  /**
+   * Throw an exception if a mandatory argument is not set.
+   *
+   * @param requiredArguments
+   * @param actualArguments
+   * @private
+   *
+   * @todo this should be done in a parent class
+   */
+  _assertValidArguments(requiredArguments, actualArguments) {
+    requiredArguments.forEach(function (argument) {
+      if (!actualArguments.hasOwnProperty(argument)) {
+        throw new Error('The mandatory argument ' + argument + ' could not be found in the argument object.')
+      }
+    })
   }
 }
 

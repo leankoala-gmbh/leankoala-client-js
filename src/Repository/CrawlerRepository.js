@@ -1,10 +1,9 @@
-const assertValidArguments = require('../utils/assertValidArguments')
 /**
  * This class was created by the LeanApiBundle.
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-07-08
+ * @created 2020-07-09
  */
 class CrawlerRepository {
 
@@ -26,7 +25,7 @@ class CrawlerRepository {
    * @param {Boolean} args.curl_only If true the crawler does only use curl.
    * @param {Number} args.parallel_requests Number of parallel requests that can be done
    */
-   async runCrawl(project, args) {
+  async runCrawl(project, args) {
     const route = {
       path: 'crawler/crawl/{project}',
       method: 'POST',
@@ -37,7 +36,7 @@ class CrawlerRepository {
 
     // validate arguments
     const requiredArguments = ['user', 'checklist_name', 'name', 'system']
-    assertValidArguments(requiredArguments, argList)
+    this._assertValidArguments(requiredArguments, argList)
 
     return this._connection.send(route, argList)
   }
@@ -56,7 +55,7 @@ class CrawlerRepository {
    * @param {Boolean} args.curl_only If true the crawler does only use curl.
    * @param {Number} args.parallel_requests Number of parallel requests that can be done
    */
-   async runCrawl(project, args) {
+  async runCrawl(project, args) {
     const route = {
       path: 'crawler/crawl/{project}/crawls',
       method: 'POST',
@@ -67,7 +66,7 @@ class CrawlerRepository {
 
     // validate arguments
     const requiredArguments = ['user', 'checklist_name', 'name', 'system']
-    assertValidArguments(requiredArguments, argList)
+    this._assertValidArguments(requiredArguments, argList)
 
     return this._connection.send(route, argList)
   }
@@ -77,7 +76,7 @@ class CrawlerRepository {
    *
    * @param crawl
    */
-   async getCrawl(crawl, args) {
+  async getCrawl(crawl, args) {
     const route = {
       path: 'crawler/crawl/{crawl}',
       method: 'GET',
@@ -87,6 +86,23 @@ class CrawlerRepository {
     const argList = Object.assign({ crawl }, args)
 
     return this._connection.send(route, argList)
+  }
+
+  /**
+   * Throw an exception if a mandatory argument is not set.
+   *
+   * @param requiredArguments
+   * @param actualArguments
+   * @private
+   *
+   * @todo this should be done in a parent class
+   */
+  _assertValidArguments(requiredArguments, actualArguments) {
+    requiredArguments.forEach(function (argument) {
+      if (!actualArguments.hasOwnProperty(argument)) {
+        throw new Error('The mandatory argument ' + argument + ' could not be found in the argument object.')
+      }
+    })
   }
 }
 
