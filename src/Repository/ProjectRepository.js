@@ -42,7 +42,7 @@ class ProjectRepository {
   async getStatus(project, args) {
     const route = {
       path: 'project/{project}/onboarding/status',
-      method: 'GET',
+      method: 'POST',
       version: 1
     }
 

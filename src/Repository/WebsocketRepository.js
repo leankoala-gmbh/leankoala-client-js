@@ -18,7 +18,7 @@ class WebsocketRepository {
   async getRoom(args) {
     const route = {
       path: 'websockets/rooms',
-      method: 'GET',
+      method: 'POST',
       version: 1
     }
 
