@@ -1,12 +1,12 @@
-import Connection from './Connection/Connection'
-import IncidentRepository from './Repository/IncidentRepository'
-import ProjectRepository from './Repository/ProjectRepository'
-import CheckRepository from './Repository/CheckRepository'
-import CrawlerRepository from './Repository/CrawlerRepository'
-import MetricRepository from './Repository/MetricRepository'
-import MemoryRepository from './Repository/MemoryRepository'
-import ScoreRepository from './Repository/ScoreRepository'
-import UserRepository from './Repository/UserRepository'
+const Connection = require('./Connection/Connection')
+const IncidentRepository = require('./Repository/IncidentRepository')
+const ProjectRepository = require('./Repository/ProjectRepository')
+const CheckRepository = require('./Repository/CheckRepository')
+const CrawlerRepository = require('./Repository/CrawlerRepository')
+const MetricRepository = require('./Repository/MetricRepository')
+const MemoryRepository = require('./Repository/MemoryRepository')
+const ScoreRepository = require('./Repository/ScoreRepository')
+const UserRepository = require('./Repository/UserRepository')
 
 /**
  * LeankoalaClient

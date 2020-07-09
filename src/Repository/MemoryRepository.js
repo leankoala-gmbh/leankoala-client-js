@@ -1,3 +1,4 @@
+const assertValidArguments = require('../utils/assertValidArguments')
 /**
  * This class was created by the LeanApiBundle.
  *
@@ -31,8 +32,8 @@ class MemoryRepository {
    * @param objectType
    * @param objectId
    * @param {Object} args
-   * @param {String} args.key 
-   * @param {String} args.value 
+   * @param {String} args.key
+   * @param {String} args.value
    */
    async set(objectType, objectId, args) {
     const route = {
@@ -45,26 +46,9 @@ class MemoryRepository {
 
     // validate arguments
     const requiredArguments = ['key', 'value']
-    this._assertValidArguments(requiredArguments, argList)
+    assertValidArguments(requiredArguments, argList)
 
     return this._connection.send(route, argList)
-  }
-
-  /**
-   * Throw an exception if a mandatory argument is not set.
-   *
-   * @param requiredArguments
-   * @param actualArguments
-   * @private
-   *
-   * @todo this should be done in a parent class
-   */
-  _assertValidArguments(requiredArguments, actualArguments) {
-    requiredArguments.forEach(function (argument) {
-      if (!actualArguments.hasOwnProperty(argument)) {
-        throw new Error('The mandatory argument ' + argument + ' could not be found in the argument object.')
-      }
-    })
   }
 }
 
