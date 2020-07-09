@@ -7,16 +7,17 @@ const LeankoalaClient = require('../src/Client');
     await client.connect({ username: 'demo', password: 'demo' })
     const user = client.getUser()
 
-    const projects = await client.getRepository('project').find({user: user.id})
+    const projects = await client.getRepository('project').search({user: user.id})
 
     const project = projects['projects'].pop()
 
     /** @var ProjectRepository projectRepo **/
-    const incidents = await client.getRepository('project').getStatus(project.id)
+    const status = await client.getRepository('project').getStatus(19)
 
-    console.log(incidents)
+    console.log(status)
 
   } catch (e) {
+    throw e
     console.error(e.message)
   }
 })()
