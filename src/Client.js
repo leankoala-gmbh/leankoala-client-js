@@ -8,6 +8,7 @@ const ScoreRepository = require('./Repository/ScoreRepository')
 const UserRepository = require('./Repository/UserRepository')
 const ProjectRepository = require('./Repository/ProjectRepository')
 const SystemRepository = require('./Repository/SystemRepository')
+const WebsocketRepository = require('./Repository/WebsocketRepository')
 
 /**
  * The KoalityEngine client is used to connect to an instance of the KoalityEngine
@@ -50,6 +51,7 @@ class LeankoalaClient {
     this._repositories[ 'score' ] = new ScoreRepository(this._connection)
     this._repositories[ 'user' ] = new UserRepository(this._connection)
     this._repositories[ 'system' ] = new SystemRepository(this._connection)
+    this._repositories[ 'websocket' ] = new WebsocketRepository(this._connection)
   }
 
   async _initConnection(args) {
