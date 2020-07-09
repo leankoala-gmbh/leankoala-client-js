@@ -1,10 +1,16 @@
 const Connection = require('./Connection/Connection')
 
+const CheckRepository = require('./Repository/CheckRepository')
+const CrawlerRepository = require('./Repository/CrawlerRepository')
 const IncidentRepository = require('./Repository/IncidentRepository')
+const MemoryRepository = require('./Repository/MemoryRepository')
+const ScoreRepository = require('./Repository/ScoreRepository')
+const UserRepository = require('./Repository/UserRepository')
 const ProjectRepository = require('./Repository/ProjectRepository')
 
 /**
- *
+ * The KoalityEngine client is used to connect to an instance of the KoalityEngine
+ * and process all needed tasks.
  */
 class LeankoalaClient {
   constructor(environment = 'production') {
@@ -20,8 +26,28 @@ class LeankoalaClient {
     this._initRepositories()
   }
 
+  isConnected() {
+    return Date.now() < this._connection.getExpireDate()
+  }
+
+  /**
+   * Return the current refresh token.
+   *
+   * It can be used to reactivate the connection without using the username and
+   * password.
+   */
+  getWakeUpToken() {
+    return this._connection.getWakeUpToken()
+  }
+
   _initRepositories() {
     this._repositories[ 'project' ] = new ProjectRepository(this._connection)
+    this._repositories[ 'check' ] = new CheckRepository(this._connection)
+    this._repositories[ 'crawler' ] = new CrawlerRepository(this._connection)
+    this._repositories[ 'memory' ] = new MemoryRepository(this._connection)
+    this._repositories[ 'incident' ] = new IncidentRepository(this._connection)
+    this._repositories[ 'score' ] = new ScoreRepository(this._connection)
+    this._repositories[ 'user' ] = new UserRepository(this._connection)
   }
 
   async _initConnection(args) {
@@ -31,6 +57,10 @@ class LeankoalaClient {
       apiServer = 'https://stage.monitor.leankoala.com/kapi'
     } else {
       apiServer = 'https://api.cluster1.koalityengine.com'
+    }
+
+    if (args.hasOwnProperty('wakeUpToken')) {
+      args[ 'wakeUpToken' ] = JSON.parse(args[ 'wakeUpToken' ])
     }
 
     this._connection = new Connection(apiServer)

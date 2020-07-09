@@ -17,7 +17,8 @@ class Connection {
     this._accessToken = ''
     this._refreshToken = ''
     this._user = {}
-    this._expireTimestamp = 0
+    this._accessExpireTimestamp = 0
+    this._refreshExpireTimestamp = 0
     this._apiServer = apiServer
 
     this._routes = {
@@ -47,8 +48,11 @@ class Connection {
 
     this._initAxios()
 
-    if (args.hasOwnProperty('refreshToken')) {
-      this._refreshToken = args[ 'refreshToken' ]
+    if (args.hasOwnProperty('wakeUpToken')) {
+      this._refreshToken = args[ 'wakeUpToken' ][ 'refreshToken' ]
+      this._user = args[ 'wakeUpToken' ][ 'user' ]
+      this._refreshExpireTimestamp = args[ 'wakeUpToken' ][ 'expireDate' ]
+      this._accessExpireTimestamp = 0
       await this._refreshAccessToken()
     } else {
       if (!this._connectionArgs.hasOwnProperty('username')) {
@@ -60,6 +64,27 @@ class Connection {
       }
       await this._authenticate(args.username, args.password)
     }
+  }
+
+  getExpireDate() {
+    return this._refreshExpireTimestamp
+  }
+
+  /**
+   * Return the current refresh token
+   *
+   * @return {string}
+   */
+  getRefreshToken() {
+    return this._refreshToken
+  }
+
+  getWakeUpToken() {
+    return JSON.stringify({
+      token: this.getRefreshToken(),
+      user: this.getUser(),
+      expireDate: this.getExpireDate()
+    })
   }
 
   /**
@@ -183,11 +208,12 @@ class Connection {
       username,
       password
     }, true)
+
     this._accessToken = tokens[ 'token' ]
     this._refreshToken = tokens[ 'refresh_token' ]
     this._user = tokens[ 'user' ]
 
-    this._refreshTokenExpireDate()
+    this._refreshTokenExpireDate(true)
   }
 
   /**
@@ -197,11 +223,14 @@ class Connection {
    *
    * @private
    */
-  _refreshTokenExpireDate() {
-    const tokenData = jwtDecode(this._accessToken)
-    const ttl = tokenData[ 'ttl' ]
+  _refreshTokenExpireDate(withFreshToken = false) {
+    const accessTokenData = jwtDecode(this._accessToken)
+    this._accessExpireTimestamp = Date.now() + accessTokenData[ 'ttl' ]
 
-    this._expireTimestamp = Date.now() + ttl
+    if (withFreshToken) {
+      const refreshTokenData = jwtDecode(this._refreshToken)
+      this._refreshExpireTimestamp = Date.now() + refreshTokenData[ 'ttl' ]
+    }
   }
 
   /**
@@ -211,7 +240,7 @@ class Connection {
    * @private
    */
   async _refreshAccessToken() {
-    if (Date.now() + 10 < this._expireTimestamp) {
+    if (Date.now() + 10 < this._accessExpireTimestamp) {
       const user = this.getUser()
       const tokens = await this.send(this._routes[ 'refresh' ], {
         user_id: user.id,

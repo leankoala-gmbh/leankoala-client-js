@@ -15,7 +15,7 @@ class ScoreRepository {
    * @param system
    * @param scoreName
    */
-   async getScore(system, scoreName, args) {
+  async getScore(system, scoreName, args) {
     const route = {
       path: 'score/scores/{system}/{scoreName}',
       method: 'POST',
@@ -34,7 +34,7 @@ class ScoreRepository {
    * @param {Object} args
    * @param {Array} args.scores list of score names
    */
-   async getScores(system, args) {
+  async getScores(system, args) {
     const route = {
       path: 'score/scores/{system}',
       method: 'POST',
