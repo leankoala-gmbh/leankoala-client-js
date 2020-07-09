@@ -3,7 +3,7 @@
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-07-08
+ * @created 2020-07-09
  */
 class UserRepository {
 
@@ -32,7 +32,7 @@ class UserRepository {
     const argList = Object.assign({ provider }, args)
 
     // validate arguments
-    const requiredArguments = ['username', 'email', 'company_id']
+    const requiredArguments = ['username', 'email']
     this._assertValidArguments(requiredArguments, argList)
 
     return this._connection.send(route, argList)
@@ -75,7 +75,7 @@ class UserRepository {
       version: 1
     }
 
-    const argList = Object.assign({}, args)
+    const argList = Object.assign({  }, args)
 
     // validate arguments
     const requiredArguments = ['query']
@@ -97,7 +97,7 @@ class UserRepository {
       version: 1
     }
 
-    const argList = Object.assign({}, args)
+    const argList = Object.assign({  }, args)
 
     // validate arguments
     const requiredArguments = ['query']

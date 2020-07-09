@@ -3,7 +3,7 @@
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-07-08
+ * @created 2020-07-09
  */
 class CrawlerRepository {
 
@@ -25,7 +25,7 @@ class CrawlerRepository {
    * @param {Boolean} args.curl_only If true the crawler does only use curl.
    * @param {Number} args.parallel_requests Number of parallel requests that can be done
    */
-   async runCrawl(project, args) {
+  async runCrawl(project, args) {
     const route = {
       path: 'crawler/crawl/{project}',
       method: 'POST',
@@ -55,7 +55,7 @@ class CrawlerRepository {
    * @param {Boolean} args.curl_only If true the crawler does only use curl.
    * @param {Number} args.parallel_requests Number of parallel requests that can be done
    */
-   async runCrawl(project, args) {
+  async runCrawl(project, args) {
     const route = {
       path: 'crawler/crawl/{project}/crawls',
       method: 'POST',
@@ -76,7 +76,7 @@ class CrawlerRepository {
    *
    * @param crawl
    */
-   async getCrawl(crawl, args) {
+  async getCrawl(crawl, args) {
     const route = {
       path: 'crawler/crawl/{crawl}',
       method: 'GET',

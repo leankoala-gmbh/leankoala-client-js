@@ -3,7 +3,7 @@
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-07-08
+ * @created 2020-07-09
  */
 class MetricRepository {
 
@@ -22,7 +22,7 @@ class MetricRepository {
    * @param {Boolean} args.filter_trailing_nulls Remove null values from the metric if they are at the beginning. Trailing nulls are used of the metric does not provide values for a given time spam.
    * @param {*} args.min_value Replace all values that are smaller than the min value with the min value.
    */
-   async findBySystem(system, args) {
+  async findBySystem(system, args) {
     const route = {
       path: 'metric/eventidentifier/{system}/search',
       method: 'POST',

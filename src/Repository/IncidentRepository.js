@@ -3,7 +3,7 @@
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-07-08
+ * @created 2020-07-09
  */
 class IncidentRepository {
 
@@ -18,7 +18,7 @@ class IncidentRepository {
    * @param {Object} args
    * @param {Number} args.system the system filter
    */
-   async search(project, args) {
+  async search(project, args) {
     const route = {
       path: 'incident/incidents/{project}/search',
       method: 'POST',
@@ -26,10 +26,6 @@ class IncidentRepository {
     }
 
     const argList = Object.assign({ project }, args)
-
-    // validate arguments
-    const requiredArguments = ['system']
-    this._assertValidArguments(requiredArguments, argList)
 
     return this._connection.send(route, argList)
   }
@@ -41,7 +37,7 @@ class IncidentRepository {
    * @param {Object} args
    * @param {Number} args.days The number of days the incidents can old
    */
-   async since(project, args) {
+  async since(project, args) {
     const route = {
       path: 'incident/incidents/{project}/since',
       method: 'POST',
@@ -62,7 +58,7 @@ class IncidentRepository {
    *
    * @param project
    */
-   async getConfig(project, args) {
+  async getConfig(project, args) {
     const route = {
       path: 'incident/tools/{project}',
       method: 'GET',

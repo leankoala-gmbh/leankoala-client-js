@@ -12,7 +12,7 @@ const LeankoalaClient = require('../src/Client');
     const project = projects['projects'].pop()
 
     /** @var ProjectRepository projectRepo **/
-    const incidents = await client.getRepository('incident').search(project.id, { system: 64 })
+    const incidents = await client.getRepository('project').getStatus(project.id)
 
     console.log(incidents)
 

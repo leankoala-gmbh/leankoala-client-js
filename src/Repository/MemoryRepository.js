@@ -3,7 +3,7 @@
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-07-08
+ * @created 2020-07-09
  */
 class MemoryRepository {
 
@@ -15,7 +15,7 @@ class MemoryRepository {
    * @param objectType
    * @param objectId
    */
-   async getAll(objectType, objectId, args) {
+  async getAll(objectType, objectId, args) {
     const route = {
       path: 'memory/{objectType}/{objectId}',
       method: 'GET',
@@ -34,7 +34,7 @@ class MemoryRepository {
    * @param {String} args.key 
    * @param {String} args.value 
    */
-   async set(objectType, objectId, args) {
+  async set(objectType, objectId, args) {
     const route = {
       path: 'memory/{objectType}/{objectId}',
       method: 'POST',
