@@ -156,7 +156,7 @@ class Connection {
       }
     }
 
-    this._assertValidResponse(response, url, data)
+    this._assertValidResponse(response, url, method, data)
 
     return response.data.data
   }
@@ -170,10 +170,10 @@ class Connection {
    *
    * @private
    */
-  _assertValidResponse(response, url, data) {
+  _assertValidResponse(response, url, method, data) {
     const responseData = response.data
     if (responseData.status !== 'success') {
-      throw new Error(responseData.message + ' (url: ' + url + ', data: ' + JSON.stringify(data) + ')')
+      throw new Error(responseData.message + ' (url: ' + url + ', method: ' + method + ', data: ' + JSON.stringify(data) + ')')
     }
   }
 

@@ -15,7 +15,7 @@ class WebsocketRepository {
    * Return a websocket server with the room names for the given user.
    *
    */
-  async getRoom(args) {
+  async getRooms(args) {
     const route = {
       path: 'websockets/rooms',
       method: 'POST',
