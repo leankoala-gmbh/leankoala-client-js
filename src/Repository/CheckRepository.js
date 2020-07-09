@@ -1,3 +1,4 @@
+const _assertValidArguments = require('../utils')
 /**
  * This class was created by the LeanApiBundle.
  *

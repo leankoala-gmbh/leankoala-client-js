@@ -1,12 +1,17 @@
-const Connection = require('./Connection/Connection')
-
-const IncidentRepository = require('./Repository/IncidentRepository')
-const ProjectRepository = require('./Repository/ProjectRepository')
+import Connection from './Connection/Connection'
+import IncidentRepository from './Repository/IncidentRepository'
+import ProjectRepository from './Repository/ProjectRepository'
+import CheckRepository from './Repository/CheckRepository'
+import CrawlerRepository from './Repository/CrawlerRepository'
+import MetricRepository from './Repository/MetricRepository'
+import MemoryRepository from './Repository/MemoryRepository'
+import ScoreRepository from './Repository/ScoreRepository'
+import UserRepository from './Repository/UserRepository'
 
 /**
- *
+ * LeankoalaClient
  */
-class LeankoalaClient {
+export default class {
   constructor(environment = 'production') {
 
     this._repositories = {}
@@ -50,5 +55,3 @@ class LeankoalaClient {
     return this._connection.getUser()
   }
 }
-
-module.exports = LeankoalaClient
