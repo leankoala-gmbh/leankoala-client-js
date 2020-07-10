@@ -14,7 +14,7 @@ class LeankoalaClient {
   /**
    * Create a client and set the environment
    *
-   * @param {String} environment the environment (stage|production)
+   * @param {String} environment the environment (development|production)
    */
   constructor(environment = 'production') {
     this._connection = false
@@ -78,12 +78,9 @@ class LeankoalaClient {
    */
   async _initConnection(args) {
 
-    let apiServer = ''
-    if (this._environment === 'stage') {
-      apiServer = 'https://stage.monitor.leankoala.com/kapi'
-    } else {
-      apiServer = 'https://api.cluster1.koalityengine.com'
-    }
+    const apiServer = this._environment === 'production'
+      ? 'https://api.cluster1.koalityengine.com'
+      : 'https://stage.monitor.leankoala.com/kapi'
 
     this._connection = new Connection(apiServer)
     await this._connection.connect(args)
