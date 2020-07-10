@@ -32,6 +32,22 @@ class CrawlerRepository extends Repository {
     return this._connection.send(route, argList)
   }
   /**
+   * Return all crawl by the given parameters
+   *
+   * @param project
+   * @param {Object} args
+   * @param {String} args.checklist_name The check lists name
+   * @param {Number} args.system The systems id
+   */
+  async listCrawls(project, args) {
+    const route = { path: 'crawler/crawl/{project}/crawls', method: 'POST', version: 1 }
+    const argList = Object.assign({ project }, args)
+    const requiredArguments = ['system']
+    this._assertValidArguments(requiredArguments, argList)
+
+    return this._connection.send(route, argList)
+  }
+  /**
    * Return the detailed information for a given crawl with all results.
    *
    * @param crawl

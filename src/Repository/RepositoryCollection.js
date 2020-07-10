@@ -6,6 +6,7 @@ const MetricRepository = require('./Entities/MetricRepository')
 const UserRepository = require('./Entities/UserRepository')
 const ProjectRepository = require('./Entities/ProjectRepository')
 const SystemRepository = require('./Entities/SystemRepository')
+const ScreenshotRepository = require('./Entities/ScreenshotRepository')
 const CheckRepository = require('./Entities/CheckRepository')
 const IncidentRepository = require('./Entities/IncidentRepository')
 
@@ -14,7 +15,7 @@ const IncidentRepository = require('./Entities/IncidentRepository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- *  @created 2020-07-09
+ *  @created 2020-07-10
  */
 class RepositoryCollection {
 
@@ -29,9 +30,10 @@ class RepositoryCollection {
     this._repositories[ 'user' ] = new UserRepository(connection)
     this._repositories[ 'project' ] = new ProjectRepository(connection)
     this._repositories[ 'system' ] = new SystemRepository(connection)
+    this._repositories[ 'Screenshot' ] = new ScreenshotRepository(connection)
     this._repositories[ 'check' ] = new CheckRepository(connection)
     this._repositories[ 'incident' ] = new IncidentRepository(connection)
-
+    
   }
 
   getRepository(entityType) {
