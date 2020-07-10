@@ -16,7 +16,6 @@ const LeankoalaClient = require('../src/Client');
     console.log(rooms)
 
   } catch (e) {
-    throw e
     console.error(e.message)
   }
 })()
