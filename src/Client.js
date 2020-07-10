@@ -1,6 +1,7 @@
 const Connection = require('./Connection/Connection')
 
 const RepositoryCollection = require('./Repository/RepositoryCollection')
+const Repository = require('./Repository/Repository')
 
 /**
  * The KoalityEngine client is used to connect to an instance of the KoalityEngine
@@ -27,8 +28,7 @@ class LeankoalaClient {
    * @param {String} args.username the user name for the user that should be logged in
    * @param {String} args.password the password for the given user
    * @param {String} args.wakeUpToken the wakeup token can be used to log in instead of username and pasword
-   *
-   * @return {Promise<void>}
+   * @param {Boolean} args.withMemories return the users memory on connect
    */
   async connect(args) {
     await this._initConnection(args)
@@ -53,6 +53,8 @@ class LeankoalaClient {
    *
    * It can be used to reactivate the connection without using the username and
    * password.
+   *
+   * @return {String}
    */
   getWakeUpToken() {
     return this._connection.getWakeUpToken()
@@ -84,7 +86,7 @@ class LeankoalaClient {
    * Throws an exception if the repository is not known.
    *
    * @param entityType
-   * @return {undefined}
+   * @return {Repository}
    */
   getRepository(entityType) {
     return this._repositoryCollection.getRepository(entityType)

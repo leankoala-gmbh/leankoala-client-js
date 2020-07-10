@@ -2,6 +2,8 @@ const axios = require('axios')
 const jwtDecode = require('jwt-decode')
 
 /**
+ * This class takes care of the connection between the KoalityEngine server and the client. It
+ * handles the validation process, refreshes the tokens if needed and processes the servers response.
  *
  * @author Nils Langner (nils.langner@leankoala.com)
  * @created 2020-07-07
@@ -38,8 +40,11 @@ class Connection {
   /**
    * Connect to the KoalityEngine server and fetch the tokens and user information.
    *
-   * @param args
-   * @return {Promise<void>}
+   * @param {Object} args
+   * @param {String} args.username the user name for the user that should be logged in
+   * @param {String} args.password the password for the given user
+   * @param {String} args.wakeUpToken the wakeup token can be used to log in instead of username and pasword
+   * @param {Boolean} args.withMemories return the users memory on connect
    */
   async connect(args) {
     const defaultArgs = {}
@@ -58,6 +63,8 @@ class Connection {
       await this._refreshAccessToken()
 
     } else {
+      let withMemories = false
+
       if (!this._connectionArgs.hasOwnProperty('username')) {
         throw new Error('Mandatory username is missing')
       }
@@ -65,7 +72,12 @@ class Connection {
       if (!this._connectionArgs.hasOwnProperty('password')) {
         throw new Error('Mandatory password is missing')
       }
-      await this._authenticate(args.username, args.password)
+
+      if (this._connectionArgs.hasOwnProperty('withMemories')) {
+        withMemories = this._connectionArgs[ 'withMemories' ]
+      }
+
+      await this._authenticate(args.username, args.password, withMemories)
     }
   }
 
@@ -97,7 +109,7 @@ class Connection {
   /**
    * Return the current user that is logged in.
    *
-   * @return {{}}
+   * @return {Array}
    */
   getUser() {
     return this._user
@@ -121,7 +133,7 @@ class Connection {
     const version = route[ 'version' ]
     const apiServer = this._apiServer
 
-    let url = `${apiServer}/v${version}/${plainPath}`
+    let url = `${ apiServer }/v${ version }/${ plainPath }`
 
     const matches = url.match(/{(.*?)}/gi)
 
@@ -142,7 +154,7 @@ class Connection {
   /**
    * Send a request to the KoalityEngine and handle the result.
    *
-   * @param {String} route
+   * @param {Object} route
    * @param {Object} data
    * @param {Boolean} withoutToken
    *
@@ -205,16 +217,17 @@ class Connection {
    *
    * This function will set the access and refresh tokens that are used afterwards for authentication.
    *
-   * @param username
-   * @param password
-   * @return {Promise<void>}
+   * @param {String} username
+   * @param {String} password
+   * @param {Boolean} withMemories
    *
    * @private
    */
-  async _authenticate(username, password) {
+  async _authenticate(username, password, withMemories) {
     const tokens = await this.send(this._routes[ 'authenticateByPassword' ], {
       username,
-      password
+      password,
+      with_memories: withMemories
     }, true)
 
     this._accessToken = tokens[ 'token' ]
