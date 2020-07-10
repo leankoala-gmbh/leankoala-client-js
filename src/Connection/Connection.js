@@ -217,9 +217,9 @@ class Connection {
    *
    * This function will set the access and refresh tokens that are used afterwards for authentication.
    *
-   * @param {String} username
-   * @param {String} password
-   * @param {Boolean} withMemories
+   * @param {String} [username]
+   * @param {String} [password]
+   * @param {Boolean} [withMemories]
    *
    * @private
    */

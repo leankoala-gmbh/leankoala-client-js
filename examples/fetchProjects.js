@@ -4,13 +4,17 @@ const LeankoalaClient = require('../src/Client');
   try {
 
     const client = new LeankoalaClient('stage')
-    await client.connect({ username: 'demo', password: 'demo', 'withMemories': true })
+    client.connect({ username: 'demo', password: 'demo', 'withMemories': true })
+
+
+
+    // geht
+    const repo = await client.getRepository('project')
 
     const user = client.getUser()
     console.log('User:', user)
 
-    /** @var ProjectRepository projectRepo **/
-    const projects = await client.getRepository('project').search({ user: user.id })
+    const projects = await repo.search({ user: user.id })
 
     console.log('Projects:', projects)
 

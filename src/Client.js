@@ -19,20 +19,29 @@ class LeankoalaClient {
   constructor(environment = 'production') {
     this._connection = false
     this._environment = environment
+    this._connectionStatus = 'disconnected'
   }
 
   /**
    * Connect to the API server and retrieve the JWT for later requests.
    *
    * @param {Object} args
-   * @param {String} args.username the user name for the user that should be logged in
-   * @param {String} args.password the password for the given user
-   * @param {String} args.wakeUpToken the wakeup token can be used to log in instead of username and pasword
-   * @param {Boolean} args.withMemories return the users memory on connect
+   * @param {String} [args.username] the user name for the user that should be logged in
+   * @param {String} [args.password the password for the given user
+   * @param {String} [args.wakeUpToken] the wakeup token can be used to log in instead of username and pasword
+   * @param {Boolean} [args.withMemories] return the users memory on connect
    */
   async connect(args) {
-    await this._initConnection(args)
-    this._repositoryCollection = new RepositoryCollection(this._connection)
+    this._connectionStatus = 'connecting'
+    try {
+      await this._initConnection(args)
+      this._repositoryCollection = new RepositoryCollection(this._connection)
+    } catch (error) {
+      this._connectionStatus = 'disconnected'
+      throw error
+    }
+
+    this._connectionStatus = 'connected'
   }
 
   /**
@@ -88,8 +97,33 @@ class LeankoalaClient {
    * @param entityType
    * @return {Repository}
    */
-  getRepository(entityType) {
-    return this._repositoryCollection.getRepository(entityType)
+  async getRepository(entityType) {
+    if (this._connectionStatus === 'disconnected') {
+      throw new Error('Please connect the client before running this method')
+    }
+
+    if (this._connectionStatus === 'connected') {
+      return this._repositoryCollection.getRepository(entityType)
+    }
+
+    if (this._connectionStatus === 'connecting') {
+      while (this._connectionStatus === 'connecting') {
+        await this._sleep(300)
+      }
+      return this.getRepository(entityType)
+    }
+  }
+
+  /**
+   * Sleep for an amount of milliseconds
+   *
+   * @param milliseconds
+   * @return {Promise}
+   *
+   * @private
+   */
+  async _sleep(milliseconds) {
+    return new Promise(resolve => setTimeout(resolve, milliseconds))
   }
 
   /**
