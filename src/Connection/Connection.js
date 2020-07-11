@@ -56,7 +56,7 @@ class Connection {
     this._initAxios()
 
     if (args.hasOwnProperty('language')) {
-      this._preferredLanguage = args[ 'language' ]
+      this.setLanguage(args[ 'language' ])
     }
 
     if (args.hasOwnProperty('wakeUpToken')) {
