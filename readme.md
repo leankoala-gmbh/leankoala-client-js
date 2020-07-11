@@ -37,4 +37,4 @@ More examples can be found in the `examples` directory. A good idea could also b
 the test cases in the `tests` directory.
 
 ## Testing
-- [How to test the client](test/readme.md)
+- [How to test the client](tests/readme.md)
