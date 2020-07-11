@@ -34,3 +34,6 @@ const LeankoalaClient = require('../src/Client');
 
 ```
 More examples can be found in the `examples` directory.
+
+## Testing
+- [How to test the client](test/readme.md)

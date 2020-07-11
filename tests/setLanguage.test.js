@@ -16,8 +16,15 @@ test('Check if incidents are returned in german', async () => {
 
   /** @var {IncidentRepository} incidentRepo **/
   const incidentRepo = await client.getRepository('incident')
-  const incidents = await incidentRepo.search(project.id)
+  const incidentsDe = await incidentRepo.search(project.id)
 
-  expect(incidents[ 'incidents' ].length).toBeGreaterThan(0)
-  expect(incidents[ 'incidents' ].pop().message).toContain('tote Links')
+  expect(incidentsDe[ 'incidents' ].length).toBeGreaterThan(0)
+  expect(incidentsDe[ 'incidents' ].pop().message).toContain('tote Links')
+
+  client.setLanguage('en')
+  const incidentsEn = await incidentRepo.search(project.id)
+
+  expect(incidentsEn[ 'incidents' ].length).toBeGreaterThan(0)
+  expect(incidentsEn[ 'incidents' ].pop().message).toContain('dead')
+
 })
