@@ -11,7 +11,7 @@ The KoalityEngine API can return the results in different languages. The preferr
 connect argument or later on via the `setLanguage` method.
 
 ```javascript
-await client.connect({ username:   'demo', password: 'demo', language: 'de' })
+await client.connect({ username: 'demo', password: 'demo', language: 'de' })
 client.setLanguage('de')
 ```
 
