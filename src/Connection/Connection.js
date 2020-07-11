@@ -22,6 +22,7 @@ class Connection {
     this._accessExpireTimestamp = 0
     this._refreshExpireTimestamp = 0
     this._apiServer = apiServer
+    this._preferredLanguage = 'en'
 
     this._routes = {
       authenticateByPassword: {
@@ -45,6 +46,7 @@ class Connection {
    * @param {String} args.password the password for the given user
    * @param {String} args.wakeUpToken the wakeup token can be used to log in instead of username and pasword
    * @param {Boolean} args.withMemories return the users memory on connect
+   * @param {String} [args.language] the preferred language
    */
   async connect(args) {
     const defaultArgs = {}
@@ -52,6 +54,10 @@ class Connection {
     this._connectionArgs = Object.assign(defaultArgs, args)
 
     this._initAxios()
+
+    if (args.hasOwnProperty('language')) {
+      this._preferredLanguage = args[ 'language' ]
+    }
 
     if (args.hasOwnProperty('wakeUpToken')) {
       const wakeUpToken = JSON.parse(args[ 'wakeUpToken' ])
@@ -171,8 +177,12 @@ class Connection {
 
     let response = {}
 
+    let headers = {
+      'accept-language': this._preferredLanguage
+    }
+
     try {
-      response = await axios({ method, url, data })
+      response = await axios({ method, url, data, headers })
     } catch (e) {
       if (e.response) {
         response = e.response
@@ -184,6 +194,15 @@ class Connection {
     this._assertValidResponse(response, url, method, data)
 
     return response.data.data
+  }
+
+  /**
+   * Set the preferred language for the API results
+   *
+   * @param  {String} language
+   */
+  setLanguage(language) {
+    this._preferredLanguage = language
   }
 
   /**

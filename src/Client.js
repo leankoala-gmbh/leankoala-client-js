@@ -30,6 +30,7 @@ class LeankoalaClient {
    * @param {String} [args.password the password for the given user
    * @param {String} [args.wakeUpToken] the wakeup token can be used to log in instead of username and pasword
    * @param {Boolean} [args.withMemories] return the users memory on connect
+   * @param {String} [args.language] the preferred language (default: en; implemented: de, en)
    */
   async connect(args) {
     this._connectionStatus = 'connecting'
@@ -58,6 +59,17 @@ class LeankoalaClient {
   }
 
   /**
+   * Set the preferred language for the API results.
+   *
+   * The language can already be added when connecting.
+   *
+   * @param {String} language
+   */
+  setLanguage(language) {
+    this._connection.setLanguage(language)
+  }
+
+  /**
    * Return the current refresh token.
    *
    * It can be used to reactivate the connection without using the username and
@@ -72,7 +84,7 @@ class LeankoalaClient {
   /**
    * Initialize the connection object and connect to the server
    *
-   * @param args see connection function
+   * @param {Object} args see connection function
    *
    * @private
    */
@@ -91,7 +103,8 @@ class LeankoalaClient {
    *
    * Throws an exception if the repository is not known.
    *
-   * @param entityType
+   * @param {String} entityType
+   *
    * @return {Repository}
    */
   async getRepository(entityType) {
@@ -114,7 +127,7 @@ class LeankoalaClient {
   /**
    * Sleep for an amount of milliseconds
    *
-   * @param milliseconds
+   * @param {Number} milliseconds
    * @return {Promise}
    *
    * @private

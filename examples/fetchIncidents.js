@@ -4,15 +4,20 @@ const LeankoalaClient = require('../src/Client');
   try {
 
     const client = new LeankoalaClient()
-    await client.connect({ username: 'demo', password: 'demo' })
+    await client.connect({ username: 'demo', password: 'demo', language: 'de' })
     const user = client.getUser()
 
-    const projects = await client.getRepository('project').search({user: user.id})
+    client.setLanguage('de')
+
+    /** @var {ProjectRepository} projectRepo **/
+    const projectRepo = await client.getRepository('project')
+    const projects = await projectRepo.search({user: user.id})
 
     const project = projects['projects'].pop()
 
-    /** @var ProjectRepository projectRepo **/
-    const incidents = await client.getRepository('incident').search(project.id)
+    /** @var {IncidentRepository} incidentRepo **/
+    const incidentRepo = await client.getRepository('incident')
+    const incidents = await incidentRepo.search(project.id)
 
     console.log(incidents)
 
