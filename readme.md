@@ -33,7 +33,8 @@ const LeankoalaClient = require('../src/Client');
 })()
 
 ```
-More examples can be found in the `examples` directory.
+More examples can be found in the `examples` directory. A good idea could also be having a look at 
+the test cases in the `tests` directory.
 
 ## Testing
 - [How to test the client](test/readme.md)
