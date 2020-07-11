@@ -2,7 +2,7 @@ const LeankoalaClient = require('../src/Client')
 
 test('Check if incidents are returned in german', async () => {
 
-  const client = new LeankoalaClient()
+  const client = new LeankoalaClient('stage')
   await client.connect({ username: 'demo', password: 'demo' })
   const user = client.getUser()
 
