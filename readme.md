@@ -6,6 +6,15 @@ The library is used to communicate with the KoalityEngine.
 
 Please contact `api@koalityengine.com` if you want to use the API.
 
+## Multi language support
+The KoalityEngine API can return the results in different languages. The preferred language can be defined in the
+connect argument or later on via the `setLanguage` method.
+
+```javascript
+await client.connect({ username: 'demo', password: 'demo', language: 'de' })
+client.setLanguage('de')
+```
+
 ## Examples
 This example returns a list of projects the user `demo` is part of.
 ```javascript
@@ -17,7 +26,8 @@ const LeankoalaClient = require('../src/Client');
 
     const user = client.getUser()
 
-    const projects = await client.getRepository('project').search({ user: user.id })
+    const projectRepository = await client.getRepository('project')
+    const projects = await projectRepository.search({ user: user.id })
 
     console.log('Projects:', projects)
 })()
