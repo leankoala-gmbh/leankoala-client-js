@@ -11,3 +11,10 @@ For unit testing we are using the JEST library.
 ```shell script
 npm run test
 ```
+
+## Code coverage
+
+To see the code coverage run
+```shell script
+node node_modules/jest/bin/jest.js  --collectCoverage
+```
