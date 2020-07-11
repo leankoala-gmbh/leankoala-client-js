@@ -1,5 +1,7 @@
 [![DeepScan grade](https://deepscan.io/api/teams/10108/projects/12794/branches/203150/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=10108&pid=12794&bid=203150)
 
+[![Actions Status](https://github.com/leankoala-gmbh/leankoala-client-js/workflows/Run%20JEST%20tests/badge.svg)](https://github.com/leankoala-gmbh/leankoala-client-js/actions)
+
 # KoalityEngine JavaScript Client
 
 The library is used to communicate with the KoalityEngine. 
