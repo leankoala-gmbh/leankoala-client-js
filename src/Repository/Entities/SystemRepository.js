@@ -60,6 +60,32 @@ class SystemRepository extends Repository {
 
     return this._connection.send(route, argList)
   }
+
+  /**
+   * Return Componentsuggestions
+   * @param system
+   * @param args
+   * @returns {Promise<*>}
+   */
+  async getSuggestions(system, args) {
+    const route = { path: 'project/systems/{system}/suggestions', method: 'POST', version: 1 }
+    const argList = Object.assign({ system }, args)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
+   * Return Components
+   * @param system
+   * @param args
+   * @returns {Promise<*>}
+   */
+  async getComponents(system, args) {
+    const route = { path: 'project/systems/{system}/components', method: 'POST', version: 1 }
+    const argList = Object.assign({ system }, args)
+
+    return this._connection.send(route, argList)
+  }
 }
 
 module.exports = SystemRepository
