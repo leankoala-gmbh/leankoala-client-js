@@ -16,5 +16,5 @@ npm run test
 
 To see the code coverage run
 ```shell script
-node node_modules/jest/bin/jest.js  --collectCoverage
+node node_modules/jest/bin/jest.js --collectCoverage
 ```

@@ -12,6 +12,7 @@ connect argument or later on via the `setLanguage` method.
 
 ```javascript
 await client.connect({ username: 'demo', password: 'demo', language: 'de' })
+// or
 client.setLanguage('de')
 ```
 

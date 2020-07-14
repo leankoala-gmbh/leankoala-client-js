@@ -1,4 +1,4 @@
-const LeankoalaClient = require('../src/Client')
+const LeankoalaClient = require('../../src/Client')
 
 test('Check if incidents are returned in german', async () => {
 

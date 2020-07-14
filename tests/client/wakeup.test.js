@@ -1,4 +1,4 @@
-const LeankoalaClient = require('../src/Client')
+const LeankoalaClient = require('../../src/Client')
 
 test('Check if the can reconnect via wake up token', async () => {
 
