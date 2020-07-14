@@ -35,6 +35,13 @@ class CheckRepository extends Repository {
 
     return this._connection.send(route, argList)
   }
+
+  async getBigFiles(system, args) {
+    const route = { path: 'check/checks/{system}/performance/big', method: 'GET', version: 1 }
+    const argList = Object.assign({ system }, args)
+
+    return this._connection.send(route, argList)
+  }
 }
 
 module.exports = CheckRepository

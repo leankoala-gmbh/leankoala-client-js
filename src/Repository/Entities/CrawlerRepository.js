@@ -58,6 +58,20 @@ class CrawlerRepository extends Repository {
 
     return this._connection.send(route, argList)
   }
+
+  /**
+   * Stop active Crawler
+   * @param project
+   * @param id
+   * @param args
+   * @returns {Promise<Array>}
+   */
+  async stopCrawl(project, id, args) {
+    const route = { path: 'crawler/crawl/{project}/{id}', method: 'PUT', version: 1 }
+    const argList = Object.assign({ project, id }, args)
+
+    return this._connection.send(route, argList)
+  }
 }
 
 module.exports = CrawlerRepository
