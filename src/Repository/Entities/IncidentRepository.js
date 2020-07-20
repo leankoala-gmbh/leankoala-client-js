@@ -5,7 +5,7 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-07-10
+ * @created 2020-07-20
  */
 class IncidentRepository extends Repository {
 
@@ -22,6 +22,7 @@ class IncidentRepository extends Repository {
 
     return this._connection.send(route, argList)
   }
+
   /**
    * Find all incidents that where open in the last days.
    *
@@ -37,10 +38,13 @@ class IncidentRepository extends Repository {
 
     return this._connection.send(route, argList)
   }
+
   /**
-   * This endpoint returns the the configuration (errors_in_a_row, success_in_a_row) of all tools in the given project. It also handles tool inheritance.
+   * This endpoint returns the the configuration (errors_in_a_row, success_in_a_row) of all tools in the
+   * given project. It also handles tool inheritance.
    *
    * @param project
+   * @param {Object} args
    */
   async getConfig(project, args) {
     const route = { path: 'incident/tools/{project}', method: 'GET', version: 1 }
@@ -48,6 +52,7 @@ class IncidentRepository extends Repository {
 
     return this._connection.send(route, argList)
   }
+
 }
 
 module.exports = IncidentRepository

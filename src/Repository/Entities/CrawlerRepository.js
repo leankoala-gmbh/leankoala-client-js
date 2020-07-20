@@ -5,7 +5,7 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-07-10
+ * @created 2020-07-20
  */
 class CrawlerRepository extends Repository {
 
@@ -14,7 +14,8 @@ class CrawlerRepository extends Repository {
    *
    * @param project
    * @param {Object} args
-   * @param {Number} args.user The user (id) that starts the crawl and gets informed when the crawl finishes
+   * @param {Number} args.user The user (id) that starts the crawl and gets informed when the crawl
+   *                        finishes
    * @param {String} args.checklist_name The check lists name
    * @param {String} args.name The crawls name
    * @param {Number} args.system The systems id
@@ -31,6 +32,7 @@ class CrawlerRepository extends Repository {
 
     return this._connection.send(route, argList)
   }
+
   /**
    * Return all crawl by the given parameters
    *
@@ -47,10 +49,26 @@ class CrawlerRepository extends Repository {
 
     return this._connection.send(route, argList)
   }
+
+  /**
+   * Abort a running crawl. The effect can take up to 5 minutes.
+   *
+   * @param project
+   * @param crawl
+   * @param {Object} args
+   */
+  async abortCrawl(project, crawl, args) {
+    const route = { path: 'crawler/crawl/{project}/{crawl}', method: 'PUT', version: 1 }
+    const argList = Object.assign({ project, crawl }, args)
+
+    return this._connection.send(route, argList)
+  }
+
   /**
    * Return the detailed information for a given crawl with all results.
    *
    * @param crawl
+   * @param {Object} args
    */
   async getCrawl(crawl, args) {
     const route = { path: 'crawler/crawl/{crawl}', method: 'GET', version: 1 }
@@ -59,19 +77,6 @@ class CrawlerRepository extends Repository {
     return this._connection.send(route, argList)
   }
 
-  /**
-   * Stop active Crawler
-   * @param project
-   * @param id
-   * @param args
-   * @returns {Promise<Array>}
-   */
-  async stopCrawl(project, id, args) {
-    const route = { path: 'crawler/crawl/{project}/{id}', method: 'PUT', version: 1 }
-    const argList = Object.assign({ project, id }, args)
-
-    return this._connection.send(route, argList)
-  }
 }
 
 module.exports = CrawlerRepository

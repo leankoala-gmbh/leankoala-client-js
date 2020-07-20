@@ -7,19 +7,19 @@ const Repository = require('../Repository')
  *
  * @created 2020-07-20
  */
-class WebsocketRepository extends Repository {
+class CheckFileSizeRepository extends Repository {
 
   /**
-   * Return a websocket server with the room names for the given user.
+   * @param system
    * @param {Object} args
    */
-  async getRooms(args) {
-    const route = { path: 'websockets/rooms', method: 'POST', version: 1 }
-    const argList = Object.assign({  }, args)
+  async getResults(system, args) {
+    const route = { path: 'check/checks/{system}/performance/big', method: 'GET', version: 1 }
+    const argList = Object.assign({ system }, args)
 
     return this._connection.send(route, argList)
   }
 
 }
 
-module.exports = WebsocketRepository
+module.exports = CheckFileSizeRepository

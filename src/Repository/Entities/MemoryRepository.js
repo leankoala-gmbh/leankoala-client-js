@@ -5,13 +5,14 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-07-10
+ * @created 2020-07-20
  */
 class MemoryRepository extends Repository {
 
   /**
    * @param objectType
    * @param objectId
+   * @param {Object} args
    */
   async getAll(objectType, objectId, args) {
     const route = { path: 'memory/{objectType}/{objectId}', method: 'GET', version: 1 }
@@ -19,6 +20,7 @@ class MemoryRepository extends Repository {
 
     return this._connection.send(route, argList)
   }
+
   /**
    * @param objectType
    * @param objectId
@@ -34,6 +36,7 @@ class MemoryRepository extends Repository {
 
     return this._connection.send(route, argList)
   }
+
 }
 
 module.exports = MemoryRepository

@@ -1,3 +1,5 @@
+const axios = require('axios')
+
 const Connection = require('./Connection/Connection')
 
 const RepositoryCollection = require('./Repository/RepositoryCollection')
@@ -7,6 +9,7 @@ const Repository = require('./Repository/Repository')
  * The KoalityEngine client is used to connect to an instance of the KoalityEngine
  * and process all needed tasks.
  *
+ * @author Nils Langner (nils.langner@leankoala.com)
  * @created 2020-07-05
  */
 class LeankoalaClient {
@@ -31,6 +34,7 @@ class LeankoalaClient {
    * @param {String} [args.wakeUpToken] the wakeup token can be used to log in instead of username and pasword
    * @param {Boolean} [args.withMemories] return the users memory on connect
    * @param {String} [args.language] the preferred language (default: en; implemented: de, en)
+   * @param {function} [args.axios] a predefined axios instance
    */
   async connect(args) {
     this._connectionStatus = 'connecting'
@@ -94,7 +98,14 @@ class LeankoalaClient {
       ? 'https://api.cluster1.koalityengine.com'
       : 'https://stage.monitor.leankoala.com/kapi'
 
-    this._connection = new Connection(apiServer)
+    let axiosInstance = {}
+    if (args.hasOwnProperty('axios')) {
+      axiosInstance = args[ 'axios' ]
+    } else {
+      axiosInstance = axios
+    }
+
+    this._connection = new Connection(apiServer, axiosInstance)
     await this._connection.connect(args)
   }
 

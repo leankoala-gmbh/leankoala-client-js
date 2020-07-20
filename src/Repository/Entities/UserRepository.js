@@ -5,7 +5,7 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-07-10
+ * @created 2020-07-20
  */
 class UserRepository extends Repository {
 
@@ -28,6 +28,7 @@ class UserRepository extends Repository {
 
     return this._connection.send(route, argList)
   }
+
   /**
    * This endpoint connects an OAuth provider with the current user.
    *
@@ -44,6 +45,7 @@ class UserRepository extends Repository {
 
     return this._connection.send(route, argList)
   }
+
   /**
    * This endpoint returns true if a user exists that matches the given search criteria.
    *
@@ -58,6 +60,7 @@ class UserRepository extends Repository {
 
     return this._connection.send(route, argList)
   }
+
   /**
    * This endpoint returns a user that matches the given search criteria.
    *
@@ -72,6 +75,7 @@ class UserRepository extends Repository {
 
     return this._connection.send(route, argList)
   }
+
   /**
    * Update the subscription for a given user.
    *
@@ -87,6 +91,7 @@ class UserRepository extends Repository {
 
     return this._connection.send(route, argList)
   }
+
 }
 
 module.exports = UserRepository

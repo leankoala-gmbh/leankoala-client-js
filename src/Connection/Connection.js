@@ -1,4 +1,3 @@
-const axios = require('axios')
 const jwtDecode = require('jwt-decode')
 
 /**
@@ -14,8 +13,10 @@ class Connection {
    * Init routes and set default values
    *
    * @param apiServer
+   * @param {function} axios
    */
-  constructor(apiServer) {
+  constructor(apiServer, axios) {
+
     this._accessToken = ''
     this._refreshToken = ''
     this._user = {}
@@ -23,6 +24,7 @@ class Connection {
     this._refreshExpireTimestamp = 0
     this._apiServer = apiServer
     this._preferredLanguage = 'en'
+    this._axios = axios
 
     this._routes = {
       authenticateByPassword: {
@@ -53,8 +55,6 @@ class Connection {
 
     this._connectionArgs = Object.assign(defaultArgs, args)
 
-    this._initAxios()
-
     if (args.hasOwnProperty('language')) {
       this.setLanguage(args[ 'language' ])
     }
@@ -66,7 +66,7 @@ class Connection {
       this._refreshExpireTimestamp = wakeUpToken[ 'expireDate' ]
       this._accessExpireTimestamp = 0
 
-      await this._refreshAccessToken()
+      await this.refreshAccessToken()
 
     } else {
       let withMemories = false
@@ -171,7 +171,7 @@ class Connection {
     const url = this._getUrl(route, data)
 
     if (withoutToken !== true) {
-      await this._refreshAccessToken()
+      await this.refreshAccessToken()
       data[ 'access_token' ] = this._accessToken
     }
 
@@ -182,7 +182,7 @@ class Connection {
     }
 
     try {
-      response = await axios({ method, url, data, headers })
+      response = await this._axios({ method, url, data, headers })
     } catch (e) {
       if (e.response) {
         response = e.response
@@ -220,15 +220,6 @@ class Connection {
     if (responseData.status !== 'success') {
       throw new Error(responseData.message + ' (url: ' + url + ', method: ' + method + ', data: ' + JSON.stringify(data) + ')')
     }
-  }
-
-  /**
-   * Initialize axios as HTTP client.
-   *
-   * @private
-   */
-  _initAxios() {
-    this._axios = axios
   }
 
   /**
@@ -278,10 +269,11 @@ class Connection {
   /**
    * Use the refresh token to create a new access token.
    *
-   * @private
+   * Thís function should be used if the user access rights have changed e.g. when a new project
+   * has been created.
    */
-  async _refreshAccessToken() {
-    if (Date.now() + 10 > this._accessExpireTimestamp) {
+  async refreshAccessToken(forceRefresh = false) {
+    if (forceRefresh || Date.now() + 10 > this._accessExpireTimestamp) {
       const user = this.getUser()
 
       const tokens = await this.send(this._routes[ 'refresh' ], {
