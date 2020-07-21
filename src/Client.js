@@ -88,7 +88,7 @@ class LeankoalaClient {
   /**
    * Initialize the connection object and connect to the server
    *
-   * @param {Object} args see connection function
+   * @param {Object} args see connect function
    *
    * @private
    */
@@ -107,6 +107,7 @@ class LeankoalaClient {
 
     this._connection = new Connection(apiServer, axiosInstance)
     await this._connection.connect(args)
+
   }
 
   /**
@@ -117,10 +118,12 @@ class LeankoalaClient {
    * @param {String} entityType
    *
    * @return {Repository}
+   *
+   * @throws {Error}
    */
   async getRepository(entityType) {
     if (this._connectionStatus === 'disconnected') {
-      throw new Error('Please connect the client before running this method')
+      throw new Error('Please connect the client before running this method.')
     }
 
     if (this._connectionStatus === 'connected') {

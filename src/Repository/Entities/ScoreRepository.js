@@ -5,7 +5,7 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-07-20
+ * @created 2020-07-21
  */
 class ScoreRepository extends Repository {
 
@@ -16,7 +16,7 @@ class ScoreRepository extends Repository {
    * @param {Object} args
    * @param {Array} args.scores List of score names
    * @param {Boolean} args.with_sub_scores NOT IMPLEMENTED YET: If true detailed information about the
-   *                                   score will be provided.
+   *                                       score will be provided.
    */
   async getScoresByUser(user, args) {
     const route = { path: 'score/scores/user/{user}', method: 'POST', version: 1 }

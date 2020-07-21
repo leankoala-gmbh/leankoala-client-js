@@ -5,7 +5,7 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-07-20
+ * @created 2020-07-21
  */
 class CrawlerRepository extends Repository {
 
@@ -15,7 +15,7 @@ class CrawlerRepository extends Repository {
    * @param project
    * @param {Object} args
    * @param {Number} args.user The user (id) that starts the crawl and gets informed when the crawl
-   *                        finishes
+   *                            finishes
    * @param {String} args.checklist_name The check lists name
    * @param {String} args.name The crawls name
    * @param {Number} args.system The systems id

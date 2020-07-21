@@ -7,7 +7,7 @@ const Repository = require('../Repository')
  *
  * @created 2020-07-21
  */
-class MetricRepository extends Repository {
+class CustomerHaendlerbundMetricRepository extends Repository {
 
   /**
    * Search for the metrics for all eventIdentifiers in the given projects that are defined by the given
@@ -27,7 +27,7 @@ class MetricRepository extends Repository {
    *                                 value.
    */
   async findBySystem(system, args) {
-    const route = { path: 'metric/eventidentifier/{system}/search', method: 'POST', version: 1 }
+    const route = { path: 'customers/haendlerbund/metrics/{system}', method: 'POST', version: 1 }
     const argList = Object.assign({ system }, args)
 
     return this._connection.send(route, argList)
@@ -35,4 +35,4 @@ class MetricRepository extends Repository {
 
 }
 
-module.exports = MetricRepository
+module.exports = CustomerHaendlerbundMetricRepository
