@@ -5,7 +5,7 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-07-21
+ * @created 2020-07-22
  */
 class ProjectRepository extends Repository {
 
@@ -24,6 +24,19 @@ class ProjectRepository extends Repository {
     const argList = Object.assign({  }, args)
     const requiredArguments = ['user']
     this._assertValidArguments(requiredArguments, argList)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
+   * Delete the given project.
+   *
+   * @param project
+   * @param {Object} args
+   */
+  async delete(project, args) {
+    const route = { path: 'project/projects/{project}', method: 'DELETE', version: 1 }
+    const argList = Object.assign({ project }, args)
 
     return this._connection.send(route, argList)
   }
