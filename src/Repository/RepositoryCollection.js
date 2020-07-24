@@ -40,7 +40,7 @@ class RepositoryCollection {
     this._repositories = {}
     this._repositories['alertingchannel'] = new AlertingChannel(connection)
     this._repositories['alertingpolicy'] = new AlertingPolicy(connection)
-    this._repositories['customerHaendlerbundMetric'] = new CustomerHaendlerbundMetric(connection)
+    this._repositories['customerhaendlerbundmetric'] = new CustomerHaendlerbundMetric(connection)
     this._repositories['customerhaendlerbund'] = new CustomerHaendlerbund(connection)
     this._repositories['custommehrwertsteuercheck'] = new CustomMehrwertSteuercheck(connection)
     this._repositories[ 'crawler' ] = new Crawler(connection)
