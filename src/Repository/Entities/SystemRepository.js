@@ -5,7 +5,7 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-07-21
+ * @created 2020-07-24
  */
 class SystemRepository extends Repository {
 
@@ -31,6 +31,32 @@ class SystemRepository extends Repository {
     const result = await this._connection.send(route, argList)
     await this._connection.refreshAccessToken(true)
     return result
+  }
+
+  /**
+   * Return all components for the given system.
+   *
+   * @param system
+   * @param {Object} args
+   */
+  async getComponents(system, args) {
+    const route = { path: 'project/systems/{system}/components', method: 'GET', version: 1 }
+    const argList = Object.assign({ system }, args)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
+   * Return all suggested component types for the given system.
+   *
+   * @param system
+   * @param {Object} args
+   */
+  async getComponentSuggestions(system, args) {
+    const route = { path: 'project/systems/{system}/suggestions', method: 'GET', version: 1 }
+    const argList = Object.assign({ system }, args)
+
+    return this._connection.send(route, argList)
   }
 
   /**
