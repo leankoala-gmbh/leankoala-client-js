@@ -170,16 +170,17 @@ class Connection {
     const method = route[ 'method' ].toUpperCase()
     const url = this._getUrl(route, data)
 
-    if (withoutToken !== true) {
-      await this.refreshAccessToken()
-      data[ 'access_token' ] = this._accessToken
-    }
-
-    let response = {}
-
     let headers = {
       'accept-language': this._preferredLanguage
     }
+
+    if (withoutToken !== true) {
+      await this.refreshAccessToken()
+      headers[ 'Bearer' ] = this._accessToken
+      // data[ 'access_token' ] = this._accessToken
+    }
+
+    let response = {}
 
     try {
       response = await this._axios({ method, url, data, headers })
