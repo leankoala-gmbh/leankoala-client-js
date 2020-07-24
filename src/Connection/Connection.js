@@ -176,7 +176,7 @@ class Connection {
 
     if (withoutToken !== true) {
       await this.refreshAccessToken()
-      headers[ 'Bearer' ] = this._accessToken
+      headers[ 'Authorization' ] = 'Bearer ' + this._accessToken
       // data[ 'access_token' ] = this._accessToken
     }
 
