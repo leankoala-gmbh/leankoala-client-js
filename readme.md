@@ -20,10 +20,11 @@ client.setLanguage('de')
 This example returns a list of projects the user `demo` is part of.
 ```javascript
 const LeankoalaClient = require('../src/Client');
+const axios = require('axios');
 
 (async () => {
     const client = new LeankoalaClient('stage')
-    await client.connect({ username: 'demo', password: 'demo' })
+    await client.connect({ username: 'demo', password: 'demo', axios })
 
     const user = client.getUser()
 
