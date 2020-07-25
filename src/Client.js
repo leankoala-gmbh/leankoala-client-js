@@ -1,5 +1,3 @@
-const axios = require('axios')
-
 const Connection = require('./Connection/Connection')
 
 const RepositoryCollection = require('./Repository/RepositoryCollection')
@@ -98,14 +96,17 @@ class LeankoalaClient {
       ? 'https://api.cluster1.koalityengine.com'
       : 'https://stage.monitor.leankoala.com/kapi'
 
-    let axiosInstance = {}
-    if (args.hasOwnProperty('axios')) {
-      axiosInstance = args[ 'axios' ]
-    } else {
-      axiosInstance = axios
+    if (!args.hasOwnProperty('axios')) {
+      throw new Error('Missing parameter axios. The HTTP client must be injected.')
     }
 
-    this._connection = new Connection(apiServer, axiosInstance)
+    const axios = args[ 'axios' ]
+
+    if (!(typeof axios === 'function')) {
+      throw new Error('The axios argument is not a function. Seems like it is not a valid axios object,')
+    }
+
+    this._connection = new Connection(apiServer, axios)
     await this._connection.connect(args)
 
   }

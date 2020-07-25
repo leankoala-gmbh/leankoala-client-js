@@ -1,4 +1,5 @@
-const LeankoalaClient = require('../src/Client');
+const LeankoalaClient = require('../src/Client')
+const axios = require('axios');
 
 (async () => {
   try {
@@ -7,7 +8,7 @@ const LeankoalaClient = require('../src/Client');
 
     console.log(client.isConnected())
 
-    await client.connect({ username: 'demo', password: 'demo' })
+    await client.connect({ username: 'demo', password: 'demo', axios })
 
     console.log(client.isConnected())
 
