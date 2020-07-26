@@ -1,51 +1,52 @@
-const AlertingChannel = require('./Entities/AlertingChannelRepository')
-const AlertingPolicy = require('./Entities/AlertingPolicyRepository')
-const CheckBrokenResource = require('./Entities/CheckBrokenResourceRepository')
-const CheckCertificate = require('./Entities/CheckCertificateRepository')
-const CheckCookie = require('./Entities/CheckCookieRepository')
-const CheckDeadLinks = require('./Entities/CheckDeadLinksRepository')
-const CheckFileSize = require('./Entities/CheckFileSizeRepository')
-const CheckJavaScriptErrors = require('./Entities/CheckJavaScriptErrorsRepository')
-const CheckLighthouse = require('./Entities/CheckLighthouseRepository')
-const CheckMobileFriendly = require('./Entities/CheckMobileFriendlyRepository')
-const Check = require('./Entities/CheckRepository')
-const CheckSitemap = require('./Entities/CheckSitemapRepository')
-const Company = require('./Entities/CompanyRepository')
 const Crawler = require('./Entities/CrawlerRepository')
-const CustomerHaendlerbundMetric = require('./Entities/CustomerHaendlerbundMetricRepository')
 const CustomerHaendlerbund = require('./Entities/CustomerHaendlerbundRepository')
-const CustomMehrwertSteuercheck = require('./Entities/CustomerMehrwertsteuercheckRepository.js')
-const Incident = require('./Entities/IncidentRepository')
+const CustomerHaendlerbundMetric = require('./Entities/CustomerHaendlerbundMetricRepository')
+const CustomerMehrwertsteuercheck = require('./Entities/CustomerMehrwertsteuercheckRepository')
 const Memory = require('./Entities/MemoryRepository')
-const Metric = require('./Entities/MetricRepository')
-const Project = require('./Entities/ProjectRepository')
 const Score = require('./Entities/ScoreRepository')
-const Screenshot = require('./Entities/ScreenshotRepository')
-const System = require('./Entities/SystemRepository')
-const Tool = require('./Entities/ToolRepository')
-const User = require('./Entities/UserRepository')
+const AlertingPolicy = require('./Entities/AlertingPolicyRepository')
+const AlertingChannel = require('./Entities/AlertingChannelRepository')
 const Websocket = require('./Entities/WebsocketRepository')
+const Metric = require('./Entities/MetricRepository')
+const User = require('./Entities/UserRepository')
+const Company = require('./Entities/CompanyRepository')
+const Project = require('./Entities/ProjectRepository')
+const System = require('./Entities/SystemRepository')
+const Screenshot = require('./Entities/ScreenshotRepository')
+const Tool = require('./Entities/ToolRepository')
+const Check = require('./Entities/CheckRepository')
+const CheckLighthouse = require('./Entities/CheckLighthouseRepository')
+const CheckDeadLinks = require('./Entities/CheckDeadLinksRepository')
+const CheckBrokenResource = require('./Entities/CheckBrokenResourceRepository')
+const CheckJavaScriptErrors = require('./Entities/CheckJavaScriptErrorsRepository')
+const CheckFileSize = require('./Entities/CheckFileSizeRepository')
+const CheckSitemap = require('./Entities/CheckSitemapRepository')
+const CheckMobileFriendly = require('./Entities/CheckMobileFriendlyRepository')
+const CheckCertificate = require('./Entities/CheckCertificateRepository')
+const CheckInsecureContent = require('./Entities/CheckInsecureContentRepository')
+const CheckCookie = require('./Entities/CheckCookieRepository')
+const Incident = require('./Entities/IncidentRepository')
 
 /**
  * This class was created by the LeanApiBundle.
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-07-20
+ * @created 2020-07-26
  */
 class RepositoryCollection {
 
   constructor(connection) {
 
     this._repositories = {}
-    this._repositories['alertingchannel'] = new AlertingChannel(connection)
-    this._repositories['alertingpolicy'] = new AlertingPolicy(connection)
-    this._repositories['customerhaendlerbundmetric'] = new CustomerHaendlerbundMetric(connection)
-    this._repositories['customerhaendlerbund'] = new CustomerHaendlerbund(connection)
-    this._repositories['custommehrwertsteuercheck'] = new CustomMehrwertSteuercheck(connection)
     this._repositories[ 'crawler' ] = new Crawler(connection)
+    this._repositories[ 'customerhaendlerbund' ] = new CustomerHaendlerbund(connection)
+    this._repositories[ 'customerhaendlerbundmetric' ] = new CustomerHaendlerbundMetric(connection)
+    this._repositories[ 'customermehrwertsteuercheck' ] = new CustomerMehrwertsteuercheck(connection)
     this._repositories[ 'memory' ] = new Memory(connection)
     this._repositories[ 'score' ] = new Score(connection)
+    this._repositories[ 'alertingpolicy' ] = new AlertingPolicy(connection)
+    this._repositories[ 'alertingchannel' ] = new AlertingChannel(connection)
     this._repositories[ 'websocket' ] = new Websocket(connection)
     this._repositories[ 'metric' ] = new Metric(connection)
     this._repositories[ 'user' ] = new User(connection)
@@ -63,8 +64,10 @@ class RepositoryCollection {
     this._repositories[ 'checksitemap' ] = new CheckSitemap(connection)
     this._repositories[ 'checkmobilefriendly' ] = new CheckMobileFriendly(connection)
     this._repositories[ 'checkcertificate' ] = new CheckCertificate(connection)
+    this._repositories[ 'checkinsecurecontent' ] = new CheckInsecureContent(connection)
     this._repositories[ 'checkcookie' ] = new CheckCookie(connection)
     this._repositories[ 'incident' ] = new Incident(connection)
+    
   }
 
   getRepository(entityType) {
