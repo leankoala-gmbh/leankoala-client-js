@@ -258,11 +258,11 @@ class Connection {
    */
   _refreshTokenExpireDate(withFreshToken = false) {
     const accessTokenData = jwtDecode(this._accessToken)
-    this._accessExpireTimestamp = Date.now() + accessTokenData[ 'ttl' ]
+    this._accessExpireTimestamp = Math.floor(Date.now() / 1000) + accessTokenData[ 'ttl' ]
 
     if (withFreshToken) {
       const refreshTokenData = jwtDecode(this._refreshToken)
-      this._refreshExpireTimestamp = Date.now() + refreshTokenData[ 'ttl' ]
+      this._refreshExpireTimestamp = Math.floor(Date.now() / 1000) + refreshTokenData[ 'ttl' ]
     }
   }
 
@@ -273,7 +273,7 @@ class Connection {
    * has been created.
    */
   async refreshAccessToken(forceRefresh = false) {
-    if (forceRefresh || Date.now() + 10 > this._accessExpireTimestamp) {
+    if (forceRefresh || Math.floor(Date.now() / 1000) + 10 > this._accessExpireTimestamp) {
       const user = this.getUser()
 
       const tokens = await this.send(this._routes[ 'refresh' ], {
