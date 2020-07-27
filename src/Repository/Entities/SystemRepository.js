@@ -5,7 +5,7 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-07-24
+ * @created 2020-07-27
  */
 class SystemRepository extends Repository {
 
@@ -25,12 +25,27 @@ class SystemRepository extends Repository {
   async createSystem(args) {
     const route = { path: 'project/systems/system', method: 'POST', version: 1 }
     const argList = Object.assign({  }, args)
-    const requiredArguments = ['name', 'owner', 'system_type']
+    const requiredArguments = ['name', 'base_url', 'owner', 'system_type']
     this._assertValidArguments(requiredArguments, argList)
 
     const result = await this._connection.send(route, argList)
     await this._connection.refreshAccessToken(true)
     return result
+  }
+
+  /**
+   * Update an existing system.
+   *
+   * @param system
+   * @param {Object} args
+   * @param {String} args.name The shops name.
+   * @param {Url} args.base_url The shops base url with scheme, subdomain and domain.
+   */
+  async updateSystem(system, args) {
+    const route = { path: 'project/systems/system/{system}', method: 'PUT', version: 1 }
+    const argList = Object.assign({ system }, args)
+
+    return this._connection.send(route, argList)
   }
 
   /**
@@ -53,7 +68,7 @@ class SystemRepository extends Repository {
    * @param {Object} args
    */
   async getComponentSuggestions(system, args) {
-    const route = { path: 'project/systems/{system}/suggestions', method: 'GET', version: 1 }
+    const route = { path: 'project/systems/{system}/suggestions', method: 'POST', version: 1 }
     const argList = Object.assign({ system }, args)
 
     return this._connection.send(route, argList)
