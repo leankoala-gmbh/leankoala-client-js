@@ -15,7 +15,7 @@ class ComponentRepository extends Repository {
    */
   async showComponentTypes(args) {
     const route = { path: 'project/components/systemtypes', method: 'GET', version: 1 }
-    const argList = Object.assign({  }, args)
+    const argList = Object.assign({}, args)
 
     return this._connection.send(route, argList)
   }
@@ -37,12 +37,12 @@ class ComponentRepository extends Repository {
    * Create a new component.
    *
    * @param {Object} args
-   * @param {Number} args.system 
-   * @param {Boolean} args.enableToolsBySystem 
+   * @param {Number} args.system
+   * @param {Boolean} args.enableToolsBySystem
    */
   async createComponent(args) {
     const route = { path: 'project/components', method: 'POST', version: 1 }
-    const argList = Object.assign({  }, args)
+    const argList = Object.assign({}, args)
     const requiredArguments = ['system']
     this._assertValidArguments(requiredArguments, argList)
 
@@ -74,13 +74,7 @@ class ComponentRepository extends Repository {
 
     return this._connection.send(route, argList)
   }
-
-  async createComponent(args){
-    const route = { path: 'project/components', method: 'POST', version: 1 }
-    const argList = Object.assign({}, args)
-    return this._connection.send(route, argList)
-  }
-
+  
 }
 
 module.exports = ComponentRepository
