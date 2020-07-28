@@ -5,7 +5,7 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-07-27
+ * @created 2020-07-28
  */
 class ComponentRepository extends Repository {
 
@@ -16,6 +16,35 @@ class ComponentRepository extends Repository {
   async showComponentTypes(args) {
     const route = { path: 'project/components/systemtypes', method: 'GET', version: 1 }
     const argList = Object.assign({  }, args)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
+   * Get all information about the given component.
+   *
+   * @param component
+   * @param {Object} args
+   */
+  async showComponents(component, args) {
+    const route = { path: 'project/components/{component}', method: 'GET', version: 1 }
+    const argList = Object.assign({ component }, args)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
+   * Create a new component.
+   *
+   * @param {Object} args
+   * @param {Number} args.system 
+   * @param {Boolean} args.enableToolsBySystem 
+   */
+  async createComponent(args) {
+    const route = { path: 'project/components', method: 'POST', version: 1 }
+    const argList = Object.assign({  }, args)
+    const requiredArguments = ['system']
+    this._assertValidArguments(requiredArguments, argList)
 
     return this._connection.send(route, argList)
   }

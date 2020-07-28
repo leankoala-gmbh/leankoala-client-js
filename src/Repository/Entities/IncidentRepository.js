@@ -5,7 +5,7 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-07-21
+ * @created 2020-07-28
  */
 class IncidentRepository extends Repository {
 
@@ -35,6 +35,20 @@ class IncidentRepository extends Repository {
     const argList = Object.assign({ project }, args)
     const requiredArguments = ['days']
     this._assertValidArguments(requiredArguments, argList)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
+   * Find a single incident by id
+   *
+   * @param project
+   * @param incident
+   * @param {Object} args
+   */
+  async find(project, incident, args) {
+    const route = { path: 'incident/incidents/{project}/{incident}', method: 'GET', version: 1 }
+    const argList = Object.assign({ project, incident }, args)
 
     return this._connection.send(route, argList)
   }
