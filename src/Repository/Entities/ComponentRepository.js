@@ -46,6 +46,12 @@ class ComponentRepository extends Repository {
     return this._connection.send(route, argList)
   }
 
+  async createComponent(args){
+    const route = { path: 'project/components', method: 'POST', version: 1 }
+    const argList = Object.assign({}, args)
+    return this._connection.send(route, argList)
+  }
+
 }
 
 module.exports = ComponentRepository
