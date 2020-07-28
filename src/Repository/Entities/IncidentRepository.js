@@ -67,6 +67,11 @@ class IncidentRepository extends Repository {
     return this._connection.send(route, argList)
   }
 
+  async message(project, id, args) {
+    const route = { path: 'incident/incidents/{project}/{id}', method: 'GET', version: 1 }
+    const argList = Object.assign({ project, id }, args)
+    return this._connection.send(route, argList)
+  }
 }
 
 module.exports = IncidentRepository
