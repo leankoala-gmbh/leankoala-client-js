@@ -57,7 +57,7 @@ class LeankoalaClient {
       return false
     }
 
-    return Date.now() < this._connection.getExpireDate()
+    return Math.floor(Date.now() / 1000) < this._connection.getExpireDate()
   }
 
   /**
@@ -102,7 +102,7 @@ class LeankoalaClient {
 
     const axios = args[ 'axios' ]
 
-    if (!(typeof axios === 'function')) {
+    if (typeof axios !== 'function') {
       throw new Error('The axios argument is not a function. Seems like it is not a valid axios object,')
     }
 
