@@ -5,7 +5,7 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-07-21
+ * @created 2020-07-30
  */
 class UserRepository extends Repository {
 
@@ -71,6 +71,23 @@ class UserRepository extends Repository {
     const route = { path: 'user/users/find', method: 'GET', version: 1 }
     const argList = Object.assign({  }, args)
     const requiredArguments = ['query']
+    this._assertValidArguments(requiredArguments, argList)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
+   * Change the users password.
+   *
+   * @param user
+   * @param {Object} args
+   * @param {String} args.password_old 
+   * @param {String} args.password_new 
+   */
+  async changePassword(user, args) {
+    const route = { path: 'user/users/{user}/password', method: 'PUT', version: 1 }
+    const argList = Object.assign({ user }, args)
+    const requiredArguments = ['password_old', 'password_new']
     this._assertValidArguments(requiredArguments, argList)
 
     return this._connection.send(route, argList)

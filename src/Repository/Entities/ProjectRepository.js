@@ -5,7 +5,7 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-07-22
+ * @created 2020-07-30
  */
 class ProjectRepository extends Repository {
 
@@ -23,6 +23,22 @@ class ProjectRepository extends Repository {
     const route = { path: 'project/projects/search', method: 'POST', version: 1 }
     const argList = Object.assign({  }, args)
     const requiredArguments = ['user']
+    this._assertValidArguments(requiredArguments, argList)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
+   * Update the given project.
+   *
+   * @param project
+   * @param {Object} args
+   * @param {String} args.name 
+   */
+  async update(project, args) {
+    const route = { path: 'project/projects/{project}', method: 'PUT', version: 1 }
+    const argList = Object.assign({ project }, args)
+    const requiredArguments = ['name']
     this._assertValidArguments(requiredArguments, argList)
 
     return this._connection.send(route, argList)
