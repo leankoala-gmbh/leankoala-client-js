@@ -16,6 +16,18 @@ await client.connect({ username: 'demo', password: 'demo', language: 'de' })
 client.setLanguage('de')
 ```
 
+## Connect
+```javascript
+# via username and password
+await client.connect({ username: 'demo', password: 'demo', axios })
+
+# via wakeup token
+await client.connect({ wakeUpToken, axios })
+
+# via refresh token
+await client.connect({ refreshToken, userId, axios })
+```
+
 ## Examples
 This example returns a list of projects the user `demo` is part of.
 ```javascript
