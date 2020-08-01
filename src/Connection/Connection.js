@@ -59,7 +59,17 @@ class Connection {
       this.setLanguage(args[ 'language' ])
     }
 
-    if (args.hasOwnProperty('wakeUpToken')) {
+    if (args.hasOwnProperty('refreshToken')) {
+      if (!args.hasOwnProperty('userId')) {
+        throw new Error('When connecting via refresh token the userId is also mandatory.')
+      }
+
+      this._user = { id: args[ 'userId' ] }
+      this._refreshToken = args[ 'refreshToken' ]
+      this._accessExpireTimestamp = 0
+
+      await this.refreshAccessToken(true)
+    } else if (args.hasOwnProperty('wakeUpToken')) {
       const wakeUpToken = JSON.parse(args[ 'wakeUpToken' ])
       this._refreshToken = wakeUpToken[ 'refreshToken' ]
       this._user = wakeUpToken[ 'user' ]
@@ -274,6 +284,7 @@ class Connection {
    */
   async refreshAccessToken(forceRefresh = false) {
     if (forceRefresh || Math.floor(Date.now() / 1000) + 10 > this._accessExpireTimestamp) {
+
       const user = this.getUser()
 
       const tokens = await this.send(this._routes[ 'refresh' ], {
@@ -281,8 +292,10 @@ class Connection {
         access_token: this._refreshToken
       }, true)
 
+      this._user = tokens[ 'user' ]
+
       this._accessToken = tokens[ 'token' ]
-      this._refreshTokenExpireDate()
+      this._refreshTokenExpireDate(true)
     }
   }
 }
