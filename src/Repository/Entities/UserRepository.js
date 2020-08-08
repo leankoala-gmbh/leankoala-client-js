@@ -5,9 +5,24 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-07-30
+ * @created 2020-08-08
  */
 class UserRepository extends Repository {
+
+  /**
+   * Activate an user account.
+   *
+   * @param {Object} args
+   * @param {String} args.activation_key 
+   */
+  async activate(args) {
+    const route = { path: 'user/users/activate', method: 'POST', version: 1 }
+    const argList = Object.assign({  }, args)
+    const requiredArguments = ['activation_key']
+    this._assertValidArguments(requiredArguments, argList)
+
+    return this._connection.send(route, argList)
+  }
 
   /**
    * This endpoint creates a new user. The given provider (url param) will be attached.
