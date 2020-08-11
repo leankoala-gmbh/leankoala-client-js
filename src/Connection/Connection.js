@@ -69,6 +69,8 @@ class Connection {
       this._accessExpireTimestamp = 0
 
       await this.refreshAccessToken(true)
+    } else if (args.hasOwnProperty('accessToken')) {
+      this._accessToken = args[ 'accessToken' ]
     } else if (args.hasOwnProperty('wakeUpToken')) {
       const wakeUpToken = JSON.parse(args[ 'wakeUpToken' ])
       this._refreshToken = wakeUpToken[ 'refreshToken' ]
