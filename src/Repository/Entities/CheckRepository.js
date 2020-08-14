@@ -5,7 +5,7 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-07-21
+ * @created 2020-08-14
  */
 class CheckRepository extends Repository {
 
@@ -35,6 +35,20 @@ class CheckRepository extends Repository {
     const argList = Object.assign({  }, args)
     const requiredArguments = ['component', 'cookbook']
     this._assertValidArguments(requiredArguments, argList)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
+   * Run checks defined by tool identifier for all components within this system.
+   *
+   * @param system
+   * @param toolIdentifier
+   * @param {Object} args
+   */
+  async runChecksForSystem(system, toolIdentifier, args) {
+    const route = { path: 'check/checks/run/{system}/{toolIdentifier}', method: 'POST', version: 1 }
+    const argList = Object.assign({ system, toolIdentifier }, args)
 
     return this._connection.send(route, argList)
   }
