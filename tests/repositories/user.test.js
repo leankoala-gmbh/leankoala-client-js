@@ -34,8 +34,7 @@ describe('User', () => {
       })
       this.isRegistered = true
     } catch (e) {
-      console.log(e.message)
-      expect(e.message).toContain('email')
+      expect(e.message).toContain('Username')
     }
   })
 })

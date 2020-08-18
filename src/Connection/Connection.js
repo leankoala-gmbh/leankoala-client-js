@@ -1,5 +1,7 @@
 const jwtDecode = require('jwt-decode')
 
+const BadRequestError = require('./BadRequestError')
+
 /**
  * This class takes care of the connection between the KoalityEngine server and the client. It
  * handles the validation process, refreshes the tokens if needed and processes the servers response.
@@ -231,7 +233,8 @@ class Connection {
   _assertValidResponse(response, url, method, data) {
     const responseData = response.data
     if (responseData.status !== 'success') {
-      throw new Error(responseData.message + ' (url: ' + url + ', method: ' + method + ', data: ' + JSON.stringify(data) + ')')
+      throw new BadRequestError({message: responseData.message, url, data})
+      // throw new Error(responseData.message + ' (url: ' + url + ', method: ' + method + ', data: ' + JSON.stringify(data) + ')')
     }
   }
 
