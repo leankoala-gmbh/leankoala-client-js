@@ -5,7 +5,7 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-07-24
+ * @created 2020-08-14
  */
 class AlertingChannelRepository extends Repository {
 
@@ -56,9 +56,9 @@ class AlertingChannelRepository extends Repository {
    * @param project
    * @param channel
    * @param {Object} args
-   * @param {String} args.name 
-   * @param {*} args.type 
-   * @param {Array} args.options 
+   * @param {String} args.name  (optional)
+   * @param {*} args.type  (optional)
+   * @param {Array} args.options  (optional)
    */
   async update(project, channel, args) {
     const route = { path: 'alerting/channels/{project}/{channel}', method: 'PUT', version: 1 }

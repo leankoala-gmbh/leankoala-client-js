@@ -5,7 +5,7 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-07-27
+ * @created 2020-08-14
  */
 class SystemRepository extends Repository {
 
@@ -14,13 +14,13 @@ class SystemRepository extends Repository {
    *
    * @param {Object} args
    * @param {Number} args.project The project the system should be part of. If the project is not set a
-   *                               new project will be created with the systems name.
+   *                               new project will be created with the systems name. (optional)
    * @param {String} args.name The shops name.
    * @param {Url} args.base_url The shops base url with scheme, subdomain and domain.
    * @param {Number} args.owner The shops owner (id).
    * @param {Number} args.system_type The shops system type (id).
    * @param {Boolean} args.add_checklist_checks If true all checks of the checklist connected to the main
-   *                                            system type are added.
+   *                                            system type are added. (default: true)
    */
   async createSystem(args) {
     const route = { path: 'project/systems/system', method: 'POST', version: 1 }
@@ -38,8 +38,8 @@ class SystemRepository extends Repository {
    *
    * @param system
    * @param {Object} args
-   * @param {String} args.name The shops name.
-   * @param {Url} args.base_url The shops base url with scheme, subdomain and domain.
+   * @param {String} args.name The shops name. (optional)
+   * @param {Url} args.base_url The shops base url with scheme, subdomain and domain. (optional)
    */
   async updateSystem(system, args) {
     const route = { path: 'project/systems/system/{system}', method: 'PUT', version: 1 }

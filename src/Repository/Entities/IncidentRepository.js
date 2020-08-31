@@ -5,7 +5,7 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-07-28
+ * @created 2020-08-14
  */
 class IncidentRepository extends Repository {
 
@@ -14,7 +14,7 @@ class IncidentRepository extends Repository {
    *
    * @param project
    * @param {Object} args
-   * @param {Number} args.system the system filter
+   * @param {Number} args.system the system filter (optional)
    */
   async search(project, args) {
     const route = { path: 'incident/incidents/{project}/search', method: 'POST', version: 1 }
@@ -67,11 +67,6 @@ class IncidentRepository extends Repository {
     return this._connection.send(route, argList)
   }
 
-  async message(project, id, args) {
-    const route = { path: 'incident/incidents/{project}/{id}', method: 'GET', version: 1 }
-    const argList = Object.assign({ project, id }, args)
-    return this._connection.send(route, argList)
-  }
 }
 
 module.exports = IncidentRepository

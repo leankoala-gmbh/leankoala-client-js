@@ -5,7 +5,7 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-07-21
+ * @created 2020-08-14
  */
 class CrawlerRepository extends Repository {
 
@@ -19,10 +19,10 @@ class CrawlerRepository extends Repository {
    * @param {String} args.checklist_name The check lists name
    * @param {String} args.name The crawls name
    * @param {Number} args.system The systems id
-   * @param {Number} args.depth Number of URLs to be crawled
-   * @param {String} args.path The URL the crawler starts to crawl
-   * @param {Boolean} args.curl_only If true the crawler does only use curl.
-   * @param {Number} args.parallel_requests Number of parallel requests that can be done
+   * @param {Number} args.depth Number of URLs to be crawled (default: 5)
+   * @param {String} args.path The URL the crawler starts to crawl (default: /)
+   * @param {Boolean} args.curl_only If true the crawler does only use curl. (default: false)
+   * @param {Number} args.parallel_requests Number of parallel requests that can be done (default: 8)
    */
   async runCrawl(project, args) {
     const route = { path: 'crawler/crawl/{project}', method: 'POST', version: 1 }
@@ -38,7 +38,7 @@ class CrawlerRepository extends Repository {
    *
    * @param project
    * @param {Object} args
-   * @param {String} args.checklist_name The check lists name
+   * @param {String} args.checklist_name The check lists name (optional)
    * @param {Number} args.system The systems id
    */
   async listCrawls(project, args) {

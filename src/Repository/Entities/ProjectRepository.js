@@ -5,7 +5,7 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-07-30
+ * @created 2020-08-14
  */
 class ProjectRepository extends Repository {
 
@@ -15,9 +15,9 @@ class ProjectRepository extends Repository {
    * @param {Object} args
    * @param {Number} args.user The users id
    * @param {Boolean} args.with_next_full_run If true the next approximated hourly run will be returned;
-   *                                          the value is the time in seconds till the next run
+   *                                          the value is the time in seconds till the next run (default: false)
    * @param {Boolean} args.with_onboarding_status If true the projects onboarding status is added to the
-   *                                              response.
+   *                                              response. (default: false)
    */
   async search(args) {
     const route = { path: 'project/projects/search', method: 'POST', version: 1 }

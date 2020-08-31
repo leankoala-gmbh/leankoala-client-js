@@ -5,7 +5,7 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-07-21
+ * @created 2020-08-14
  */
 class CheckLighthouseRepository extends Repository {
 
@@ -15,8 +15,8 @@ class CheckLighthouseRepository extends Repository {
    * @param system
    * @param category
    * @param {Object} args
-   * @param {*} args.targetGroup The target group. It can be either an integer or an string.
-   * @param {Boolean} args.use_cache Use the cache for json document fetch
+   * @param {*} args.targetGroup The target group. It can be either an integer or a string. (default: 2000)
+   * @param {Boolean} args.use_cache Use the cache for json document fetch (default: true)
    */
   async getResults(system, category, args) {
     const route = { path: 'check/checks/{system}/lighthouse/results/{category}', method: 'GET', version: 1 }

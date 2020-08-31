@@ -5,7 +5,7 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-07-21
+ * @created 2020-08-14
  */
 class CustomerHaendlerbundRepository extends Repository {
 
@@ -17,7 +17,7 @@ class CustomerHaendlerbundRepository extends Repository {
    * @param {Url} args.base_url The shops base url with scheme, subdomain and domain.
    * @param {Number} args.owner The shops owner (id).
    * @param {*} args.size The shop size. It determines if the checks are done on a daily or hourly
-   *                          base.
+   *                          base. (default: large)
    */
   async createShop(args) {
     const route = { path: 'customers/haendlerbund/shops', method: 'POST', version: 1 }
@@ -33,9 +33,9 @@ class CustomerHaendlerbundRepository extends Repository {
    *
    * @param system
    * @param {Object} args
-   * @param {String} args.name The shops name.
+   * @param {String} args.name The shops name. (optional)
    * @param {Url} args.base_url The shops base url with scheme, subdomain and domain. When changing the
-   *                            base url all shop pages will change their base as well.
+   *                            base url all shop pages will change their base as well. (optional)
    */
   async updateShop(system, args) {
     const route = { path: 'customers/haendlerbund/shops/{system}', method: 'PUT', version: 1 }

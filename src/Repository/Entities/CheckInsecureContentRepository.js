@@ -5,7 +5,7 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-07-26
+ * @created 2020-08-14
  */
 class CheckInsecureContentRepository extends Repository {
 

@@ -13,8 +13,8 @@ class CheckRepository extends Repository {
    * @param system
    * @param {Object} args
    * @param {*} args.checklist 
-   * @param {Boolean} args.clear_before 
-   * @param {Boolean} args.activate_checks 
+   * @param {Boolean} args.clear_before  (default: true)
+   * @param {Boolean} args.activate_checks  (default: false)
    */
   async addByChecklist(system, args) {
     const route = { path: 'check/checks/{system}/checklist', method: 'POST', version: 1 }

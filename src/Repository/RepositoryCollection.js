@@ -1,3 +1,4 @@
+const Subscription = require('./Entities/SubscriptionRepository')
 const Crawler = require('./Entities/CrawlerRepository')
 const CustomerHaendlerbund = require('./Entities/CustomerHaendlerbundRepository')
 const CustomerHaendlerbundMetric = require('./Entities/CustomerHaendlerbundMetricRepository')
@@ -17,7 +18,6 @@ const Screenshot = require('./Entities/ScreenshotRepository')
 const Tool = require('./Entities/ToolRepository')
 const Check = require('./Entities/CheckRepository')
 const CheckLighthouse = require('./Entities/CheckLighthouseRepository')
-const CheckDeadLinks = require('./Entities/CheckDeadLinksRepository')
 const CheckBrokenResource = require('./Entities/CheckBrokenResourceRepository')
 const CheckJavaScriptErrors = require('./Entities/CheckJavaScriptErrorsRepository')
 const CheckFileSize = require('./Entities/CheckFileSizeRepository')
@@ -26,6 +26,7 @@ const CheckMobileFriendly = require('./Entities/CheckMobileFriendlyRepository')
 const CheckCertificate = require('./Entities/CheckCertificateRepository')
 const CheckInsecureContent = require('./Entities/CheckInsecureContentRepository')
 const CheckCookie = require('./Entities/CheckCookieRepository')
+const CheckDeadLinks = require('./Entities/CheckDeadLinksRepository')
 const Incident = require('./Entities/IncidentRepository')
 
 /**
@@ -33,13 +34,14 @@ const Incident = require('./Entities/IncidentRepository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-07-27
+ * @created 2020-08-31
  */
 class RepositoryCollection {
 
   constructor(connection) {
 
     this._repositories = {}
+    this._repositories[ 'subscription' ] = new Subscription(connection)
     this._repositories[ 'crawler' ] = new Crawler(connection)
     this._repositories[ 'customerhaendlerbund' ] = new CustomerHaendlerbund(connection)
     this._repositories[ 'customerhaendlerbundmetric' ] = new CustomerHaendlerbundMetric(connection)
@@ -59,7 +61,6 @@ class RepositoryCollection {
     this._repositories[ 'tool' ] = new Tool(connection)
     this._repositories[ 'check' ] = new Check(connection)
     this._repositories[ 'checklighthouse' ] = new CheckLighthouse(connection)
-    this._repositories[ 'checkdeadlinks' ] = new CheckDeadLinks(connection)
     this._repositories[ 'checkbrokenresource' ] = new CheckBrokenResource(connection)
     this._repositories[ 'checkjavascripterrors' ] = new CheckJavaScriptErrors(connection)
     this._repositories[ 'checkfilesize' ] = new CheckFileSize(connection)
@@ -68,6 +69,7 @@ class RepositoryCollection {
     this._repositories[ 'checkcertificate' ] = new CheckCertificate(connection)
     this._repositories[ 'checkinsecurecontent' ] = new CheckInsecureContent(connection)
     this._repositories[ 'checkcookie' ] = new CheckCookie(connection)
+    this._repositories[ 'checkdeadlinks' ] = new CheckDeadLinks(connection)
     this._repositories[ 'incident' ] = new Incident(connection)
     
   }
