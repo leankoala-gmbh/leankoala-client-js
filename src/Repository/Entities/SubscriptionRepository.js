@@ -24,23 +24,27 @@ class SubscriptionRepository extends Repository {
    * Set the companies credit card plan.
    *
    * @param {Object} args
-   * @param {Number} args.quantity The number of packets to be used (optional)
+   * @param {Number} args.quantity The number of packets to be used
    */
   async setCompanyCreditCardPlans(args) {
     const route = { path: 'subscription/company/plans/creditcard', method: 'POST', version: 1 }
     const argList = Object.assign({  }, args)
+    const requiredArguments = ['quantity']
+    this._assertValidArguments(requiredArguments, argList)
 
     return this._connection.send(route, argList)
   }
 
   /**
    * @param {Object} args
-   * @param {String} args.last_digits The last 4 digits of the credit card (optional)
-   * @param {String} args.brand The credit cards brand (optional)
+   * @param {String} args.last_digits The last 4 digits of the credit card
+   * @param {String} args.brand The credit cards brand
    */
   async setCreditCard(args) {
     const route = { path: 'subscription/company/creditcard', method: 'POST', version: 1 }
     const argList = Object.assign({  }, args)
+    const requiredArguments = ['last_digits', 'brand']
+    this._assertValidArguments(requiredArguments, argList)
 
     return this._connection.send(route, argList)
   }
