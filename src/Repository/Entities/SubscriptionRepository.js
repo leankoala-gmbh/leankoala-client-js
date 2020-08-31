@@ -11,11 +11,13 @@ class SubscriptionRepository extends Repository {
 
   /**
    * Get the companies subscription information.
+   *
+   * @param company
    * @param {Object} args
    */
-  async getCompanySubscription(args) {
-    const route = { path: 'subscription/company', method: 'GET', version: 1 }
-    const argList = Object.assign({  }, args)
+  async getCompanySubscription(company, args) {
+    const route = { path: 'subscription/company/{company}/', method: 'GET', version: 1 }
+    const argList = Object.assign({ company }, args)
 
     return this._connection.send(route, argList)
   }
@@ -23,12 +25,13 @@ class SubscriptionRepository extends Repository {
   /**
    * Set the companies credit card plan.
    *
+   * @param company
    * @param {Object} args
    * @param {Number} args.quantity The number of packets to be used
    */
-  async setCompanyCreditCardPlans(args) {
-    const route = { path: 'subscription/company/plans/creditcard', method: 'POST', version: 1 }
-    const argList = Object.assign({  }, args)
+  async setCompanyCreditCardPlans(company, args) {
+    const route = { path: 'subscription/company/{company}/plans/creditcard', method: 'POST', version: 1 }
+    const argList = Object.assign({ company }, args)
     const requiredArguments = ['quantity']
     this._assertValidArguments(requiredArguments, argList)
 
@@ -36,14 +39,16 @@ class SubscriptionRepository extends Repository {
   }
 
   /**
+   * @param company
    * @param {Object} args
+   * @param {*} args.stripe_cc_id The stripe credit card id
    * @param {String} args.last_digits The last 4 digits of the credit card
    * @param {String} args.brand The credit cards brand
    */
-  async setCreditCard(args) {
-    const route = { path: 'subscription/company/creditcard', method: 'POST', version: 1 }
-    const argList = Object.assign({  }, args)
-    const requiredArguments = ['last_digits', 'brand']
+  async setCreditCard(company, args) {
+    const route = { path: 'subscription/company/{company}/creditcard', method: 'POST', version: 1 }
+    const argList = Object.assign({ company }, args)
+    const requiredArguments = ['stripe_cc_id', 'last_digits', 'brand']
     this._assertValidArguments(requiredArguments, argList)
 
     return this._connection.send(route, argList)
