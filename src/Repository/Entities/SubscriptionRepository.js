@@ -5,7 +5,7 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-08-31
+ * @created 2020-09-01
  */
 class SubscriptionRepository extends Repository {
 
@@ -39,16 +39,18 @@ class SubscriptionRepository extends Repository {
   }
 
   /**
+   * Set the companies credit card.
+   *
    * @param company
    * @param {Object} args
-   * @param {*} args.stripe_cc_id The stripe credit card id
+   * @param {*} args.stripe_cc_source The stripe credit card id
    * @param {String} args.last_digits The last 4 digits of the credit card
    * @param {String} args.brand The credit cards brand
    */
   async setCreditCard(company, args) {
     const route = { path: 'subscription/company/{company}/creditcard', method: 'POST', version: 1 }
     const argList = Object.assign({ company }, args)
-    const requiredArguments = ['stripe_cc_id', 'last_digits', 'brand']
+    const requiredArguments = ['stripe_cc_source', 'last_digits', 'brand']
     this._assertValidArguments(requiredArguments, argList)
 
     return this._connection.send(route, argList)
