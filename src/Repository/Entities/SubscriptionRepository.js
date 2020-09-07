@@ -5,7 +5,7 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-09-01
+ * @created 2020-09-07
  */
 class SubscriptionRepository extends Repository {
 
@@ -52,6 +52,40 @@ class SubscriptionRepository extends Repository {
     const argList = Object.assign({ company }, args)
     const requiredArguments = ['stripe_cc_source', 'last_digits', 'brand']
     this._assertValidArguments(requiredArguments, argList)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
+   * Set the billing address information for the given company.
+   *
+   * @param company
+   * @param {Object} args
+   * @param {String} args.company_name The companies name.
+   * @param {String} args.country The companies billing address country.
+   * @param {String} args.postal_code The companies billing address postal code.
+   * @param {String} args.city The companies billing address city.
+   * @param {String} args.street The companies billing address street.
+   * @param {String} args.usident The companies "Umsatzsteuer-Identifikationsnummer". (optional)
+   */
+  async setBillingAddress(company, args) {
+    const route = { path: 'subscription/company/{company}/billingaddress', method: 'POST', version: 1 }
+    const argList = Object.assign({ company }, args)
+    const requiredArguments = ['company_name', 'country', 'postal_code', 'city', 'street']
+    this._assertValidArguments(requiredArguments, argList)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
+   * Get the billing address information for the given company.
+   *
+   * @param company
+   * @param {Object} args
+   */
+  async getBillingAddress(company, args) {
+    const route = { path: 'subscription/company/{company}/billingaddress', method: 'GET', version: 1 }
+    const argList = Object.assign({ company }, args)
 
     return this._connection.send(route, argList)
   }
