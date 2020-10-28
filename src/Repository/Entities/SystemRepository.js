@@ -5,7 +5,7 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-08-14
+ * @created 2020-10-28
  */
 class SystemRepository extends Repository {
 
@@ -21,6 +21,7 @@ class SystemRepository extends Repository {
    * @param {Number} args.system_type The shops system type (id).
    * @param {Boolean} args.add_checklist_checks If true all checks of the checklist connected to the main
    *                                            system type are added. (default: true)
+   * @param {Boolean} args.add_support_user Add the support user for support requests (default: true)
    */
   async createSystem(args) {
     const route = { path: 'project/systems/system', method: 'POST', version: 1 }
@@ -109,6 +110,21 @@ class SystemRepository extends Repository {
   async getSystemTypes(providerIdentifier, args) {
     const route = { path: 'project/systems/{providerIdentifier}/systemType', method: 'GET', version: 1 }
     const argList = Object.assign({ providerIdentifier }, args)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
+   * Trigger the component finder
+   *
+   * @param project
+   * @param system
+   * @param user
+   * @param {Object} args
+   */
+  async triggerComponentFinder(project, system, user, args) {
+    const route = { path: 'project/{project}/componentfinder/{system}/{user}/trigger', method: 'POST', version: 1 }
+    const argList = Object.assign({ project, system, user }, args)
 
     return this._connection.send(route, argList)
   }
