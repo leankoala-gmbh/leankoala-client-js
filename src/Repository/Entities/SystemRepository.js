@@ -5,7 +5,7 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-10-28
+ * @created 2020-10-30
  */
 class SystemRepository extends Repository {
 
@@ -115,7 +115,7 @@ class SystemRepository extends Repository {
   }
 
   /**
-   * Trigger the component finder
+   * Trigger the component finder for a given system.
    *
    * @param project
    * @param system

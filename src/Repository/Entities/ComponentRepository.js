@@ -5,7 +5,7 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-08-14
+ * @created 2020-10-30
  */
 class ComponentRepository extends Repository {
 
@@ -44,6 +44,26 @@ class ComponentRepository extends Repository {
     const route = { path: 'project/components', method: 'POST', version: 1 }
     const argList = Object.assign({  }, args)
     const requiredArguments = ['system']
+    this._assertValidArguments(requiredArguments, argList)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
+   * Create a set of new components for a given system.
+   *
+   * @param {Object} args
+   * @param {Number} args.system The system the components are part of,
+   * @param {Boolean} args.enableToolsBySystem If true all checks from the parent system are inherited. (default: true)
+   * @param {Boolean} args.updateIfComponentSuggestionExists If true and a component with the same
+   *                                                         suggestion id already exists it will be
+   *                                                         updated. (default: false)
+   * @param {Array} args.components List of components that should be created/updated.
+   */
+  async createComponents(args) {
+    const route = { path: 'project/components/many', method: 'POST', version: 1 }
+    const argList = Object.assign({  }, args)
+    const requiredArguments = ['system', 'components']
     this._assertValidArguments(requiredArguments, argList)
 
     return this._connection.send(route, argList)
