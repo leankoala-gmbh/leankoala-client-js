@@ -81,7 +81,7 @@ class Connection {
       this._refreshExpireTimestamp = wakeUpToken[ 'expireDate' ]
       this._accessExpireTimestamp = 0
 
-      await this.refreshAccessToken()
+      await this.refreshAccessToken(false, args.withMemories)
 
     } else {
       let withMemories = false
@@ -287,15 +287,19 @@ class Connection {
    *
    * Thís function should be used if the user access rights have changed e.g. when a new project
    * has been created.
+   *
+   * @param {boolean} forceRefresh
+   * @param {boolean} withMemories
    */
-  async refreshAccessToken(forceRefresh = false) {
+  async refreshAccessToken(forceRefresh = false, withMemories = false) {
     if (forceRefresh || Math.floor(Date.now() / 1000) + 10 > this._accessExpireTimestamp) {
 
       const user = this.getUser()
 
       const tokens = await this.send(this._routes[ 'refresh' ], {
         user_id: user.id,
-        access_token: this._refreshToken
+        access_token: this._refreshToken,
+        with_memories: withMemories
       }, true)
 
       this._user = tokens[ 'user' ]
