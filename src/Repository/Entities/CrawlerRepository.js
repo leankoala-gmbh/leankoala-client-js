@@ -1,11 +1,13 @@
 const Repository = require('../Repository')
 
+
+
 /**
  * This class was created by the LeanApiBundle.
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-08-14
+ * @created 2020-11-14
  */
 class CrawlerRepository extends Repository {
 
@@ -73,6 +75,19 @@ class CrawlerRepository extends Repository {
   async getCrawl(crawl, args) {
     const route = { path: 'crawler/crawl/{crawl}', method: 'GET', version: 1 }
     const argList = Object.assign({ crawl }, args)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
+   * Return the crawler status for a given project.
+   *
+   * @param project
+   * @param {Object} args
+   */
+  async getCrawlerStatus(project, args) {
+    const route = { path: 'crawler/status/{project}', method: 'GET', version: 1 }
+    const argList = Object.assign({ project }, args)
 
     return this._connection.send(route, argList)
   }
