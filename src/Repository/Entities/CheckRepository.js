@@ -1,11 +1,13 @@
 const Repository = require('../Repository')
 
+
+
 /**
  * This class was created by the LeanApiBundle.
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-08-14
+ * @created 2020-11-16
  */
 class CheckRepository extends Repository {
 
@@ -49,6 +51,48 @@ class CheckRepository extends Repository {
   async runChecksForSystem(system, toolIdentifier, args) {
     const route = { path: 'check/checks/run/{system}/{toolIdentifier}', method: 'POST', version: 1 }
     const argList = Object.assign({ system, toolIdentifier }, args)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
+   * Return a list of collections for the given project.
+   *
+   * @param project
+   * @param toolIdentifier
+   * @param {Object} args
+   */
+  async showCollections(project, toolIdentifier, args) {
+    const route = { path: 'check/collections/{project}/{toolIdentifier}', method: 'POST', version: 1 }
+    const argList = Object.assign({ project, toolIdentifier }, args)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
+   * Return a list of active collections for the given system.
+   *
+   * @param system
+   * @param toolIdentifier
+   * @param {Object} args
+   */
+  async showActiveCollections(system, toolIdentifier, args) {
+    const route = { path: 'check/collections/system/active/{system}/{toolIdentifier}', method: 'POST', version: 1 }
+    const argList = Object.assign({ system, toolIdentifier }, args)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
+   * Update the collections. WARNING: will delete the current collection connections and create new.
+   *
+   * @param system
+   * @param {Object} args
+   * @param {Array} args.collections  (optional)
+   */
+  async updateCollections(system, args) {
+    const route = { path: 'check/collections/system/{system}', method: 'PUT', version: 1 }
+    const argList = Object.assign({ system }, args)
 
     return this._connection.send(route, argList)
   }
