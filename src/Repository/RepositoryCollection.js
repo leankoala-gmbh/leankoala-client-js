@@ -1,3 +1,4 @@
+const Marketplace = require('./Entities/MarketplaceRepository')
 const Subscription = require('./Entities/SubscriptionRepository')
 const Crawler = require('./Entities/CrawlerRepository')
 const CustomerHaendlerbund = require('./Entities/CustomerHaendlerbundRepository')
@@ -9,6 +10,7 @@ const AlertingPolicy = require('./Entities/AlertingPolicyRepository')
 const AlertingChannel = require('./Entities/AlertingChannelRepository')
 const Websocket = require('./Entities/WebsocketRepository')
 const Metric = require('./Entities/MetricRepository')
+const Auth = require('./Entities/AuthRepository')
 const User = require('./Entities/UserRepository')
 const Company = require('./Entities/CompanyRepository')
 const Component = require('./Entities/ComponentRepository')
@@ -18,6 +20,7 @@ const Screenshot = require('./Entities/ScreenshotRepository')
 const Tool = require('./Entities/ToolRepository')
 const Check = require('./Entities/CheckRepository')
 const CheckLighthouse = require('./Entities/CheckLighthouseRepository')
+const CheckA11y = require('./Entities/CheckA11yRepository')
 const CheckBrokenResource = require('./Entities/CheckBrokenResourceRepository')
 const CheckJavaScriptErrors = require('./Entities/CheckJavaScriptErrorsRepository')
 const CheckFileSize = require('./Entities/CheckFileSizeRepository')
@@ -34,13 +37,14 @@ const Incident = require('./Entities/IncidentRepository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-08-31
+ * @created 2020-11-26
  */
 class RepositoryCollection {
 
   constructor(connection) {
 
     this._repositories = {}
+    this._repositories[ 'marketplace' ] = new Marketplace(connection)
     this._repositories[ 'subscription' ] = new Subscription(connection)
     this._repositories[ 'crawler' ] = new Crawler(connection)
     this._repositories[ 'customerhaendlerbund' ] = new CustomerHaendlerbund(connection)
@@ -52,6 +56,7 @@ class RepositoryCollection {
     this._repositories[ 'alertingchannel' ] = new AlertingChannel(connection)
     this._repositories[ 'websocket' ] = new Websocket(connection)
     this._repositories[ 'metric' ] = new Metric(connection)
+    this._repositories[ 'auth' ] = new Auth(connection)
     this._repositories[ 'user' ] = new User(connection)
     this._repositories[ 'company' ] = new Company(connection)
     this._repositories[ 'component' ] = new Component(connection)
@@ -61,6 +66,7 @@ class RepositoryCollection {
     this._repositories[ 'tool' ] = new Tool(connection)
     this._repositories[ 'check' ] = new Check(connection)
     this._repositories[ 'checklighthouse' ] = new CheckLighthouse(connection)
+    this._repositories[ 'checka11y' ] = new CheckA11y(connection)
     this._repositories[ 'checkbrokenresource' ] = new CheckBrokenResource(connection)
     this._repositories[ 'checkjavascripterrors' ] = new CheckJavaScriptErrors(connection)
     this._repositories[ 'checkfilesize' ] = new CheckFileSize(connection)
