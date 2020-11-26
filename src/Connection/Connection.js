@@ -81,11 +81,10 @@ class Connection {
       this._refreshExpireTimestamp = wakeUpToken[ 'expireDate' ]
       this._accessExpireTimestamp = 0
 
-      await this.refreshAccessToken(false, args.withMemories, args.withFeatures)
+      await this.refreshAccessToken(false, args.withMemories)
 
     } else {
       let withMemories = false
-      let withFeatures = false
 
       if (!this._connectionArgs.hasOwnProperty('username')) {
         throw new Error('Mandatory username is missing')
@@ -99,11 +98,7 @@ class Connection {
         withMemories = this._connectionArgs[ 'withMemories' ]
       }
 
-      if (this._connectionArgs.hasOwnProperty('withFeatures')) {
-        withFeatures = this._connectionArgs[ 'withFeatures' ]
-      }
-
-      await this._authenticate(args.username, args.password, withMemories, withFeatures)
+      await this._authenticate(args.username, args.password, withMemories)
     }
   }
 
@@ -254,12 +249,11 @@ class Connection {
    *
    * @private
    */
-  async _authenticate(username, password, withMemories, withFeatures = false) {
+  async _authenticate(username, password, withMemories) {
     const tokens = await this.send(this._routes[ 'authenticateByPassword' ], {
       username,
       password,
-      with_memories: withMemories,
-      with_features: withFeatures
+      with_memories: withMemories
     }, true)
 
     this._accessToken = tokens[ 'token' ]
@@ -296,9 +290,8 @@ class Connection {
    *
    * @param {boolean} forceRefresh
    * @param {boolean} withMemories
-   * @param {boolean} withFeatures
    */
-  async refreshAccessToken(forceRefresh = false, withMemories = false, withFeatures = false) {
+  async refreshAccessToken(forceRefresh = false, withMemories = false) {
     if (forceRefresh || Math.floor(Date.now() / 1000) + 10 > this._accessExpireTimestamp) {
 
       const user = this.getUser()
@@ -306,8 +299,7 @@ class Connection {
       const tokens = await this.send(this._routes[ 'refresh' ], {
         user_id: user.id,
         access_token: this._refreshToken,
-        with_memories: withMemories,
-        with_features: withFeatures
+        with_memories: withMemories
       }, true)
 
       this._user = tokens[ 'user' ]
