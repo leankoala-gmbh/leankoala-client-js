@@ -55,6 +55,11 @@ class UserRepository extends Repository {
    *
    * @param user
    * @param {Object} args
+   * @param {String} args.email The email address of the new user. (optional)
+   * @param {String} args.preferred_language The users preferred interface language. (optional)
+   * @param {Number} args.company_id The companies numeric id of the new user. (optional)
+   * @param {String} args.first_name The users first name. (optional)
+   * @param {String} args.last_name The users last name. (optional)
    */
   async updateUser(user, args) {
     const route = { path: 'user/users/{user}', method: 'PUT', version: 1 }
