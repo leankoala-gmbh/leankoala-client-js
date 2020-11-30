@@ -1,16 +1,19 @@
 const Repository = require('../Repository')
 
+
+
 /**
  * This class was created by the LeanApiBundle.
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-08-14
+ * @created 2020-11-30
  */
 class UserRepository extends Repository {
 
   /**
-   * Activate an user account.
+   * Activate an user account. The endpoint will return a valid access and refresh token so the user can
+   * be logged in without re-entering username and password.
    *
    * @param {Object} args
    * @param {String} args.activation_key 
@@ -31,7 +34,9 @@ class UserRepository extends Repository {
    * @param {Object} args
    * @param {String} args.username The new users name.
    * @param {String} args.email The email address of the new user.
+   * @param {String} args.preferred_language The users preferred interface language. (optional)
    * @param {Number} args.company_id The companies numeric id of the new user. (optional)
+   * @param {Boolean} args.create_company Create a new company if none exists. (default: false)
    * @param {String} args.first_name The users first name. (optional)
    * @param {String} args.last_name The users last name. (optional)
    * @param {String} args.password 
@@ -41,6 +46,19 @@ class UserRepository extends Repository {
     const argList = Object.assign({ provider }, args)
     const requiredArguments = ['username', 'email', 'password']
     this._assertValidArguments(requiredArguments, argList)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
+   * This endpoint updates an existing user.
+   *
+   * @param user
+   * @param {Object} args
+   */
+  async updateUser(user, args) {
+    const route = { path: 'user/users/{user}', method: 'PUT', version: 1 }
+    const argList = Object.assign({ user }, args)
 
     return this._connection.send(route, argList)
   }
