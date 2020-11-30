@@ -69,6 +69,22 @@ class UserRepository extends Repository {
   }
 
   /**
+   * Update the users preferred language.
+   *
+   * @param user
+   * @param {Object} args
+   * @param {String} args.language The users preferred interface language.
+   */
+  async setPreferredLanguage(user, args) {
+    const route = { path: 'user/users/preferredLanguage/{user}', method: 'PUT', version: 1 }
+    const argList = Object.assign({ user }, args)
+    const requiredArguments = ['language']
+    this._assertValidArguments(requiredArguments, argList)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
    * This endpoint connects an OAuth provider with the current user.
    *
    * @param user
