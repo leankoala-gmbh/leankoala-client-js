@@ -7,7 +7,7 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-11-16
+ * @created 2020-12-07
  */
 class CheckRepository extends Repository {
 
@@ -61,6 +61,7 @@ class CheckRepository extends Repository {
    * @param project
    * @param toolIdentifier
    * @param {Object} args
+   * @param {String} args.group The collection group. It is used to specify the collections. (default: )
    */
   async showCollections(project, toolIdentifier, args) {
     const route = { path: 'check/collections/{project}/{toolIdentifier}', method: 'POST', version: 1 }
@@ -75,6 +76,7 @@ class CheckRepository extends Repository {
    * @param system
    * @param toolIdentifier
    * @param {Object} args
+   * @param {String} args.group The collection group. It is used to specify the collections. (default: )
    */
   async showActiveCollections(system, toolIdentifier, args) {
     const route = { path: 'check/collections/system/active/{system}/{toolIdentifier}', method: 'POST', version: 1 }
@@ -89,6 +91,7 @@ class CheckRepository extends Repository {
    * @param system
    * @param {Object} args
    * @param {Array} args.collections  (optional)
+   * @param {String} args.group The collection group. It is used to specify the collections. (default: )
    */
   async updateCollections(system, args) {
     const route = { path: 'check/collections/system/{system}', method: 'PUT', version: 1 }
