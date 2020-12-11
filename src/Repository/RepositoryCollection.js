@@ -12,6 +12,7 @@ const Websocket = require('./Entities/WebsocketRepository')
 const Metric = require('./Entities/MetricRepository')
 const Auth = require('./Entities/AuthRepository')
 const User = require('./Entities/UserRepository')
+const Invitation = require('./Entities/InvitationRepository')
 const Company = require('./Entities/CompanyRepository')
 const Component = require('./Entities/ComponentRepository')
 const Project = require('./Entities/ProjectRepository')
@@ -37,7 +38,7 @@ const Incident = require('./Entities/IncidentRepository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-11-26
+ * @created 2020-12-11
  */
 class RepositoryCollection {
 
@@ -58,6 +59,7 @@ class RepositoryCollection {
     this._repositories[ 'metric' ] = new Metric(connection)
     this._repositories[ 'auth' ] = new Auth(connection)
     this._repositories[ 'user' ] = new User(connection)
+    this._repositories[ 'invitation' ] = new Invitation(connection)
     this._repositories[ 'company' ] = new Company(connection)
     this._repositories[ 'component' ] = new Component(connection)
     this._repositories[ 'project' ] = new Project(connection)
