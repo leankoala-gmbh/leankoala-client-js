@@ -18,7 +18,7 @@ class InvitationRepository extends Repository {
    * @param {Object} args
    * @param {String} args.email The invitations e-mail address
    * @param {String} args.company_name The users company name. (optional)
-   * @param {String} args.user_role The projects role of the newly added user.
+   * @param {Number} args.user_role The projects role of the newly added user.
    * @param {Number} args.inviter The inviters user id.
    */
   async invite(project, args) {
@@ -26,6 +26,19 @@ class InvitationRepository extends Repository {
     const argList = Object.assign({ project }, args)
     const requiredArguments = ['email', 'user_role', 'inviter']
     this._assertValidArguments(requiredArguments, argList)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
+   * This endpoint aborts a given invitation.
+   *
+   * @param invitation
+   * @param {Object} args
+   */
+  async abort(invitation, args) {
+    const route = { path: 'user/invitation/abort/{invitation}', method: 'DELETE', version: 1 }
+    const argList = Object.assign({ invitation }, args)
 
     return this._connection.send(route, argList)
   }

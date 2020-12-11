@@ -75,6 +75,20 @@ class ProjectRepository extends Repository {
   }
 
   /**
+   * Remove a given user from the project.
+   *
+   * @param project
+   * @param user
+   * @param {Object} args
+   */
+  async removeUser(project, user, args) {
+    const route = { path: 'project/users/{project}/{user}', method: 'DELETE', version: 1 }
+    const argList = Object.assign({ project, user }, args)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
    * This endpoint will return a detailed onboarding status.
    *
    * @param project
