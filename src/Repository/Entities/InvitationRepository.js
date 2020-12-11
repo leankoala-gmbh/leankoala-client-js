@@ -17,7 +17,7 @@ class InvitationRepository extends Repository {
    * @param project
    * @param {Object} args
    * @param {String} args.email The invitations e-mail address
-   * @param {String} args.company_name The users company name. (optional)
+   * @param {String} args.user_name The users company name. (default: )
    * @param {Number} args.user_role The projects role of the newly added user.
    * @param {Number} args.inviter The inviters user id.
    */
