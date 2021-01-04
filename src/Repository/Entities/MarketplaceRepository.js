@@ -41,11 +41,26 @@ class MarketplaceRepository extends Repository {
    * Return all component suggestions that are enabled by the active features.
    *
    * @param project
+   * @param featureIdentifier
    * @param {Object} args
    */
-  async getAdditionalComponentSuggestions(project, args) {
-    const route = { path: 'marketplace/features/suggestions/{project}', method: 'GET', version: 1 }
-    const argList = Object.assign({ project }, args)
+  async getAdditionalComponentSuggestions(project, featureIdentifier, args) {
+    const route = { path: 'marketplace/features/suggestions/{project}/{featureIdentifier}', method: 'GET', version: 1 }
+    const argList = Object.assign({ project, featureIdentifier }, args)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
+   * Return all the status of the health checks of the systems components.
+   *
+   * @param system
+   * @param featureIdentifier
+   * @param {Object} args
+   */
+  async getHealthStatus(system, featureIdentifier, args) {
+    const route = { path: 'marketplace/features/status/{system}/{featureIdentifier}', method: 'GET', version: 1 }
+    const argList = Object.assign({ system, featureIdentifier }, args)
 
     return this._connection.send(route, argList)
   }
