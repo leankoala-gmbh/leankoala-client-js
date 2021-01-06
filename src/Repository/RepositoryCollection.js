@@ -31,6 +31,7 @@ const CheckCertificate = require('./Entities/CheckCertificateRepository')
 const CheckInsecureContent = require('./Entities/CheckInsecureContentRepository')
 const CheckCookie = require('./Entities/CheckCookieRepository')
 const CheckDeadLinks = require('./Entities/CheckDeadLinksRepository')
+const CheckHealthCheck = require('./Entities/CheckHealthCheckRepository')
 const Incident = require('./Entities/IncidentRepository')
 
 /**
@@ -38,7 +39,7 @@ const Incident = require('./Entities/IncidentRepository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-12-11
+ * @created 2021-01-06
  */
 class RepositoryCollection {
 
@@ -78,6 +79,7 @@ class RepositoryCollection {
     this._repositories[ 'checkinsecurecontent' ] = new CheckInsecureContent(connection)
     this._repositories[ 'checkcookie' ] = new CheckCookie(connection)
     this._repositories[ 'checkdeadlinks' ] = new CheckDeadLinks(connection)
+    this._repositories[ 'checkhealthcheck' ] = new CheckHealthCheck(connection)
     this._repositories[ 'incident' ] = new Incident(connection)
     
   }
