@@ -7,7 +7,7 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2021-01-12
+ * @created 2021-01-13
  */
 class MarketplaceRepository extends Repository {
 
@@ -74,6 +74,8 @@ class MarketplaceRepository extends Repository {
    * @param system
    * @param featureIdentifier
    * @param {Object} args
+   * @param {String} args.from  (default: -1day)
+   * @param {String} args.time  (default: 1h)
    */
   async getHealthStatus(system, featureIdentifier, args) {
     const route = { path: 'marketplace/features/status/{system}/{featureIdentifier}', method: 'GET', version: 1 }
