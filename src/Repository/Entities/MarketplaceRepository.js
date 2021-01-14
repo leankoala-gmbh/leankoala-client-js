@@ -116,6 +116,23 @@ class MarketplaceRepository extends Repository {
   }
 
   /**
+   * Deactivate the given feature for the given projects.
+   *
+   * @param company
+   * @param featureIdentifier
+   * @param {Object} args
+   * @param {Array} args.projects 
+   */
+  async deactivateFeatures(company, featureIdentifier, args) {
+    const route = { path: 'marketplace/marketplace/feature/deactivate/{company}/{featureIdentifier}', method: 'POST', version: 1 }
+    const argList = Object.assign({ company, featureIdentifier }, args)
+    const requiredArguments = ['projects']
+    this._assertValidArguments(requiredArguments, argList)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
    * Return all features that are activated for the given project.    
    *
    * @param project
