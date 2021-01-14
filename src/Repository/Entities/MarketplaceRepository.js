@@ -106,7 +106,7 @@ class MarketplaceRepository extends Repository {
    * @param {Object} args
    * @param {Array} args.projects 
    */
-  async activateFeatures(company, featureIdentifier, args) {
+  async activateFeature(company, featureIdentifier, args) {
     const route = { path: 'marketplace/marketplace/feature/activate/{company}/{featureIdentifier}', method: 'POST', version: 1 }
     const argList = Object.assign({ company, featureIdentifier }, args)
     const requiredArguments = ['projects']
@@ -123,7 +123,7 @@ class MarketplaceRepository extends Repository {
    * @param {Object} args
    * @param {Array} args.projects 
    */
-  async deactivateFeatures(company, featureIdentifier, args) {
+  async deactivateFeature(company, featureIdentifier, args) {
     const route = { path: 'marketplace/marketplace/feature/deactivate/{company}/{featureIdentifier}', method: 'POST', version: 1 }
     const argList = Object.assign({ company, featureIdentifier }, args)
     const requiredArguments = ['projects']
