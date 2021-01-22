@@ -7,7 +7,7 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2021-01-18
+ * @created 2021-01-22
  */
 class MarketplaceRepository extends Repository {
 
@@ -153,7 +153,7 @@ class MarketplaceRepository extends Repository {
    * @param {Number} args.status  (default: 400)
    */
   async getAvailableFeatures(project, args) {
-    const route = { path: 'marketplace/marketplace/feature/available/{project}', method: 'GET', version: 1 }
+    const route = { path: 'marketplace/marketplace/feature/available/{project}', method: 'POST', version: 1 }
     const argList = Object.assign({ project }, args)
 
     return this._connection.send(route, argList)
@@ -164,7 +164,7 @@ class MarketplaceRepository extends Repository {
    * @param {Object} args
    */
   async getAllFeatures(args) {
-    const route = { path: 'marketplace/marketplace/feature/all', method: 'GET', version: 1 }
+    const route = { path: 'marketplace/marketplace/feature/all', method: 'POST', version: 1 }
     const argList = Object.assign({  }, args)
 
     return this._connection.send(route, argList)
