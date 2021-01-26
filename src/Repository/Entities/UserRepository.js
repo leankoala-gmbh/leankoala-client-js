@@ -7,7 +7,7 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-11-30
+ * @created 2021-01-26
  */
 class UserRepository extends Repository {
 
@@ -143,6 +143,37 @@ class UserRepository extends Repository {
     const route = { path: 'user/users/{user}/password', method: 'PUT', version: 1 }
     const argList = Object.assign({ user }, args)
     const requiredArguments = ['password_old', 'password_new']
+    this._assertValidArguments(requiredArguments, argList)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
+   * Request password change e-mail.
+   *
+   * @param {Object} args
+   * @param {String} args.email The users email address
+   */
+  async requestPasswordReset(args) {
+    const route = { path: 'user/users/password/reset/request', method: 'POST', version: 1 }
+    const argList = Object.assign({  }, args)
+    const requiredArguments = ['email']
+    this._assertValidArguments(requiredArguments, argList)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
+   * Reset the password.
+   *
+   * @param user
+   * @param {Object} args
+   * @param {String} args.password The new password
+   */
+  async resetPassword(user, args) {
+    const route = { path: 'user/users/password/reset/{user}', method: 'PUT', version: 1 }
+    const argList = Object.assign({ user }, args)
+    const requiredArguments = ['password']
     this._assertValidArguments(requiredArguments, argList)
 
     return this._connection.send(route, argList)
