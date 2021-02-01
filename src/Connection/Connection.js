@@ -70,7 +70,7 @@ class Connection {
       this._refreshToken = args[ 'refreshToken' ]
       this._accessExpireTimestamp = 0
 
-      await this.refreshAccessToken(true)
+      await this.refreshAccessToken(true, args.withMemories)
     } else if (args.hasOwnProperty('accessToken')) {
       this._accessToken = args[ 'accessToken' ]
       this._accessExpireTimestamp = (Date.now() / 1000) + 60
