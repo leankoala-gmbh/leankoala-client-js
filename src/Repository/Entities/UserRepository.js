@@ -7,7 +7,7 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2021-01-26
+ * @created 2021-02-24
  */
 class UserRepository extends Repository {
 
@@ -79,6 +79,34 @@ class UserRepository extends Repository {
     const route = { path: 'user/users/preferredLanguage/{user}', method: 'PUT', version: 1 }
     const argList = Object.assign({ user }, args)
     const requiredArguments = ['language']
+    this._assertValidArguments(requiredArguments, argList)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
+   * Delete the given user and all owned projects.
+   *
+   * @param user
+   * @param {Object} args
+   */
+  async delete(user, args) {
+    const route = { path: 'user/users/{user}', method: 'DELETE', version: 1 }
+    const argList = Object.assign({ user }, args)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
+   *  the given user (by email) and all owned projects.
+   *
+   * @param {Object} args
+   * @param {String} args.email The users email address
+   */
+  async deleteByEmail(args) {
+    const route = { path: 'user/users/delete/email', method: 'DELETE', version: 1 }
+    const argList = Object.assign({  }, args)
+    const requiredArguments = ['email']
     this._assertValidArguments(requiredArguments, argList)
 
     return this._connection.send(route, argList)
