@@ -32,6 +32,7 @@ class LeankoalaClient {
    * @param {String} [args.wakeUpToken] the wakeup token can be used to log in instead of username and pasword
    * @param {Boolean} [args.withMemories] return the users memory on connect
    * @param {String} [args.language] the preferred language (default: en; implemented: de, en)
+   * @param {Object} [args.axiosAdapter] the preferred language (default: en; implemented: de, en)
    * @param {function} [args.axios] a predefined axios instance
    */
   async connect(args) {
