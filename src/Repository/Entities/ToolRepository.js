@@ -25,6 +25,20 @@ class ToolRepository extends Repository {
   }
 
   /**
+   * Get the tool configuration.
+   *
+   * @param project
+   * @param toolIdentifier
+   * @param {Object} args
+   */
+  async getConfiguration(project, toolIdentifier, args) {
+    const route = { path: 'check/tools/{project}/{toolIdentifier}', method: 'GET', version: 1 }
+    const argList = Object.assign({ project, toolIdentifier }, args)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
    * Overwrite tool configuration.
    *
    * @param project
