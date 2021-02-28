@@ -1,21 +1,25 @@
 const Repository = require('../Repository')
 
+
+
 /**
  * This class was created by the LeanApiBundle.
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-10-30
+ * @created 2021-02-28
  */
 class ComponentRepository extends Repository {
 
   /**
    * Show all existing component types.
+   *
+   * @param company
    * @param {Object} args
    */
-  async showComponentTypes(args) {
-    const route = { path: 'project/components/systemtypes', method: 'GET', version: 1 }
-    const argList = Object.assign({  }, args)
+  async showComponentTypes(company, args) {
+    const route = { path: 'project/components/systemtypes/{company}', method: 'GET', version: 1 }
+    const argList = Object.assign({ company }, args)
 
     return this._connection.send(route, argList)
   }
