@@ -7,7 +7,7 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2021-02-24
+ * @created 2021-03-03
  */
 class UserRepository extends Repository {
 
@@ -92,6 +92,19 @@ class UserRepository extends Repository {
    */
   async delete(user, args) {
     const route = { path: 'user/users/{user}', method: 'DELETE', version: 1 }
+    const argList = Object.assign({ user }, args)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
+   * Checks if the user can be deleted.
+   *
+   * @param user
+   * @param {Object} args
+   */
+  async isDeletable(user, args) {
+    const route = { path: 'user/users/deletable/{user}', method: 'POST', version: 1 }
     const argList = Object.assign({ user }, args)
 
     return this._connection.send(route, argList)
