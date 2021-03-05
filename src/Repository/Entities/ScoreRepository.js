@@ -1,11 +1,13 @@
 const Repository = require('../Repository')
 
+
+
 /**
  * This class was created by the LeanApiBundle.
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-08-14
+ * @created 2021-03-05
  */
 class ScoreRepository extends Repository {
 
@@ -17,6 +19,7 @@ class ScoreRepository extends Repository {
    * @param {Array} args.scores List of score names
    * @param {Boolean} args.with_sub_scores NOT IMPLEMENTED YET: If true detailed information about the
    *                                       score will be provided. (default: false)
+   * @param {Boolean} args.filter_empty_projects If true the only projects with systems are returned (default: false)
    */
   async getScoresByUser(user, args) {
     const route = { path: 'score/scores/user/{user}', method: 'POST', version: 1 }
