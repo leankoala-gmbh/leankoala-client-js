@@ -7,7 +7,7 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-12-11
+ * @created 2021-03-05
  */
 class ProjectRepository extends Repository {
 
@@ -22,6 +22,8 @@ class ProjectRepository extends Repository {
    *                                              response. (default: false)
    * @param {Boolean} args.with_features If true the projects marketplace features are added to the
    *                                     response. (default: false)
+   * @param {Boolean} args.owned_by_user If true the only projects owned by this user are returned. (default: false)
+   * @param {Boolean} args.filter_empty_projects If true the only projects with systems are returned (default: false)
    */
   async search(args) {
     const route = { path: 'project/projects/search', method: 'POST', version: 1 }
