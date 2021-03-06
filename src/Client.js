@@ -160,6 +160,32 @@ class LeankoalaClient {
   getUser() {
     return this._connection.getUser()
   }
+
+  /**
+   * Return all resolved promises.
+   *
+   * @param promises
+   * @returns Object
+   */
+  async fetchAll(promises) {
+    const promiseArray = []
+    const results = {}
+    let count = 0;
+
+    Object.keys(promises).forEach((element) =>
+        promiseArray.push(promises[element])
+    )
+
+    const promiseResults = await Promise.allSettled(promiseArray);
+
+    Object.keys(promises).forEach((element) => {
+          results[element] = promiseResults[count].value
+          count++
+        }
+    )
+
+    return results
+  }
 }
 
 module.exports = LeankoalaClient
