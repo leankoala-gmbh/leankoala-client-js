@@ -1,5 +1,6 @@
 const LeankoalaClient = require('../../src/Client')
 const axios = require('axios')
+const { consoleLogger } = require('../../src/EventHandler/consoleLogger')
 
 test('Check if the events are published', async () => {
 
@@ -7,10 +8,7 @@ test('Check if the events are published', async () => {
 
   await client.connect({ username: 'demo', password: 'demo', axios })
 
-  client.on('send', function (payload) {
-    console.log('a request was send')
-    console.log(payload)
-  })
+  client.on('send', consoleLogger)
 
   const user = client.getUser()
 
