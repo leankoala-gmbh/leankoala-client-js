@@ -20,6 +20,7 @@ class LeankoalaClient {
         this._connection = false
         this._environment = environment
         this._connectionStatus = 'disconnected'
+        this._registeredEventListeners = {};
     }
 
     /**
@@ -38,6 +39,7 @@ class LeankoalaClient {
         this._connectionStatus = 'connecting'
         try {
             await this._initConnection(args)
+
             this._repositoryCollection = new RepositoryCollection(this._connection)
         } catch (error) {
             this._connectionStatus = 'disconnected'
@@ -109,6 +111,18 @@ class LeankoalaClient {
         this._connection = new Connection(apiServer, axios)
         await this._connection.connect(args)
 
+        this._registerConnectionListeners()
+    }
+
+    _registerConnectionListeners() {
+        const connection = this._connection
+        const listeners = this._registeredEventListeners
+
+        Object.keys(listeners).forEach((key) => {
+            listeners[key].forEach((element) => {
+                connection.on(key, element)
+            })
+        })
     }
 
     /**
@@ -167,10 +181,13 @@ class LeankoalaClient {
      * @param {CallableFunction} callback
      */
     on(eventName, callback) {
+        if (!this._registeredEventListeners.hasOwnProperty(eventName)) {
+            this._registeredEventListeners[eventName] = []
+        }
+        this._registeredEventListeners[eventName].push(callback)
+
         if (this._connection) {
             this._connection.on(eventName, callback)
-        } else {
-            throw new Error('It is mandatory to run the connect method before registering a callback.')
         }
     }
 

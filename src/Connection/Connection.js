@@ -74,7 +74,6 @@ class Connection {
             this._axiosAdapter = args['axiosAdapter']
         }
 
-
         if (args.hasOwnProperty('refreshToken')) {
             if (!args.hasOwnProperty('userId')) {
                 throw new Error('When connecting via refresh token the userId is also mandatory.')
@@ -221,7 +220,7 @@ class Connection {
             if (e.response) {
                 response = e.response
             } else {
-                this._publish('error', {e})
+                this._publish('error', e)
                 throw e
             }
         }
