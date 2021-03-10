@@ -7,7 +7,7 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2021-03-03
+ * @created 2021-03-10
  */
 class UserRepository extends Repository {
 
@@ -32,11 +32,12 @@ class UserRepository extends Repository {
    *
    * @param provider
    * @param {Object} args
-   * @param {String} args.username The new users name.
+   * @param {String} args.username The new users name. (optional)
    * @param {String} args.email The email address of the new user.
    * @param {String} args.preferred_language The users preferred interface language. (optional)
    * @param {Number} args.company_id The companies numeric id of the new user. (optional)
    * @param {Boolean} args.create_company Create a new company if none exists. (default: false)
+   * @param {String} args.full_name The users full name. (optional)
    * @param {String} args.first_name The users first name. (optional)
    * @param {String} args.last_name The users last name. (optional)
    * @param {String} args.password 
@@ -44,7 +45,7 @@ class UserRepository extends Repository {
   async create(provider, args) {
     const route = { path: 'user/users/{provider}', method: 'POST', version: 1 }
     const argList = Object.assign({ provider }, args)
-    const requiredArguments = ['username', 'email', 'password']
+    const requiredArguments = ['email', 'password']
     this._assertValidArguments(requiredArguments, argList)
 
     return this._connection.send(route, argList)
