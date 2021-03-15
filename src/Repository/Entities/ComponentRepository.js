@@ -7,19 +7,19 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2021-02-28
+ * @created 2021-03-15
  */
 class ComponentRepository extends Repository {
 
   /**
    * Show all existing component types.
    *
-   * @param company
+   * @param project
    * @param {Object} args
    */
-  async showComponentTypes(company, args) {
-    const route = { path: 'project/components/systemtypes/{company}', method: 'GET', version: 1 }
-    const argList = Object.assign({ company }, args)
+  async showComponentTypes(project, args) {
+    const route = { path: 'project/components/componenttypes/{project}', method: 'GET', version: 1 }
+    const argList = Object.assign({ project }, args)
 
     return this._connection.send(route, argList)
   }
