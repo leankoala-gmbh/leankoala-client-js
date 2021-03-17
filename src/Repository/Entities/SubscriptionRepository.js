@@ -1,11 +1,13 @@
 const Repository = require('../Repository')
 
+
+
 /**
  * This class was created by the LeanApiBundle.
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-09-07
+ * @created 2021-03-17
  */
 class SubscriptionRepository extends Repository {
 
@@ -85,6 +87,19 @@ class SubscriptionRepository extends Repository {
    */
   async getBillingAddress(company, args) {
     const route = { path: 'subscription/company/{company}/billingaddress', method: 'GET', version: 1 }
+    const argList = Object.assign({ company }, args)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
+   * Get a list of features that are active.
+   *
+   * @param company
+   * @param {Object} args
+   */
+  async getSubscribedFeatures(company, args) {
+    const route = { path: 'subscription/company/{company}/features', method: 'GET', version: 1 }
     const argList = Object.assign({ company }, args)
 
     return this._connection.send(route, argList)

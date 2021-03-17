@@ -7,7 +7,7 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2021-03-10
+ * @created 2021-03-17
  */
 class UserRepository extends Repository {
 
@@ -33,6 +33,7 @@ class UserRepository extends Repository {
    * @param provider
    * @param {Object} args
    * @param {String} args.username The new users name. (optional)
+   * @param {Boolean} args.suppress_activation If true no activation mail will be send.. (default: false)
    * @param {String} args.email The email address of the new user.
    * @param {String} args.preferred_language The users preferred interface language. (optional)
    * @param {Number} args.company_id The companies numeric id of the new user. (optional)
