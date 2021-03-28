@@ -225,6 +225,7 @@ class Connection {
             }
         }
 
+        this._publish('response', response)
         this._assertValidResponse(response, url, method, data)
 
         return response.data.data
