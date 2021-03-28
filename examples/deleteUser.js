@@ -5,8 +5,8 @@ const cliArgs = process.argv;
 
 const username = cliArgs[2]
 const password = cliArgs[3]
-const email = cliArgs[4]
-const environment = cliArgs[5] || 'stage';
+const email = cliArgs[5]
+const environment = cliArgs[4];
 
 (async () => {
     try {
