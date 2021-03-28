@@ -1,5 +1,8 @@
-export const USER_ROLE_WATCHER = '300'
-export const USER_ROLE_ANONYMOUS = '10000'
-export const USER_ROLE_COLLABORATOR = '200'
-export const USER_ROLE_ADMIN = '100'
-export const USER_ROLE_OWNER = '0'
+export default {
+    USER_ROLE_WATCHER : '300',
+    USER_ROLE_ANONYMOUS : '10000',
+    USER_ROLE_COLLABORATOR : '200',
+    USER_ROLE_ADMIN : '100',
+    USER_ROLE_OWNER : '0',
+    _GENERATED  : true
+}
