@@ -7,7 +7,7 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2021-03-17
+ * @created 2021-04-06
  */
 class SubscriptionRepository extends Repository {
 
@@ -100,6 +100,19 @@ class SubscriptionRepository extends Repository {
    */
   async getSubscribedFeatures(company, args) {
     const route = { path: 'subscription/company/{company}/features', method: 'GET', version: 1 }
+    const argList = Object.assign({ company }, args)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
+   * Get a list invoices.
+   *
+   * @param company
+   * @param {Object} args
+   */
+  async getCompanyInvoices(company, args) {
+    const route = { path: 'subscription/company/{company}/invoices', method: 'GET', version: 1 }
     const argList = Object.assign({ company }, args)
 
     return this._connection.send(route, argList)
