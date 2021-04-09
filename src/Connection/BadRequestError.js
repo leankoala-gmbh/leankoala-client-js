@@ -3,6 +3,10 @@ class BadRequestError extends Error {
     super(errorData.message)
     this.url = errorData.url
     this.data = errorData.data
+
+    if(errorData.identifier) {
+      this.identifier = errorData.identifier
+    }
   }
 }
 
