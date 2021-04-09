@@ -256,9 +256,11 @@ class Connection {
         const responseData = response.data
         if (responseData.status !== 'success') {
             const payload = {message: responseData.message, url, data}
+            if (responseData.identifier) {
+                payload.identifier = responseData.identifier
+            }
             this._publish('failure', payload)
             throw new BadRequestError(payload)
-            // throw new Error(responseData.message + ' (url: ' + url + ', method: ' + method + ', data: ' + JSON.stringify(data) + ')')
         }
     }
 
