@@ -1,11 +1,13 @@
 const Repository = require('../Repository')
 
+
+
 /**
  * This class was created by the LeanApiBundle.
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-10-30
+ * @created 2021-04-13
  */
 class SystemRepository extends Repository {
 
@@ -15,6 +17,8 @@ class SystemRepository extends Repository {
    * @param {Object} args
    * @param {Number} args.project The project the system should be part of. If the project is not set a
    *                               new project will be created with the systems name. (optional)
+   * @param {Boolean} args.add_standard_alerting If true add a standard channel and alerting policy for
+   *                                             the owner. (default: false)
    * @param {String} args.name The shops name.
    * @param {Url} args.base_url The shops base url with scheme, subdomain and domain.
    * @param {Number} args.owner The shops owner (id).
@@ -79,11 +83,12 @@ class SystemRepository extends Repository {
    * Set the last full run timestamp on a system.
    *
    * @param system
+   * @param status
    * @param {Object} args
    */
-  async changeLastFullRun(system, args) {
-    const route = { path: 'project/systems/{system}/lastFullRun', method: 'POST', version: 1 }
-    const argList = Object.assign({ system }, args)
+  async changeLastFullRun(system, status, args) {
+    const route = { path: 'project/systems/{system}/lastFullRun/{status}', method: 'POST', version: 1 }
+    const argList = Object.assign({ system, status }, args)
 
     return this._connection.send(route, argList)
   }
@@ -110,6 +115,19 @@ class SystemRepository extends Repository {
   async getSystemTypes(providerIdentifier, args) {
     const route = { path: 'project/systems/{providerIdentifier}/systemType', method: 'GET', version: 1 }
     const argList = Object.assign({ providerIdentifier }, args)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
+   * Return the maximum number of components that can be added to the given system.
+   *
+   * @param system
+   * @param {Object} args
+   */
+  async getComponentLimit(system, args) {
+    const route = { path: 'project/systems/{system}/component/limit', method: 'GET', version: 1 }
+    const argList = Object.assign({ system }, args)
 
     return this._connection.send(route, argList)
   }
