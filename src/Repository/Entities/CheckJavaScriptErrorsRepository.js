@@ -1,15 +1,20 @@
 const Repository = require('../Repository')
 
+
+
 /**
  * This class was created by the LeanApiBundle.
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-08-14
+ * @created 2021-04-13
  */
 class CheckJavaScriptErrorsRepository extends Repository {
 
   /**
+   * request url: /kapi/v1/check/checks/{system}/jserrors
+   * request method: GET
+   *
    * @param system
    * @param {Object} args
    */

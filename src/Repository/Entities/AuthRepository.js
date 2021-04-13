@@ -3,7 +3,14 @@ const Repository = require('../Repository')
 /**
  * The result type for the createTokenByCredentials API request.
  *
+ * @typedef {Object} createTokenByCredentialsResultSubscription
+ * @property {integer} trial_end - The trial time in seconds.
+ *
+ * @typedef {Object} createTokenByCredentialsResultCompany
+ * @property {createTokenByCredentialsResultSubscription} subscription
+ *
  * @typedef {Object} createTokenByCredentialsResultUser
+ * @property {createTokenByCredentialsResultCompany} company
  * @property {string} preferred_language - The preferred users language.
  *
  * @typedef {Object} createTokenByCredentialsResult
@@ -16,14 +23,17 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-11-03
+ * @created 2021-04-13
  */
 class AuthRepository extends Repository {
 
   /**
+   * request url: /kapi/v1/auth/tokens/access
+   * request method: POST
+   *
    * @param {Object} args
-   * @param {String} args.username
-   * @param {String} args.password
+   * @param {String} args.username 
+   * @param {String} args.password 
    * @param {Boolean} args.expire  (default: true)
    * @param {Boolean} args.with_memories If true all Memory entities will be attached in the answer. (default: false)
    *
@@ -34,6 +44,21 @@ class AuthRepository extends Repository {
     const argList = Object.assign({  }, args)
     const requiredArguments = ['username', 'password']
     this._assertValidArguments(requiredArguments, argList)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
+   * request url: /kapi/v1/auth/tokens/refresh/{user}
+   * request method: POST
+   *
+   * @param user
+   * @param {Object} args
+   * @param {Boolean} args.with_memories If true all Memory entities will be attached in the answer. (default: false)
+   */
+  async createTokenByRefreshToken(user, args) {
+    const route = { path: 'auth/tokens/refresh/{user}', method: 'POST', version: 1 }
+    const argList = Object.assign({ user }, args)
 
     return this._connection.send(route, argList)
   }

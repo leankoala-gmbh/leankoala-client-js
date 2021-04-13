@@ -7,12 +7,15 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2021-03-05
+ * @created 2021-04-13
  */
 class ScoreRepository extends Repository {
 
   /**
    * Return a list of scores by the given score names for all projects and systems the user is part of.
+   *
+   * request url: /kapi/v1/score/scores/user/{user}
+   * request method: POST
    *
    * @param user
    * @param {Object} args
@@ -33,6 +36,9 @@ class ScoreRepository extends Repository {
   /**
    * Return the score for a given score name.
    *
+   * request url: /kapi/v1/score/scores/{system}/{scoreName}
+   * request method: POST
+   *
    * @param system
    * @param scoreName
    * @param {Object} args
@@ -46,6 +52,9 @@ class ScoreRepository extends Repository {
 
   /**
    * Return a list of scores by the given score names.
+   *
+   * request url: /kapi/v1/score/scores/{system}
+   * request method: POST
    *
    * @param system
    * @param {Object} args

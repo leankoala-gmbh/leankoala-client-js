@@ -1,16 +1,21 @@
 const Repository = require('../Repository')
 
+
+
 /**
  * This class was created by the LeanApiBundle.
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-08-14
+ * @created 2021-04-13
  */
 class CompanyRepository extends Repository {
 
   /**
    * Create a new company
+   *
+   * request url: /kapi/v1/user/companies/{providerIdentifier}
+   * request method: POST
    *
    * @param providerIdentifier
    * @param {Object} args
@@ -28,6 +33,9 @@ class CompanyRepository extends Repository {
   /**
    * Check if the given company name already exists
    *
+   * request url: /kapi/v1/user/companies/exists
+   * request method: GET
+   *
    * @param {Object} args
    * @param {String} args.company_name The companies name
    */
@@ -42,6 +50,9 @@ class CompanyRepository extends Repository {
 
   /**
    * Search for a given company by provider and name
+   *
+   * request url: /kapi/v1/user/companies/search/{providerIdentifier}
+   * request method: POST
    *
    * @param providerIdentifier
    * @param {Object} args

@@ -7,12 +7,15 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-12-11
+ * @created 2021-04-13
  */
 class InvitationRepository extends Repository {
 
   /**
    * This endpoint invites a new user to the project.
+   *
+   * request url: /kapi/v1/user/invitation/invite/{project}
+   * request method: POST
    *
    * @param project
    * @param {Object} args
@@ -33,6 +36,9 @@ class InvitationRepository extends Repository {
   /**
    * This endpoint aborts a given invitation.
    *
+   * request url: /kapi/v1/user/invitation/abort/{invitation}
+   * request method: DELETE
+   *
    * @param invitation
    * @param {Object} args
    */
@@ -45,6 +51,9 @@ class InvitationRepository extends Repository {
 
   /**
    * This endpoint returns a list of all open invitations for the given project.
+   *
+   * request url: /kapi/v1/user/invitation/open/{project}
+   * request method: GET
    *
    * @param project
    * @param {Object} args

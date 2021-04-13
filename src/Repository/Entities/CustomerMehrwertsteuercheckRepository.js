@@ -1,17 +1,22 @@
 const Repository = require('../Repository')
 
+
+
 /**
  * This class was created by the LeanApiBundle.
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-08-14
+ * @created 2021-04-13
  */
 class CustomerMehrwertsteuercheckRepository extends Repository {
 
   /**
    * Mehrwertsteuer Check only: Start a new crawl for the given start page. Max. 100 urls are crawled
    * with 4 parallel requests.
+   *
+   * request url: /kapi/v1/customers/mehrwertsteuer/crawl
+   * request method: POST
    *
    * @param {Object} args
    * @param {String} args.email_address The email address the crawl result is send to.
@@ -29,6 +34,9 @@ class CustomerMehrwertsteuercheckRepository extends Repository {
   /**
    * Mehrwertsteuer Check only: get the status and check result of the crawl with the given unique
    * identifier
+   *
+   * request url: /kapi/v1/customers/mehrwertsteuer/crawl/{crawlIdentifier}
+   * request method: GET
    *
    * @param crawlIdentifier
    * @param {Object} args

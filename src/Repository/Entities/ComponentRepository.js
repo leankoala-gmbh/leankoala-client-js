@@ -7,12 +7,15 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2021-03-15
+ * @created 2021-04-13
  */
 class ComponentRepository extends Repository {
 
   /**
    * Show all existing component types.
+   *
+   * request url: /kapi/v1/project/components/componenttypes/{project}
+   * request method: GET
    *
    * @param project
    * @param {Object} args
@@ -27,6 +30,9 @@ class ComponentRepository extends Repository {
   /**
    * Get all information about the given component.
    *
+   * request url: /kapi/v1/project/components/{component}
+   * request method: GET
+   *
    * @param component
    * @param {Object} args
    */
@@ -39,6 +45,9 @@ class ComponentRepository extends Repository {
 
   /**
    * Create a new component.
+   *
+   * request url: /kapi/v1/project/components
+   * request method: POST
    *
    * @param {Object} args
    * @param {Number} args.system 
@@ -55,6 +64,9 @@ class ComponentRepository extends Repository {
 
   /**
    * Create a set of new components for a given system.
+   *
+   * request url: /kapi/v1/project/components/many
+   * request method: POST
    *
    * @param {Object} args
    * @param {Number} args.system The system the components are part of,
@@ -76,6 +88,9 @@ class ComponentRepository extends Repository {
   /**
    * Update the given component.
    *
+   * request url: /kapi/v1/project/components/{component}
+   * request method: PUT
+   *
    * @param component
    * @param {Object} args
    */
@@ -88,6 +103,9 @@ class ComponentRepository extends Repository {
 
   /**
    * Mark the given component as deleted.
+   *
+   * request url: /kapi/v1/project/components/{component}
+   * request method: DELETE
    *
    * @param component
    * @param {Object} args

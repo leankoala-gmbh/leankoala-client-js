@@ -7,12 +7,15 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-11-22
+ * @created 2021-04-13
  */
 class CheckA11yRepository extends Repository {
 
   /**
    * Return all current accessibility audit results for the given systems components.
+   *
+   * request url: /kapi/v1/check/checks/{system}/a11y/results
+   * request method: GET
    *
    * @param system
    * @param {Object} args

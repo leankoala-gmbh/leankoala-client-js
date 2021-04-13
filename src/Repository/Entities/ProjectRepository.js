@@ -7,12 +7,15 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2021-03-05
+ * @created 2021-04-13
  */
 class ProjectRepository extends Repository {
 
   /**
    * Return all projects and the user roles for a given user.
+   *
+   * request url: /kapi/v1/project/projects/search
+   * request method: POST
    *
    * @param {Object} args
    * @param {Number} args.user The users id
@@ -37,6 +40,9 @@ class ProjectRepository extends Repository {
   /**
    * Update the given project.
    *
+   * request url: /kapi/v1/project/projects/{project}
+   * request method: PUT
+   *
    * @param project
    * @param {Object} args
    * @param {String} args.name 
@@ -53,6 +59,9 @@ class ProjectRepository extends Repository {
   /**
    * Delete the given project.
    *
+   * request url: /kapi/v1/project/projects/{project}
+   * request method: DELETE
+   *
    * @param project
    * @param {Object} args
    */
@@ -65,6 +74,9 @@ class ProjectRepository extends Repository {
 
   /**
    * Return all users for the given project.
+   *
+   * request url: /kapi/v1/project/users/{project}
+   * request method: GET
    *
    * @param project
    * @param {Object} args
@@ -79,6 +91,9 @@ class ProjectRepository extends Repository {
   /**
    * Remove a given user from the project.
    *
+   * request url: /kapi/v1/project/users/{project}/{user}
+   * request method: DELETE
+   *
    * @param project
    * @param user
    * @param {Object} args
@@ -92,6 +107,9 @@ class ProjectRepository extends Repository {
 
   /**
    * This endpoint will return a detailed onboarding status.
+   *
+   * request url: /kapi/v1/project/{project}/onboarding/status
+   * request method: POST
    *
    * @param project
    * @param {Object} args

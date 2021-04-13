@@ -1,17 +1,22 @@
 const Repository = require('../Repository')
 
+
+
 /**
  * This class was created by the LeanApiBundle.
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-08-14
+ * @created 2021-04-13
  */
 class CustomerHaendlerbundMetricRepository extends Repository {
 
   /**
    * Search for the metrics for all eventIdentifiers in the given projects that are defined by the given
    * tool.
+   *
+   * request url: /kapi/v1/customers/haendlerbund/metrics/{system}
+   * request method: POST
    *
    * @param system
    * @param {Object} args

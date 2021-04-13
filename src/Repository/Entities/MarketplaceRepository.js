@@ -7,12 +7,15 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2021-03-29
+ * @created 2021-04-13
  */
 class MarketplaceRepository extends Repository {
 
   /**
    * Return all features that are active for the given project.
+   *
+   * request url: /kapi/v1/marketplace/features/project/{project}
+   * request method: GET
    *
    * @param project
    * @param {Object} args
@@ -27,6 +30,9 @@ class MarketplaceRepository extends Repository {
   /**
    * Return all features that are active for the given provider.
    *
+   * request url: /kapi/v1/marketplace/features/provider/{providerIdentifier}
+   * request method: GET
+   *
    * @param providerIdentifier
    * @param {Object} args
    */
@@ -39,6 +45,9 @@ class MarketplaceRepository extends Repository {
 
   /**
    * Return all component suggestions that are enabled by the active features.
+   *
+   * request url: /kapi/v1/marketplace/features/components/{system}/{featureIdentifier}
+   * request method: GET
    *
    * @param system
    * @param featureIdentifier
@@ -53,6 +62,9 @@ class MarketplaceRepository extends Repository {
 
   /**
    * Set a component using a given suggestion as template.
+   *
+   * request url: /kapi/v1/marketplace/features/components/{system}/{suggestionIdentifier}
+   * request method: POST
    *
    * @param system
    * @param suggestionIdentifier
@@ -71,6 +83,9 @@ class MarketplaceRepository extends Repository {
   /**
    * Return all the status of the health checks of the systems components.
    *
+   * request url: /kapi/v1/marketplace/features/status/{system}/{featureIdentifier}
+   * request method: GET
+   *
    * @param system
    * @param featureIdentifier
    * @param {Object} args
@@ -87,6 +102,9 @@ class MarketplaceRepository extends Repository {
   /**
    * Return all features that can be activated for the given company and provider.
    *
+   * request url: /kapi/v1/marketplace/marketplace/features/{providerIdentifier}/{company}
+   * request method: GET
+   *
    * @param providerIdentifier
    * @param company
    * @param {Object} args
@@ -100,6 +118,9 @@ class MarketplaceRepository extends Repository {
 
   /**
    * Activate the given feature for the given projects.
+   *
+   * request url: /kapi/v1/marketplace/marketplace/feature/activate/{company}/{featureIdentifier}
+   * request method: POST
    *
    * @param company
    * @param featureIdentifier
@@ -118,6 +139,9 @@ class MarketplaceRepository extends Repository {
   /**
    * Deactivate the given feature for the given projects.
    *
+   * request url: /kapi/v1/marketplace/marketplace/feature/deactivate/{company}/{featureIdentifier}
+   * request method: POST
+   *
    * @param company
    * @param featureIdentifier
    * @param {Object} args
@@ -135,6 +159,9 @@ class MarketplaceRepository extends Repository {
   /**
    * Return all features that are activated for the given project.
    *
+   * request url: /kapi/v1/marketplace/marketplace/feature/active/{project}
+   * request method: GET
+   *
    * @param project
    * @param {Object} args
    */
@@ -147,6 +174,9 @@ class MarketplaceRepository extends Repository {
 
   /**
    * Return all features that are activated for the given project.
+   *
+   * request url: /kapi/v1/marketplace/marketplace/feature/available/{project}
+   * request method: POST
    *
    * @param project
    * @param {Object} args
@@ -161,6 +191,9 @@ class MarketplaceRepository extends Repository {
 
   /**
    * Return all features that exists.
+   * request url: /kapi/v1/marketplace/marketplace/feature/all
+   * request method: POST
+   *
    * @param {Object} args
    */
   async getAllFeatures(args) {
@@ -172,6 +205,9 @@ class MarketplaceRepository extends Repository {
 
   /**
    * Return a list of features that where marked as favourites.
+   * request url: /kapi/v1/marketplace/marketplace/favourites
+   * request method: GET
+   *
    * @param {Object} args
    */
   async getFavourites(args) {
@@ -183,6 +219,9 @@ class MarketplaceRepository extends Repository {
 
   /**
    * Show the booking logs for the company.
+   *
+   * request url: /kapi/v1/marketplace/log/company/{company}
+   * request method: GET
    *
    * @param company
    * @param {Object} args

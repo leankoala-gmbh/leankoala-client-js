@@ -14,6 +14,9 @@ class SystemRepository extends Repository {
   /**
    * Create a new system.
    *
+   * request url: /kapi/v1/project/systems/system
+   * request method: POST
+   *
    * @param {Object} args
    * @param {Number} args.project The project the system should be part of. If the project is not set a
    *                               new project will be created with the systems name. (optional)
@@ -41,6 +44,9 @@ class SystemRepository extends Repository {
   /**
    * Update an existing system.
    *
+   * request url: /kapi/v1/project/systems/system/{system}
+   * request method: PUT
+   *
    * @param system
    * @param {Object} args
    * @param {String} args.name The shops name. (optional)
@@ -56,6 +62,9 @@ class SystemRepository extends Repository {
   /**
    * Return all components for the given system.
    *
+   * request url: /kapi/v1/project/systems/{system}/components
+   * request method: GET
+   *
    * @param system
    * @param {Object} args
    */
@@ -69,6 +78,9 @@ class SystemRepository extends Repository {
   /**
    * Return all suggested component types for the given system.
    *
+   * request url: /kapi/v1/project/systems/{system}/suggestions
+   * request method: POST
+   *
    * @param system
    * @param {Object} args
    */
@@ -81,6 +93,9 @@ class SystemRepository extends Repository {
 
   /**
    * Set the last full run timestamp on a system.
+   *
+   * request url: /kapi/v1/project/systems/{system}/lastFullRun/{status}
+   * request method: POST
    *
    * @param system
    * @param status
@@ -96,6 +111,9 @@ class SystemRepository extends Repository {
   /**
    * Return the approximated time in seconds when the next full check run is triggered.
    *
+   * request url: /kapi/v1/project/systems/{system}/nextFullRun
+   * request method: GET
+   *
    * @param system
    * @param {Object} args
    */
@@ -108,6 +126,9 @@ class SystemRepository extends Repository {
 
   /**
    * Return all system types for the given provider.
+   *
+   * request url: /kapi/v1/project/systems/{providerIdentifier}/systemType
+   * request method: GET
    *
    * @param providerIdentifier
    * @param {Object} args
@@ -122,6 +143,9 @@ class SystemRepository extends Repository {
   /**
    * Return the maximum number of components that can be added to the given system.
    *
+   * request url: /kapi/v1/project/systems/{system}/component/limit
+   * request method: GET
+   *
    * @param system
    * @param {Object} args
    */
@@ -134,6 +158,9 @@ class SystemRepository extends Repository {
 
   /**
    * Trigger the component finder for a given system.
+   *
+   * request url: /kapi/v1/project/{project}/componentfinder/{system}/{user}/trigger
+   * request method: POST
    *
    * @param project
    * @param system

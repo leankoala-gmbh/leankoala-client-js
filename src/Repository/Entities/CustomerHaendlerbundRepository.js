@@ -1,16 +1,21 @@
 const Repository = require('../Repository')
 
+
+
 /**
  * This class was created by the LeanApiBundle.
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-08-14
+ * @created 2021-04-13
  */
 class CustomerHaendlerbundRepository extends Repository {
 
   /**
    * Händlerbund only: the function is used to create a shop.
+   *
+   * request url: /kapi/v1/customers/haendlerbund/shops
+   * request method: POST
    *
    * @param {Object} args
    * @param {String} args.name The shops name.
@@ -30,6 +35,9 @@ class CustomerHaendlerbundRepository extends Repository {
 
   /**
    * Händlerbund only: the function is used to update a shop.
+   *
+   * request url: /kapi/v1/customers/haendlerbund/shops/{system}
+   * request method: PUT
    *
    * @param system
    * @param {Object} args

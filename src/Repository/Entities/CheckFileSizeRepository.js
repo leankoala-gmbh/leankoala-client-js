@@ -7,11 +7,14 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2021-01-27
+ * @created 2021-04-13
  */
 class CheckFileSizeRepository extends Repository {
 
   /**
+   * request url: /kapi/v1/check/checks/{system}/performance/big
+   * request method: GET
+   *
    * @param system
    * @param {Object} args
    */
@@ -24,6 +27,9 @@ class CheckFileSizeRepository extends Repository {
 
   /**
    * Add a new ignore pattern to the configuration.
+   *
+   * request url: /kapi/v1/check/checks/{system}/siteinfo/ignore
+   * request method: POST
    *
    * @param system
    * @param {Object} args

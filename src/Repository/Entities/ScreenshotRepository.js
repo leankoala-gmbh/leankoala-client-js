@@ -1,16 +1,21 @@
 const Repository = require('../Repository')
 
+
+
 /**
  * This class was created by the LeanApiBundle.
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-08-14
+ * @created 2021-04-13
  */
 class ScreenshotRepository extends Repository {
 
   /**
    * Return the screenshots for a single component.
+   *
+   * request url: /kapi/v1/project/screenshot/{system}
+   * request method: POST
    *
    * @param system
    * @param {Object} args
@@ -24,6 +29,9 @@ class ScreenshotRepository extends Repository {
 
   /**
    * Return the screenshots for all components in the given project.
+   *
+   * request url: /kapi/v1/project/screenshots/{system}
+   * request method: POST
    *
    * @param system
    * @param {Object} args

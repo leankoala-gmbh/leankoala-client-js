@@ -7,13 +7,16 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2021-03-17
+ * @created 2021-04-13
  */
 class UserRepository extends Repository {
 
   /**
    * Activate an user account. The endpoint will return a valid access and refresh token so the user can
    * be logged in without re-entering username and password.
+   *
+   * request url: /kapi/v1/user/users/activate
+   * request method: POST
    *
    * @param {Object} args
    * @param {String} args.activation_key 
@@ -29,6 +32,9 @@ class UserRepository extends Repository {
 
   /**
    * This endpoint creates a new user. The given provider (url param) will be attached.
+   *
+   * request url: /kapi/v1/user/users/{provider}
+   * request method: POST
    *
    * @param provider
    * @param {Object} args
@@ -55,6 +61,9 @@ class UserRepository extends Repository {
   /**
    * This endpoint updates an existing user.
    *
+   * request url: /kapi/v1/user/users/{user}
+   * request method: PUT
+   *
    * @param user
    * @param {Object} args
    * @param {String} args.email The email address of the new user. (optional)
@@ -73,6 +82,9 @@ class UserRepository extends Repository {
   /**
    * Update the users preferred language.
    *
+   * request url: /kapi/v1/user/users/preferredLanguage/{user}
+   * request method: PUT
+   *
    * @param user
    * @param {Object} args
    * @param {String} args.language The users preferred interface language.
@@ -89,6 +101,9 @@ class UserRepository extends Repository {
   /**
    * Delete the given user and all owned projects.
    *
+   * request url: /kapi/v1/user/users/{user}
+   * request method: DELETE
+   *
    * @param user
    * @param {Object} args
    */
@@ -102,6 +117,9 @@ class UserRepository extends Repository {
   /**
    * Checks if the user can be deleted.
    *
+   * request url: /kapi/v1/user/users/deletable/{user}
+   * request method: POST
+   *
    * @param user
    * @param {Object} args
    */
@@ -114,6 +132,9 @@ class UserRepository extends Repository {
 
   /**
    *  the given user (by email) and all owned projects.
+   *
+   * request url: /kapi/v1/user/users/delete/email
+   * request method: DELETE
    *
    * @param {Object} args
    * @param {String} args.email The users email address
@@ -129,6 +150,9 @@ class UserRepository extends Repository {
 
   /**
    * This endpoint connects an OAuth provider with the current user.
+   *
+   * request url: /kapi/v1/user/oauth/{user}/connect
+   * request method: PUT
    *
    * @param user
    * @param {Object} args
@@ -147,6 +171,9 @@ class UserRepository extends Repository {
   /**
    * This endpoint returns true if a user exists that matches the given search criteria.
    *
+   * request url: /kapi/v1/user/users/exists
+   * request method: GET
+   *
    * @param {Object} args
    * @param {Array} args.query The key value pairs for the search.
    */
@@ -162,6 +189,9 @@ class UserRepository extends Repository {
   /**
    * This endpoint returns a user that matches the given search criteria.
    *
+   * request url: /kapi/v1/user/users/find
+   * request method: GET
+   *
    * @param {Object} args
    * @param {Array} args.query The key value pairs for the search.
    */
@@ -176,6 +206,9 @@ class UserRepository extends Repository {
 
   /**
    * Change the users password.
+   *
+   * request url: /kapi/v1/user/users/{user}/password
+   * request method: PUT
    *
    * @param user
    * @param {Object} args
@@ -194,6 +227,9 @@ class UserRepository extends Repository {
   /**
    * Request password change e-mail.
    *
+   * request url: /kapi/v1/user/users/password/reset/request
+   * request method: POST
+   *
    * @param {Object} args
    * @param {String} args.email The users email address
    */
@@ -208,6 +244,9 @@ class UserRepository extends Repository {
 
   /**
    * Reset the password.
+   *
+   * request url: /kapi/v1/user/users/password/reset/{user}
+   * request method: PUT
    *
    * @param user
    * @param {Object} args
@@ -224,6 +263,9 @@ class UserRepository extends Repository {
 
   /**
    * Update the subscription for a given user.
+   *
+   * request url: /kapi/v1/user/subscriptions/{user}
+   * request method: PUT
    *
    * @param user
    * @param {Object} args

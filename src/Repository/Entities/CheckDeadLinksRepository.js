@@ -1,16 +1,21 @@
 const Repository = require('../Repository')
 
+
+
 /**
  * This class was created by the LeanApiBundle.
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-08-17
+ * @created 2021-04-13
  */
 class CheckDeadLinksRepository extends Repository {
 
   /**
    * Return a list of dead links for every component attached to the given system.
+   *
+   * request url: /kapi/v1/check/checks/{system}/deadlinks
+   * request method: GET
    *
    * @param system
    * @param {Object} args
@@ -23,7 +28,26 @@ class CheckDeadLinksRepository extends Repository {
   }
 
   /**
+   * Return a list of dead links for every component in every project owned by the company.
+   *
+   * request url: /kapi/v1/check/checks/company/{company}/deadlinks
+   * request method: GET
+   *
+   * @param company
+   * @param {Object} args
+   */
+  async getResultsByCompany(company, args) {
+    const route = { path: 'check/checks/company/{company}/deadlinks', method: 'GET', version: 1 }
+    const argList = Object.assign({ company }, args)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
    * Return the dead link check configuration for the given system.
+   *
+   * request url: /kapi/v1/check/checks/{system}/deadlinks/config
+   * request method: GET
    *
    * @param system
    * @param {Object} args
@@ -37,6 +61,9 @@ class CheckDeadLinksRepository extends Repository {
 
   /**
    * Add a new ignore pattern to the configuration.
+   *
+   * request url: /kapi/v1/check/checks/{system}/deadlinks/ignore
+   * request method: POST
    *
    * @param system
    * @param {Object} args
@@ -53,6 +80,9 @@ class CheckDeadLinksRepository extends Repository {
 
   /**
    * Remove an ignore pattern from the configuration.
+   *
+   * request url: /kapi/v1/check/checks/{system}/deadlinks/unignore
+   * request method: POST
    *
    * @param system
    * @param {Object} args

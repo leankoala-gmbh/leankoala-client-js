@@ -7,12 +7,15 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-11-14
+ * @created 2021-04-13
  */
 class CrawlerRepository extends Repository {
 
   /**
    * Run a crawl for a given checklist
+   *
+   * request url: /kapi/v1/crawler/crawl/{project}
+   * request method: POST
    *
    * @param project
    * @param {Object} args
@@ -38,6 +41,9 @@ class CrawlerRepository extends Repository {
   /**
    * Return all crawl by the given parameters
    *
+   * request url: /kapi/v1/crawler/crawl/{project}/crawls
+   * request method: POST
+   *
    * @param project
    * @param {Object} args
    * @param {String} args.checklist_name The check lists name (optional)
@@ -55,6 +61,9 @@ class CrawlerRepository extends Repository {
   /**
    * Abort a running crawl. The effect can take up to 5 minutes.
    *
+   * request url: /kapi/v1/crawler/crawl/{project}/{crawl}
+   * request method: PUT
+   *
    * @param project
    * @param crawl
    * @param {Object} args
@@ -69,6 +78,9 @@ class CrawlerRepository extends Repository {
   /**
    * Return the detailed information for a given crawl with all results.
    *
+   * request url: /kapi/v1/crawler/crawl/{crawl}
+   * request method: GET
+   *
    * @param crawl
    * @param {Object} args
    */
@@ -81,6 +93,9 @@ class CrawlerRepository extends Repository {
 
   /**
    * Return the crawler status for a given project.
+   *
+   * request url: /kapi/v1/crawler/status/{project}
+   * request method: GET
    *
    * @param project
    * @param {Object} args

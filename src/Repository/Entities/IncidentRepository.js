@@ -1,16 +1,21 @@
 const Repository = require('../Repository')
 
+
+
 /**
  * This class was created by the LeanApiBundle.
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-08-14
+ * @created 2021-04-13
  */
 class IncidentRepository extends Repository {
 
   /**
    * Find all open incidents for the given project. Optionally it can be filtered by system.
+   *
+   * request url: /kapi/v1/incident/incidents/{project}/search
+   * request method: POST
    *
    * @param project
    * @param {Object} args
@@ -25,6 +30,9 @@ class IncidentRepository extends Repository {
 
   /**
    * Find all incidents that where open in the last days.
+   *
+   * request url: /kapi/v1/incident/incidents/{project}/since
+   * request method: POST
    *
    * @param project
    * @param {Object} args
@@ -42,6 +50,9 @@ class IncidentRepository extends Repository {
   /**
    * Find a single incident by id
    *
+   * request url: /kapi/v1/incident/incidents/{project}/{incident}
+   * request method: GET
+   *
    * @param project
    * @param incident
    * @param {Object} args
@@ -56,6 +67,9 @@ class IncidentRepository extends Repository {
   /**
    * This endpoint returns the the configuration (errors_in_a_row, success_in_a_row) of all tools in the
    * given project. It also handles tool inheritance.
+   *
+   * request url: /kapi/v1/incident/tools/{project}
+   * request method: GET
    *
    * @param project
    * @param {Object} args

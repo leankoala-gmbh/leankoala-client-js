@@ -1,16 +1,21 @@
 const Repository = require('../Repository')
 
+
+
 /**
  * This class was created by the LeanApiBundle.
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-08-14
+ * @created 2021-04-13
  */
 class AlertingChannelRepository extends Repository {
 
   /**
-   * List all channels for the given project
+   * List all channels for the given project.
+   *
+   * request url: /kapi/v1/alerting/channels/{project}
+   * request method: GET
    *
    * @param project
    * @param {Object} args
@@ -23,11 +28,18 @@ class AlertingChannelRepository extends Repository {
   }
 
   /**
+   * Create a new notification channel. At the moment only e-mail is provided.
+   *
+   * request url: /kapi/v1/alerting/channels/{project}
+   * request method: POST
+   *
    * @param project
    * @param {Object} args
-   * @param {String} args.name 
+   * @param {String} args.name The name of the alert channel
    * @param {*} args.type 
    * @param {Array} args.options 
+   * @param {String} args.language The language the alert should be send in. If not value is set the
+   *                               default provider language is taken. (optional)
    */
   async create(project, args) {
     const route = { path: 'alerting/channels/{project}', method: 'POST', version: 1 }
@@ -39,7 +51,10 @@ class AlertingChannelRepository extends Repository {
   }
 
   /**
-   * Delete the given channel
+   * Delete the given channel.
+   *
+   * request url: /kapi/v1/alerting/channels/{project}/{channel}
+   * request method: DELETE
    *
    * @param project
    * @param channel
@@ -53,16 +68,24 @@ class AlertingChannelRepository extends Repository {
   }
 
   /**
+   * Update an existing notification channel.
+   *
+   * request url: /kapi/v1/alerting/channels/{project}/{channel}
+   * request method: PUT
+   *
    * @param project
    * @param channel
    * @param {Object} args
    * @param {String} args.name  (optional)
-   * @param {*} args.type  (optional)
+   * @param {*} args.type 
    * @param {Array} args.options  (optional)
+   * @param {String} args.language The language the alert should be send in (optional)
    */
   async update(project, channel, args) {
     const route = { path: 'alerting/channels/{project}/{channel}', method: 'PUT', version: 1 }
     const argList = Object.assign({ project, channel }, args)
+    const requiredArguments = ['type']
+    this._assertValidArguments(requiredArguments, argList)
 
     return this._connection.send(route, argList)
   }

@@ -1,16 +1,21 @@
 const Repository = require('../Repository')
 
+
+
 /**
  * This class was created by the LeanApiBundle.
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-08-14
+ * @created 2021-04-13
  */
 class AlertingPolicyRepository extends Repository {
 
   /**
    * List all policies for the given project
+   *
+   * request url: /kapi/v1/alerting/policies/{project}
+   * request method: GET
    *
    * @param project
    * @param {Object} args
@@ -23,6 +28,9 @@ class AlertingPolicyRepository extends Repository {
   }
 
   /**
+   * request url: /kapi/v1/alerting/policies/{project}
+   * request method: POST
+   *
    * @param project
    * @param {Object} args
    * @param {String} args.name 
@@ -42,6 +50,9 @@ class AlertingPolicyRepository extends Repository {
   /**
    * Delete the given policy
    *
+   * request url: /kapi/v1/alerting/policies/{project}/{policy}
+   * request method: DELETE
+   *
    * @param project
    * @param policy
    * @param {Object} args
@@ -54,6 +65,9 @@ class AlertingPolicyRepository extends Repository {
   }
 
   /**
+   * request url: /kapi/v1/alerting/policies/{project}/{policy}
+   * request method: PUT
+   *
    * @param project
    * @param policy
    * @param {Object} args

@@ -7,12 +7,15 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2021-02-25
+ * @created 2021-04-13
  */
 class ToolRepository extends Repository {
 
   /**
    * Return all tools for the given project.
+   *
+   * request url: /kapi/v1/check/tools/{project}
+   * request method: POST
    *
    * @param project
    * @param {Object} args
@@ -27,6 +30,9 @@ class ToolRepository extends Repository {
   /**
    * Get the tool configuration.
    *
+   * request url: /kapi/v1/check/tools/{project}/{toolIdentifier}
+   * request method: GET
+   *
    * @param project
    * @param toolIdentifier
    * @param {Object} args
@@ -40,6 +46,9 @@ class ToolRepository extends Repository {
 
   /**
    * Overwrite tool configuration.
+   *
+   * request url: /kapi/v1/check/tools/{project}/{toolIdentifier}
+   * request method: PUT
    *
    * @param project
    * @param toolIdentifier

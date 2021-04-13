@@ -7,11 +7,14 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2020-12-07
+ * @created 2021-04-13
  */
 class CheckRepository extends Repository {
 
   /**
+   * request url: /kapi/v1/check/checks/{system}/checklist
+   * request method: POST
+   *
    * @param system
    * @param {Object} args
    * @param {*} args.checklist 
@@ -28,6 +31,9 @@ class CheckRepository extends Repository {
   }
 
   /**
+   * request url: /kapi/v1/check/checks/cookbook
+   * request method: POST
+   *
    * @param {Object} args
    * @param {Number} args.component 
    * @param {Number} args.cookbook 
@@ -44,6 +50,9 @@ class CheckRepository extends Repository {
   /**
    * Run checks defined by tool identifier for all components within this system.
    *
+   * request url: /kapi/v1/check/checks/run/{system}/{toolIdentifier}
+   * request method: POST
+   *
    * @param system
    * @param toolIdentifier
    * @param {Object} args
@@ -57,6 +66,9 @@ class CheckRepository extends Repository {
 
   /**
    * Return a list of collections for the given project.
+   *
+   * request url: /kapi/v1/check/collections/{project}/{toolIdentifier}
+   * request method: POST
    *
    * @param project
    * @param toolIdentifier
@@ -73,6 +85,9 @@ class CheckRepository extends Repository {
   /**
    * Return a list of active collections for the given system.
    *
+   * request url: /kapi/v1/check/collections/system/active/{system}/{toolIdentifier}
+   * request method: POST
+   *
    * @param system
    * @param toolIdentifier
    * @param {Object} args
@@ -87,6 +102,9 @@ class CheckRepository extends Repository {
 
   /**
    * Update the collections. WARNING: will delete the current collection connections and create new.
+   *
+   * request url: /kapi/v1/check/collections/system/{system}
+   * request method: PUT
    *
    * @param system
    * @param {Object} args

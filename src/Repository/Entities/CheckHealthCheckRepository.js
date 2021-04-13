@@ -7,11 +7,14 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2021-01-04
+ * @created 2021-04-13
  */
 class CheckHealthCheckRepository extends Repository {
 
   /**
+   * request url: /kapi/v1/check/checks/{system}/healthchecks
+   * request method: GET
+   *
    * @param system
    * @param {Object} args
    */

@@ -7,12 +7,15 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2021-04-06
+ * @created 2021-04-13
  */
 class SubscriptionRepository extends Repository {
 
   /**
    * Get the companies subscription information.
+   *
+   * request url: /kapi/v1/subscription/company/{company}/
+   * request method: GET
    *
    * @param company
    * @param {Object} args
@@ -26,6 +29,9 @@ class SubscriptionRepository extends Repository {
 
   /**
    * Set the companies credit card plan.
+   *
+   * request url: /kapi/v1/subscription/company/{company}/plans/creditcard
+   * request method: POST
    *
    * @param company
    * @param {Object} args
@@ -42,6 +48,9 @@ class SubscriptionRepository extends Repository {
 
   /**
    * Set the companies credit card.
+   *
+   * request url: /kapi/v1/subscription/company/{company}/creditcard
+   * request method: POST
    *
    * @param company
    * @param {Object} args
@@ -61,6 +70,9 @@ class SubscriptionRepository extends Repository {
   /**
    * Set the billing address information for the given company.
    *
+   * request url: /kapi/v1/subscription/company/{company}/billingaddress
+   * request method: POST
+   *
    * @param company
    * @param {Object} args
    * @param {String} args.company_name The companies name.
@@ -69,6 +81,7 @@ class SubscriptionRepository extends Repository {
    * @param {String} args.city The companies billing address city.
    * @param {String} args.street The companies billing address street.
    * @param {String} args.usident The companies "Umsatzsteuer-Identifikationsnummer". (optional)
+   * @param {String} args.email The email address the invoice information gets send to. (optional)
    */
   async setBillingAddress(company, args) {
     const route = { path: 'subscription/company/{company}/billingaddress', method: 'POST', version: 1 }
@@ -81,6 +94,9 @@ class SubscriptionRepository extends Repository {
 
   /**
    * Get the billing address information for the given company.
+   *
+   * request url: /kapi/v1/subscription/company/{company}/billingaddress
+   * request method: GET
    *
    * @param company
    * @param {Object} args
@@ -95,6 +111,9 @@ class SubscriptionRepository extends Repository {
   /**
    * Get a list of features that are active.
    *
+   * request url: /kapi/v1/subscription/company/{company}/features
+   * request method: GET
+   *
    * @param company
    * @param {Object} args
    */
@@ -107,6 +126,9 @@ class SubscriptionRepository extends Repository {
 
   /**
    * Get a list invoices.
+   *
+   * request url: /kapi/v1/subscription/company/{company}/invoices
+   * request method: GET
    *
    * @param company
    * @param {Object} args
