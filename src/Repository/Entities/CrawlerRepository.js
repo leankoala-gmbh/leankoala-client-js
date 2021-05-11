@@ -7,9 +7,14 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2021-04-13
+ * @created 2021-05-11
  */
 class CrawlerRepository extends Repository {
+
+  constructor() {
+      super()
+      this._connectionType = 'ClusterConnection'
+  }
 
   /**
    * Run a crawl for a given checklist
@@ -26,7 +31,6 @@ class CrawlerRepository extends Repository {
    * @param {Number} args.system The systems id
    * @param {Number} args.depth Number of URLs to be crawled (default: 5)
    * @param {String} args.path The URL the crawler starts to crawl (default: /)
-   * @param {Boolean} args.curl_only If true the crawler does only use curl. (default: false)
    * @param {Number} args.parallel_requests Number of parallel requests that can be done (default: 8)
    */
   async runCrawl(project, args) {

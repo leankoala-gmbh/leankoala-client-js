@@ -33,6 +33,7 @@ class Connection {
         this._preferredLanguage = 'en'
         this._axios = axios
         this._axiosAdapter = false
+        this._defaultParameters = {}
 
         this._registeredEventListeners = {}
 
@@ -40,6 +41,11 @@ class Connection {
             authenticateByPassword: {
                 version: 1,
                 path: 'auth/tokens/access',
+                method: 'POST'
+            },
+            authenticateByToken: {
+                version: 1,
+                path: 'auth/tokens/token/{masterUserId}',
                 method: 'POST'
             },
             refresh: {
@@ -95,23 +101,29 @@ class Connection {
             this._accessExpireTimestamp = 0
 
             await this.refreshAccessToken(false, args.withMemories)
-
         } else {
             let withMemories = false
 
-            if (!this._connectionArgs.hasOwnProperty('username')) {
-                throw new Error('Mandatory username is missing')
-            }
+            if (!this._connectionArgs.hasOwnProperty('loginToken')) {
+                if (!this._connectionArgs.hasOwnProperty('username')) {
+                    throw new Error('Mandatory username is missing')
+                }
 
-            if (!this._connectionArgs.hasOwnProperty('password')) {
-                throw new Error('Mandatory password is missing')
+                if (!this._connectionArgs.hasOwnProperty('password')) {
+                    throw new Error('Mandatory password is missing')
+                }
             }
 
             if (this._connectionArgs.hasOwnProperty('withMemories')) {
                 withMemories = this._connectionArgs['withMemories']
             }
 
-            await this._authenticate(args.username, args.password, withMemories)
+            await this._authenticate({
+                username: args.username,
+                password: args.password,
+                withMemories,
+                loginToken: args.loginToken
+            })
         }
     }
 
@@ -167,7 +179,7 @@ class Connection {
         const version = route['version']
         const apiServer = this._apiServer
 
-        let url = `${apiServer}/v${version}/${plainPath}`
+        let url = `${apiServer}v${version}/${plainPath}`
 
         const matches = url.match(/{(.*?)}/gi)
 
@@ -198,8 +210,11 @@ class Connection {
      * @return {Array}
      */
     async send(route, data, withoutToken = false) {
+
+        const fullData = Object.assign(data, this._defaultParameters)
+
         const method = route['method'].toUpperCase()
-        const url = this._getUrl(route, data)
+        const url = this._getUrl(route, fullData)
 
         let headers = {
             'accept-language': this._preferredLanguage
@@ -213,7 +228,7 @@ class Connection {
         let response = {}
 
         try {
-            const parameters = {method, url, data, headers, adapter: this._axiosAdapter}
+            const parameters = {method, url, data: fullData, headers, adapter: this._axiosAdapter}
             this._publish('send', parameters)
             response = await this._axios(parameters)
         } catch (e) {
@@ -238,6 +253,10 @@ class Connection {
      */
     setLanguage(language) {
         this._preferredLanguage = language
+    }
+
+    addDefaultParameter(key, value) {
+        this._defaultParameters[key] = value
     }
 
     /**
@@ -275,12 +294,20 @@ class Connection {
      *
      * @private
      */
-    async _authenticate(username, password, withMemories) {
-        const tokens = await this.send(this._routes['authenticateByPassword'], {
-            username,
-            password,
-            with_memories: withMemories
-        }, true)
+    async _authenticate(args) {
+        let tokens
+        if (args.username) {
+            tokens = await this.send(this._routes['authenticateByPassword'], {
+                username: args.username,
+                password: args.password,
+                with_memories: args.withMemories
+            }, true)
+        } else if (args.loginToken) {
+            tokens = await this.send(this._routes['authenticateByToken'], {
+                access_token: args.loginToken,
+                with_memories: args.withMemories,
+            }, true)
+        }
 
         this._accessToken = tokens['token']
         this._refreshToken = tokens['refresh_token']

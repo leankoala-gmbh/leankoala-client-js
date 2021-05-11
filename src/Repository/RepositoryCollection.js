@@ -39,60 +39,73 @@ const Incident = require('./Entities/IncidentRepository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2021-01-06
+ * @created 2021-05-11
  */
 class RepositoryCollection {
 
-  constructor(connection) {
+  constructor() {
+    this._masterConnection = false
+    this._clusterConnection = false
 
     this._repositories = {}
-    this._repositories[ 'marketplace' ] = new Marketplace(connection)
-    this._repositories[ 'subscription' ] = new Subscription(connection)
-    this._repositories[ 'crawler' ] = new Crawler(connection)
-    this._repositories[ 'customerhaendlerbund' ] = new CustomerHaendlerbund(connection)
-    this._repositories[ 'customerhaendlerbundmetric' ] = new CustomerHaendlerbundMetric(connection)
-    this._repositories[ 'customermehrwertsteuercheck' ] = new CustomerMehrwertsteuercheck(connection)
-    this._repositories[ 'memory' ] = new Memory(connection)
-    this._repositories[ 'score' ] = new Score(connection)
-    this._repositories[ 'alertingpolicy' ] = new AlertingPolicy(connection)
-    this._repositories[ 'alertingchannel' ] = new AlertingChannel(connection)
-    this._repositories[ 'websocket' ] = new Websocket(connection)
-    this._repositories[ 'metric' ] = new Metric(connection)
-    this._repositories[ 'auth' ] = new Auth(connection)
-    this._repositories[ 'user' ] = new User(connection)
-    this._repositories[ 'invitation' ] = new Invitation(connection)
-    this._repositories[ 'company' ] = new Company(connection)
-    this._repositories[ 'component' ] = new Component(connection)
-    this._repositories[ 'project' ] = new Project(connection)
-    this._repositories[ 'system' ] = new System(connection)
-    this._repositories[ 'screenshot' ] = new Screenshot(connection)
-    this._repositories[ 'tool' ] = new Tool(connection)
-    this._repositories[ 'check' ] = new Check(connection)
-    this._repositories[ 'checklighthouse' ] = new CheckLighthouse(connection)
-    this._repositories[ 'checka11y' ] = new CheckA11y(connection)
-    this._repositories[ 'checkbrokenresource' ] = new CheckBrokenResource(connection)
-    this._repositories[ 'checkjavascripterrors' ] = new CheckJavaScriptErrors(connection)
-    this._repositories[ 'checkfilesize' ] = new CheckFileSize(connection)
-    this._repositories[ 'checksitemap' ] = new CheckSitemap(connection)
-    this._repositories[ 'checkmobilefriendly' ] = new CheckMobileFriendly(connection)
-    this._repositories[ 'checkcertificate' ] = new CheckCertificate(connection)
-    this._repositories[ 'checkinsecurecontent' ] = new CheckInsecureContent(connection)
-    this._repositories[ 'checkcookie' ] = new CheckCookie(connection)
-    this._repositories[ 'checkdeadlinks' ] = new CheckDeadLinks(connection)
-    this._repositories[ 'checkhealthcheck' ] = new CheckHealthCheck(connection)
-    this._repositories[ 'incident' ] = new Incident(connection)
-    
+    this._repositories[ 'marketplace' ] = new Marketplace()
+    this._repositories[ 'subscription' ] = new Subscription()
+    this._repositories[ 'crawler' ] = new Crawler()
+    this._repositories[ 'customerhaendlerbund' ] = new CustomerHaendlerbund()
+    this._repositories[ 'customerhaendlerbundmetric' ] = new CustomerHaendlerbundMetric()
+    this._repositories[ 'customermehrwertsteuercheck' ] = new CustomerMehrwertsteuercheck()
+    this._repositories[ 'memory' ] = new Memory()
+    this._repositories[ 'score' ] = new Score()
+    this._repositories[ 'alertingpolicy' ] = new AlertingPolicy()
+    this._repositories[ 'alertingchannel' ] = new AlertingChannel()
+    this._repositories[ 'websocket' ] = new Websocket()
+    this._repositories[ 'metric' ] = new Metric()
+    this._repositories[ 'auth' ] = new Auth()
+    this._repositories[ 'user' ] = new User()
+    this._repositories[ 'invitation' ] = new Invitation()
+    this._repositories[ 'company' ] = new Company()
+    this._repositories[ 'component' ] = new Component()
+    this._repositories[ 'project' ] = new Project()
+    this._repositories[ 'system' ] = new System()
+    this._repositories[ 'screenshot' ] = new Screenshot()
+    this._repositories[ 'tool' ] = new Tool()
+    this._repositories[ 'check' ] = new Check()
+    this._repositories[ 'checklighthouse' ] = new CheckLighthouse()
+    this._repositories[ 'checka11y' ] = new CheckA11y()
+    this._repositories[ 'checkbrokenresource' ] = new CheckBrokenResource()
+    this._repositories[ 'checkjavascripterrors' ] = new CheckJavaScriptErrors()
+    this._repositories[ 'checkfilesize' ] = new CheckFileSize()
+    this._repositories[ 'checksitemap' ] = new CheckSitemap()
+    this._repositories[ 'checkmobilefriendly' ] = new CheckMobileFriendly()
+    this._repositories[ 'checkcertificate' ] = new CheckCertificate()
+    this._repositories[ 'checkinsecurecontent' ] = new CheckInsecureContent()
+    this._repositories[ 'checkcookie' ] = new CheckCookie()
+    this._repositories[ 'checkdeadlinks' ] = new CheckDeadLinks()
+    this._repositories[ 'checkhealthcheck' ] = new CheckHealthCheck()
+    this._repositories[ 'incident' ] = new Incident()
+  }
+
+  setClusterConnection(connection) {
+    this._clusterConnection = connection
+  }
+
+  setMasterConnection(connection) {
+    this._masterConnection = connection
   }
 
   getRepository(entityType) {
-
     const repositoryName = entityType.toLowerCase()
     if (this._repositories.hasOwnProperty(repositoryName)) {
-      return this._repositories[ repositoryName ]
+      const repo = this._repositories[repositoryName]
+      if (repo.getConnectionType() === 'ClusterConnection') {
+        repo.setConnection(this._clusterConnection)
+      } else {
+        repo.setConnection(this._masterConnection)
+      }
+      return this._repositories[repositoryName]
     } else {
       throw new Error('No repository with name ' + repositoryName + ' found. Registered repositories are: ' + JSON.stringify(Object.keys(this._repositories)))
     }
-
   }
 }
 

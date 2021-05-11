@@ -2,6 +2,14 @@ const Connection = require('./Connection/Connection')
 
 const RepositoryCollection = require('./Repository/RepositoryCollection')
 
+const ENVIRONMENT_STAGE = 'stage'
+const ENVIRONMENT_LOCAL = 'local'
+const ENVIRONMENT_PRODUCTION = 'production'
+
+const SERVER_STAGE = 'https://stage.monitor.leankoala.com/kapi/'
+const SERVER_PRODUCTION = 'https://api.cluster1.koalityengine.com/'
+const SERVER_LOCAL = 'http://localhost:8082/'
+
 /**
  * The KoalityEngine client is used to connect to an instance of the KoalityEngine
  * and process all needed tasks.
@@ -17,10 +25,19 @@ class LeankoalaClient {
      * @param {String} environment the environment (development|production)
      */
     constructor(environment = 'production') {
-        this._connection = false
+        this._clusterConnection = false
+        this._masterConnection = false
+
+        this._user = {}
+        this._companies = {}
+
+        this._axios = false
+
         this._environment = environment
         this._connectionStatus = 'disconnected'
         this._registeredEventListeners = {};
+
+        this._masterToken = '';
     }
 
     /**
@@ -33,14 +50,16 @@ class LeankoalaClient {
      * @param {Boolean} [args.withMemories] return the users memory on connect
      * @param {String} [args.language] the preferred language (default: en; implemented: de, en)
      * @param {Object} [args.axiosAdapter] the preferred language (default: en; implemented: de, en)
+     * @param {Object} [args.autoSelectCompany] auto select the company (and cluster) (default: false)
+     *
      * @param {function} [args.axios] a predefined axios instance
      */
     async connect(args) {
+        args.autoSelectCompany = args.autoSelectCompany | false
         this._connectionStatus = 'connecting'
         try {
+            this._repositoryCollection = new RepositoryCollection()
             await this._initConnection(args)
-
-            this._repositoryCollection = new RepositoryCollection(this._connection)
         } catch (error) {
             this._connectionStatus = 'disconnected'
             throw error
@@ -94,26 +113,96 @@ class LeankoalaClient {
      */
     async _initConnection(args) {
 
-        const apiServer = this._environment === 'production'
-            ? 'https://api.cluster1.koalityengine.com'
-            : 'https://stage.monitor.leankoala.com/kapi'
+        const apiServer = this._getMasterServer(this._environment)
 
         if (!args.hasOwnProperty('axios')) {
             throw new Error('Missing parameter axios. The HTTP client must be injected.')
         }
 
-        const axios = args['axios']
+        this._axios = args['axios']
 
-        if (typeof axios !== 'function') {
+        if (typeof this._axios !== 'function') {
             throw new Error('The axios argument is not a function. Seems like it is not a valid axios object,')
         }
 
-        this._connection = new Connection(apiServer, axios)
-        await this._connection.connect(args)
+        this._masterConnection = new Connection(apiServer, this._axios)
+
+        const route = {version: 1, path: '{application}/auth/login', method: 'POST'}
+
+        const result = await this._masterConnection.send(route, {
+            emailOrUserName: args.username,
+            password: args.password,
+            'application': 'koality'
+        }, true)
+
+        this._masterToken = result.token
+        this._masterUser = result.user
+        this._companies = result.companies
+
+        this._repositoryCollection.setMasterConnection(this._masterConnection)
+        this._masterConnection.addDefaultParameter('access_token', this._masterToken)
+
+        if (args.autoSelectCompany) {
+            await this._autoSelectCompany()
+        }
 
         this._registerConnectionListeners()
     }
 
+    async _autoSelectCompany() {
+        if (this._companies.length === 0) {
+            throw new Error('Unable to auto select the company. User is not connected to any.')
+        }
+        const company = this._companies[0]
+        await this.switchCompany(company.id)
+    }
+
+    async switchCompany(companyId) {
+        const client = this
+        let currentCompany
+        this._companies.forEach(function (company) {
+            if (company.id === companyId) {
+                currentCompany = company
+            }
+        })
+
+        if (currentCompany) {
+            await client._switchCluster(currentCompany.cluster)
+        } else {
+            throw new Error('Unable to select the company. Company id not connected to user.')
+        }
+    }
+
+    async _switchCluster(cluster) {
+        this._clusterConnection = new Connection(cluster.apiEndpoint, this._axios)
+        this._repositoryCollection.setClusterConnection(this._clusterConnection)
+        this._clusterConnection.addDefaultParameter('masterUserId', this._masterUser.id)
+        await this._clusterConnection.connect({loginToken: this._masterToken})
+
+        this._user = this._clusterConnection.getUser()
+    }
+
+    _getMasterServer(environment) {
+        let apiServer
+        switch (environment) {
+            case ENVIRONMENT_LOCAL:
+                apiServer = SERVER_LOCAL
+                break
+            case ENVIRONMENT_STAGE:
+                apiServer = SERVER_STAGE
+                break
+            case ENVIRONMENT_PRODUCTION:
+                apiServer = SERVER_PRODUCTION
+                break
+        }
+        return apiServer
+    }
+
+    /**
+     * Register all known connections listeners.
+     *
+     * @private
+     */
     _registerConnectionListeners() {
         const connection = this._connection
         const listeners = this._registeredEventListeners
@@ -166,12 +255,27 @@ class LeankoalaClient {
     }
 
     /**
-     * Return the current user.
+     * Return the current master user.
+     *
+     * @return {Object}
+     */
+    getMasterUser() {
+        if (!this._masterUser) {
+            throw new Error('No user found. Please run connect() to login in.')
+        }
+        return this._masterUser
+    }
+
+    /**
+     * Return the current cluster user.
      *
      * @return {Object}
      */
     getUser() {
-        return this._connection.getUser()
+        if (!this._user) {
+            throw new Error('No user found. Please run connect() to login in.')
+        }
+        return this._user
     }
 
     /**

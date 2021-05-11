@@ -7,9 +7,14 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2021-04-13
+ * @created 2021-05-11
  */
 class WebsocketRepository extends Repository {
+
+  constructor() {
+      super()
+      this._connectionType = 'ClusterConnection'
+  }
 
   /**
    * Return a websocket server with the room names for the given user.

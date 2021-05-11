@@ -7,9 +7,14 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2021-04-13
+ * @created 2021-05-11
  */
 class IncidentRepository extends Repository {
+
+  constructor() {
+      super()
+      this._connectionType = 'ClusterConnection'
+  }
 
   /**
    * Find all open incidents for the given project. Optionally it can be filtered by system.
