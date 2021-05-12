@@ -2,27 +2,32 @@ const LeankoalaClient = require('../src/Client');
 const axios = require('axios');
 
 (async () => {
-  try {
+    try {
 
-    const client = new LeankoalaClient()
-    await client.connect({ username: 'demo', password: 'demo', language: 'de', axios })
-    const user = client.getUser()
+        const client = new LeankoalaClient('local')
+        await client.connect({username: 'nils', password: 'nils', language: 'de', axios, autoSelectCompany: true})
+        const user = client.getUser()
 
-    client.setLanguage('de')
+        client.on('send', function (payload) {
+            console.log(payload)
+        })
 
-    /** @var {ProjectRepository} projectRepo **/
-    const projectRepo = await client.getRepository('project')
-    const projects = await projectRepo.search({user: user.id})
+        client.setLanguage('de')
 
-    const project = projects['projects'].pop()
+        /** @var {ProjectRepository} projectRepo **/
+        const projectRepo = await client.getRepository('project')
+        const projects = await projectRepo.search({user: user.id})
 
-    /** @var {IncidentRepository} incidentRepo **/
-    const incidentRepo = await client.getRepository('incident')
-    const incidents = await incidentRepo.search(project.id)
+        const project = projects['projects'].pop()
 
-    console.log(incidents)
+        /** @var {IncidentRepository} incidentRepo **/
+        const incidentRepo = await client.getRepository('incident')
+        const incidents = await incidentRepo.search(project.id)
 
-  } catch (e) {
-    console.error(e.message)
-  }
+       // console.log(incidents)
+
+    } catch (e) {
+        console.log(e)
+        console.error(e.message)
+    }
 })()

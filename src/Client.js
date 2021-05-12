@@ -89,7 +89,10 @@ class LeankoalaClient {
      * @param {String} language
      */
     setLanguage(language) {
-        this._connection.setLanguage(language)
+        this._masterConnection.setLanguage(language)
+        if(this._clusterConnection) {
+            this._clusterConnection.setLanguage(language)
+        }
     }
 
     /**
@@ -207,12 +210,15 @@ class LeankoalaClient {
      * @private
      */
     _registerConnectionListeners() {
-        const connection = this._connection
+        const masterConnection = this._masterConnection
+        const clusterConnection = this._clusterConnection
+
         const listeners = this._registeredEventListeners
 
         Object.keys(listeners).forEach((key) => {
             listeners[key].forEach((element) => {
-                connection.on(key, element)
+                masterConnection.on(key, element)
+                clusterConnection.on(key, element)
             })
         })
     }
@@ -293,8 +299,12 @@ class LeankoalaClient {
         }
         this._registeredEventListeners[eventName].push(callback)
 
-        if (this._connection) {
-            this._connection.on(eventName, callback)
+        if (this._masterConnection) {
+            this._masterConnection.on(eventName, callback)
+        }
+
+        if (this._clusterConnection) {
+            this._clusterConnection.on(eventName, callback)
         }
     }
 

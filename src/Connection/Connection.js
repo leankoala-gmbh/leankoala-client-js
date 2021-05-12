@@ -292,7 +292,6 @@ class Connection {
                 payload.identifier = responseData.identifier
             }
             this._publish('failure', payload)
-            console.log(responseData)
             throw new BadRequestError(payload)
         }
     }
