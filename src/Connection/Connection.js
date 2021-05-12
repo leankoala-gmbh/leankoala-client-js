@@ -24,6 +24,12 @@ class Connection {
      */
     constructor(apiServer, axios) {
 
+        this._refreshRoute = {
+            version: 1,
+            path: 'auth/tokens/refresh/{user_id}',
+            method: 'POST'
+        }
+
         this._accessToken = ''
         this._refreshToken = ''
         this._user = {}
@@ -46,11 +52,6 @@ class Connection {
             authenticateByToken: {
                 version: 1,
                 path: 'auth/tokens/token/{masterUserId}',
-                method: 'POST'
-            },
-            refresh: {
-                version: 1,
-                path: 'auth/tokens/refresh/{user_id}',
                 method: 'POST'
             }
         }
@@ -183,6 +184,10 @@ class Connection {
 
         const matches = url.match(/{(.*?)}/gi)
 
+        if (!apiServer) {
+            throw new Error('Unable to create the url. ApiServer parameter is missing.')
+        }
+
         if (matches != null) {
             matches.forEach(function (match) {
                 const varName = match.replace('{', '').replace('}', '')
@@ -193,6 +198,8 @@ class Connection {
                 }
             })
         }
+
+        url = url.replace(/(https?:\/\/)|(\/)+/g, "$1$2");
 
         return url
     }
@@ -255,6 +262,12 @@ class Connection {
         this._preferredLanguage = language
     }
 
+    /**
+     * Add a default parameter to every request that gets send.
+     *
+     * @param key
+     * @param value
+     */
     addDefaultParameter(key, value) {
         this._defaultParameters[key] = value
     }
@@ -279,6 +292,7 @@ class Connection {
                 payload.identifier = responseData.identifier
             }
             this._publish('failure', payload)
+            console.log(responseData)
             throw new BadRequestError(payload)
         }
     }
@@ -317,22 +331,30 @@ class Connection {
     }
 
     /**
-     * Refresh the expire date
+     * Refresh the expire date.
      *
-     * This function should be called after a new token is generated
+     * This function should be called after a new token is generated.
      *
-     * @param {Boolean} withFreshToken
+     * @param {Boolean} withRefreshToken
      *
      * @private
      */
-    _refreshTokenExpireDate(withFreshToken = false) {
+    _refreshTokenExpireDate(withRefreshToken = false) {
         const accessTokenData = jwtDecode(this._accessToken)
         this._accessExpireTimestamp = Math.floor(Date.now() / 1000) + accessTokenData['ttl']
 
-        if (withFreshToken) {
+        if (withRefreshToken) {
             const refreshTokenData = jwtDecode(this._refreshToken)
             this._refreshExpireTimestamp = Math.floor(Date.now() / 1000) + refreshTokenData['ttl']
         }
+    }
+
+    setAccessToken(token, refreshToken) {
+        this._accessToken = token
+        this._refreshToken = refreshToken
+
+        this.addDefaultParameter('access_token', token)
+        this._refreshTokenExpireDate(true)
     }
 
     /**
@@ -346,10 +368,8 @@ class Connection {
      */
     async refreshAccessToken(forceRefresh = false, withMemories = false) {
         if (forceRefresh || Math.floor(Date.now() / 1000) + 10 > this._accessExpireTimestamp) {
-
             const user = this.getUser()
-
-            const tokens = await this.send(this._routes['refresh'], {
+            const tokens = await this.send(this._refreshRoute, {
                 user_id: user.id,
                 access_token: this._refreshToken,
                 with_memories: withMemories
@@ -363,9 +383,18 @@ class Connection {
     }
 
     /**
+     * Set the refresh route for this connection
+     *
+     * @param {string} route
+     */
+    setRefreshRoute(route) {
+        this._refreshRoute = route
+    }
+
+    /**
      * Register a callback for an internal published event.
      *
-     * @param {String }eventName
+     * @param {String} eventName
      * @param {CallableFunction} callback
      */
     on(eventName, callback) {

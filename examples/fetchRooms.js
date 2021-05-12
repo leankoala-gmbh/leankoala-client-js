@@ -2,21 +2,19 @@ const LeankoalaClient = require('../src/Client')
 const axios = require('axios');
 
 (async () => {
-  try {
+    try {
 
-    const client = new LeankoalaClient('stage')
+        const client = new LeankoalaClient('local')
 
-    console.log(client.isConnected())
+        await client.connect({username: 'nils', password: 'nils', axios, autoSelectCompany: true})
 
-    await client.connect({ username: 'demo', password: 'demo', axios })
+        const repo = await client.getRepository('websocket')
+        const rooms = await repo.getRooms()
 
-    console.log(client.isConnected())
+        console.log(rooms)
 
-    const rooms = await client.getRepository('websocket').getRooms()
-
-    console.log(rooms)
-
-  } catch (e) {
-    console.error(e.message)
-  }
+    } catch (e) {
+        console.log(e)
+        console.error(e.message)
+    }
 })()

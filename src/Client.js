@@ -2,13 +2,13 @@ const Connection = require('./Connection/Connection')
 
 const RepositoryCollection = require('./Repository/RepositoryCollection')
 
-const ENVIRONMENT_STAGE = 'stage'
 const ENVIRONMENT_LOCAL = 'local'
+const ENVIRONMENT_STAGE = 'stage'
 const ENVIRONMENT_PRODUCTION = 'production'
 
+const SERVER_LOCAL = 'http://localhost:8082/'
 const SERVER_STAGE = 'https://stage.monitor.leankoala.com/kapi/'
 const SERVER_PRODUCTION = 'https://api.cluster1.koalityengine.com/'
-const SERVER_LOCAL = 'http://localhost:8082/'
 
 /**
  * The KoalityEngine client is used to connect to an instance of the KoalityEngine
@@ -74,11 +74,11 @@ class LeankoalaClient {
      * @return {boolean}
      */
     isConnected() {
-        if (this._connection === false) {
+        if (this._masterConnection === false) {
             return false
         }
 
-        return Math.floor(Date.now() / 1000) < this._connection.getExpireDate()
+        return Math.floor(Date.now() / 1000) < this._masterConnection.getExpireDate()
     }
 
     /**
@@ -136,11 +136,12 @@ class LeankoalaClient {
         }, true)
 
         this._masterToken = result.token
+        this._refrehToken = result.refreshToken
         this._masterUser = result.user
         this._companies = result.companies
 
+        this._masterConnection.setAccessToken(this._masterToken,  this._refrehToken);
         this._repositoryCollection.setMasterConnection(this._masterConnection)
-        this._masterConnection.addDefaultParameter('access_token', this._masterToken)
 
         if (args.autoSelectCompany) {
             await this._autoSelectCompany()
@@ -194,6 +195,8 @@ class LeankoalaClient {
             case ENVIRONMENT_PRODUCTION:
                 apiServer = SERVER_PRODUCTION
                 break
+            default:
+                throw new Error('The given environment "' + environment + '" is unknown.')
         }
         return apiServer
     }

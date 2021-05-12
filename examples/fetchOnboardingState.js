@@ -2,21 +2,22 @@ const LeankoalaClient = require('../src/Client')
 const axios = require('axios');
 
 (async () => {
-  try {
+    try {
 
-    const client = new LeankoalaClient()
-    await client.connect({ username: 'demo', password: 'demo', axios })
-    const user = client.getUser()
+        const client = new LeankoalaClient('local')
+        await client.connect({username: 'nils', password: 'nils', axios, autoSelectCompany: true})
+        const user = client.getUser()
 
-    const projects = await client.getRepository('project').search({ user: user.id })
+        const repo = await client.getRepository('project')
+        const projects = await repo.search({user: user.id})
 
-    const project = projects[ 'projects' ].pop()
+        const project = projects['projects'].pop()
 
-    const status = await client.getRepository('project').getStatus(project.id)
+        const status = await repo.getStatus(project.id)
 
-    console.log(status)
+        console.log(status)
 
-  } catch (e) {
-    console.error(e.message)
-  }
+    } catch (e) {
+        console.error(e.message)
+    }
 })()

@@ -7,7 +7,7 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2021-05-10
+ * @created 2021-05-11
  */
 class ApplicationRepository extends Repository {
 
