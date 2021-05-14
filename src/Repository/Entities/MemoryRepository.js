@@ -7,43 +7,23 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2021-05-11
+ * @created 2021-05-13
  */
 class MemoryRepository extends Repository {
 
-  constructor() {
-      super()
-      this._connectionType = 'ClusterConnection'
-  }
-
   /**
-   * request url: /kapi/v1/memory/{objectType}/{objectId}
-   * request method: GET
+   * Write something to the memory
    *
-   * @param objectType
-   * @param objectId
-   * @param {Object} args
-   */
-  async getAll(objectType, objectId, args) {
-    const route = { path: 'memory/{objectType}/{objectId}', method: 'GET', version: 1 }
-    const argList = Object.assign({ objectType, objectId }, args)
-
-    return this._connection.send(route, argList)
-  }
-
-  /**
-   * request url: /kapi/v1/memory/{objectType}/{objectId}
-   * request method: POST
-   *
+   * @param application
    * @param objectType
    * @param objectId
    * @param {Object} args
    * @param {String} args.key 
    * @param {String} args.value 
    */
-  async set(objectType, objectId, args) {
-    const route = { path: 'memory/{objectType}/{objectId}', method: 'POST', version: 1 }
-    const argList = Object.assign({ objectType, objectId }, args)
+  async set(application, objectType, objectId, args) {
+    const route = { path: '/{application}/memory/{objectType}/{objectId}', method: 'PUT', version: 1 }
+    const argList = Object.assign({ application, objectType, objectId }, args)
     const requiredArguments = ['key', 'value']
     this._assertValidArguments(requiredArguments, argList)
 
