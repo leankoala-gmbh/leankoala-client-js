@@ -94,13 +94,7 @@ class Connection {
       this._accessToken = args['accessToken']
       this._accessExpireTimestamp = (Date.now() / 1000) + 60
     } else if (args.hasOwnProperty('wakeUpToken')) {
-      const wakeUpToken = JSON.parse(args['wakeUpToken'])
-      this._refreshToken = wakeUpToken['refreshToken']
-      this._user = wakeUpToken['user']
-      this._refreshExpireTimestamp = wakeUpToken['expireDate']
-      this._accessExpireTimestamp = 0
-
-      await this.refreshAccessToken(false, args.withMemories)
+      await this._connectByWakeUpToken(args)
     } else {
       let withMemories = false
 
@@ -125,6 +119,27 @@ class Connection {
         loginToken: args.loginToken
       })
     }
+  }
+
+  /**
+   * Establish the connection via wake up token.
+   *
+   * The token must be generated via the getWakeUpToken() method.
+   *
+   * @param args
+   * @returns {Promise<void>}
+   *
+   * @private
+   */
+  async _connectByWakeUpToken(args) {
+    const wakeUpToken = JSON.parse(args['wakeUpToken'])
+
+    this._refreshToken = wakeUpToken['refreshToken']
+    this._user = wakeUpToken['user']
+    this._refreshExpireTimestamp = wakeUpToken['expireDate']
+    this._accessExpireTimestamp = 0
+    this.setLanguage(args.preferred_language)
+    await this.refreshAccessToken(true, args.withMemories)
   }
 
   /**
@@ -346,9 +361,18 @@ class Connection {
     }
   }
 
+  /**
+   * Set the access token.
+   *
+   * @param {String} token
+   * @param {String} refreshToken
+   */
   setAccessToken(token, refreshToken) {
     this._accessToken = token
-    this._refreshToken = refreshToken
+
+    if (refreshToken) {
+      this._refreshToken = refreshToken
+    }
 
     this.addDefaultParameter('access_token', token)
     this._refreshTokenExpireDate(true)
@@ -375,9 +399,7 @@ class Connection {
       }, true)
 
       this._user = tokens['user']
-
-      this._accessToken = tokens['token']
-      this._refreshTokenExpireDate(true)
+      this.setAccessToken(tokens['token'], this._refreshToken)
     }
   }
 

@@ -7,7 +7,7 @@ const ENVIRONMENT_STAGE = 'stage'
 const ENVIRONMENT_PRODUCTION = 'production'
 
 const SERVER_LOCAL = 'http://localhost:8082/'
-const SERVER_STAGE = 'https://stage.monitor.leankoala.com/kapi/'
+const SERVER_STAGE = 'https://auth.stage.koalityengine.com/'
 const SERVER_PRODUCTION = 'https://api.cluster1.koalityengine.com/'
 
 /**
@@ -411,6 +411,7 @@ class LeankoalaClient {
 
     const time = Math.floor(new Date().getTime() / 1000)
 
+    /** @todo this should be done in the connection  **/
     if (!cluster || cluster.expireDate < time) {
       return true
     }
