@@ -141,58 +141,28 @@ class LeankoalaClient {
    * @private
    */
   async _initConnection(args) {
+    this._axios = args.axios
+
     if (args.hasOwnProperty('wakeUpToken')) {
       await this._initConnectionViaWakeUpToken(args)
+    } else if (args.hasOwnProperty('accessToken')) {
+      await this._initConnectionViaMasterTokens(args)
     } else {
-      const apiServer = this._getMasterServer(this._environment)
-
-      if (!args.hasOwnProperty('axios')) {
-        throw new Error('Missing parameter axios. The HTTP client must be injected.')
-      }
-
-      this._axios = args['axios']
-
-      if (typeof this._axios !== 'function') {
-        throw new Error('The axios argument is not a function. Seems like it is not a valid axios object,')
-      }
-
-      this._masterConnection = new Connection(apiServer, this._axios)
-
-      const route = {version: 1, path: '{application}/auth/login', method: 'POST'}
-
-      const withMemories = Boolean(args.withMemories | false)
-
-      const result = await this._masterConnection.send(route, {
-        emailOrUserName: args.username,
-        password: args.password,
-        'application': 'koality',
-        withMemories
-      }, true)
-
-      this._masterToken = result.token
-      this._refrehToken = result.refreshToken
-
-      this._masterUser = result.user
-      this._masterConnection.setUser(result.user)
-
-      this._masterUser['masterId'] = result.user.id
-
-      if (result.memories) {
-        this._masterUser['memories'] = result.memories
-      }
-      this._companies = result.companies
-
-      this._masterConnection.setAccessToken(this._masterToken, this._refrehToken);
-      this._repositoryCollection.setMasterConnection(this._masterConnection)
-
-      if (args.autoSelectCompany) {
-        await this._autoSelectCompany()
-      }
+      await this._initConnectionViaCredentials(args)
     }
 
     this._registerConnectionListeners()
   }
 
+  /**
+   * Initialize the connection using a wake up token.
+   *
+   * @param {Object} args
+   *
+   * @returns {Promise<void>}
+   *
+   * @private
+   */
   async _initConnectionViaWakeUpToken(args) {
 
     const wakeUpToken = JSON.parse(args.wakeUpToken)
@@ -202,7 +172,7 @@ class LeankoalaClient {
     this._masterConnection = new Connection(this._getMasterServer(), args.axios)
 
     let masterConnectionArgs = args
-    let masterWakeUpToken =  wakeUpToken.master
+    let masterWakeUpToken = wakeUpToken.master
     masterWakeUpToken.user.id = this._masterUser.masterId
     masterConnectionArgs.wakeUpToken = JSON.stringify(masterWakeUpToken)
     this._masterConnection.setRefreshRoute(this._routes.masterRefresh)
@@ -217,6 +187,73 @@ class LeankoalaClient {
       await this._clusterConnection.connect(clusterConnectionArgs)
       this._repositoryCollection.setClusterConnection(this._clusterConnection)
     }
+  }
+
+  async _initConnectionViaCredentials(args) {
+    const apiServer = this._getMasterServer(this._environment)
+
+    if (!args.hasOwnProperty('axios')) {
+      throw new Error('Missing parameter axios. The HTTP client must be injected.')
+    }
+
+    this._axios = args['axios']
+
+    if (typeof this._axios !== 'function') {
+      throw new Error('The axios argument is not a function. Seems like it is not a valid axios object,')
+    }
+
+    this._masterConnection = new Connection(apiServer, this._axios)
+
+    const route = {version: 1, path: '{application}/auth/login', method: 'POST'}
+
+    const withMemories = Boolean(args.withMemories | false)
+
+    const result = await this._masterConnection.send(route, {
+      emailOrUserName: args.username,
+      password: args.password,
+      'application': 'koality',
+      withMemories
+    }, true)
+
+    this._masterToken = result.token
+    this._refrehToken = result.refreshToken
+
+    this._masterUser = result.user
+    this._masterConnection.setUser(result.user)
+
+    this._masterUser['masterId'] = result.user.id
+
+    if (result.memories) {
+      this._masterUser['memories'] = result.memories
+    }
+    this._companies = result.companies
+
+    this._masterConnection.setAccessToken(this._masterToken, this._refrehToken);
+    this._repositoryCollection.setMasterConnection(this._masterConnection)
+
+    if (args.autoSelectCompany) {
+      await this._autoSelectCompany()
+    }
+  }
+
+  async _initConnectionViaMasterTokens(args) {
+    this._masterConnection = new Connection(this._getMasterServer(), args.axios);
+    this._masterConnection.setAccessToken(args.accessToken, args.refreshToken)
+    this._masterToken = args.accessToken
+    if (args.hasOwnProperty('user')) {
+      this._masterConnection.setUser(args.user)
+      this._user = args.user
+      this._user.masterId = args.user.id
+      this._masterUser = args.user
+      this._companies = args.user.companies
+    }
+
+    this._repositoryCollection.setMasterConnection(this._masterConnection)
+
+    if (args.autoSelectCompany) {
+      await this._autoSelectCompany()
+    }
+
   }
 
   async _autoSelectCompany() {

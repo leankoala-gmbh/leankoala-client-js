@@ -333,6 +333,8 @@ class Connection {
         access_token: args.loginToken,
         with_memories: args.withMemories,
       }, true)
+    }else{
+      throw new Error('User name or login token is not set. At least one of them must be set..')
     }
 
     this._accessToken = tokens['token']
@@ -370,12 +372,15 @@ class Connection {
   setAccessToken(token, refreshToken) {
     this._accessToken = token
 
+    let withRefreshToken = false
+
     if (refreshToken) {
       this._refreshToken = refreshToken
+      withRefreshToken = true
     }
 
     this.addDefaultParameter('access_token', token)
-    this._refreshTokenExpireDate(true)
+    this._refreshTokenExpireDate(withRefreshToken)
   }
 
   /**

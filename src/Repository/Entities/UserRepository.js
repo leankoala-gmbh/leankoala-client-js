@@ -16,9 +16,9 @@ class UserRepository extends Repository {
    *
    * @param application
    * @param {Object} args
-   * @param {String} args.userName 
-   * @param {String} args.email 
-   * @param {String} args.password 
+   * @param {String} args.userName
+   * @param {String} args.email
+   * @param {String} args.password
    * @param {Number} args.company  (optional)
    */
   async createUser(application, args) {
@@ -72,8 +72,8 @@ class UserRepository extends Repository {
    * @param application
    * @param user
    * @param {Object} args
-   * @param {String} args.password_old 
-   * @param {String} args.password_new 
+   * @param {String} args.password_old
+   * @param {String} args.password_new
    */
   async changePassword(application, user, args) {
     const route = { path: '/{application}/user/{user}/password', method: 'PUT', version: 1 }
@@ -113,6 +113,23 @@ class UserRepository extends Repository {
     const route = { path: '/{application}/user/{user}/password/request', method: 'POST', version: 1 }
     const argList = Object.assign({ application, user }, args)
     const requiredArguments = ['email']
+    this._assertValidArguments(requiredArguments, argList)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
+   * Activate an user account. The endpoint will return a valid access and refresh token so the user can
+   * be logged in without re-entering username and password.
+   *
+   * @param application
+   * @param {Object} args
+   * @param {String} args.activation_key
+   */
+  async activate(application, args) {
+    const route = { path: '/{application}/user/activate', method: 'POST', version: 1 }
+    const argList = Object.assign({ application }, args)
+    const requiredArguments = ['activation_key']
     this._assertValidArguments(requiredArguments, argList)
 
     return this._connection.send(route, argList)
