@@ -143,7 +143,10 @@ class LeankoalaClient {
   async _initConnection(args) {
     this._axios = args.axios
 
-    if (args.hasOwnProperty('wakeUpToken')) {
+    if (args.hasOwnProperty('noLogin')) {
+      this._masterConnection = new Connection(this._getMasterServer(), args.axios);
+      this._repositoryCollection.setMasterConnection(this._masterConnection)
+    } else if (args.hasOwnProperty('wakeUpToken')) {
       await this._initConnectionViaWakeUpToken(args)
     } else if (args.hasOwnProperty('accessToken')) {
       await this._initConnectionViaMasterTokens(args)
