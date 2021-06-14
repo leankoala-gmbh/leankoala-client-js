@@ -7,7 +7,7 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2021-05-11
+ * @created 2021-06-14
  */
 class ApplicationRepository extends Repository {
 
@@ -30,7 +30,7 @@ class ApplicationRepository extends Repository {
    * @param {Object} args
    */
   async getPrimaryCluster(application, args) {
-    const route = { path: '/{application}/cluster/primary', method: 'POST', version: 1 }
+    const route = { path: '/v1/{application}/cluster/primary', method: 'POST', version: 1 }
     const argList = Object.assign({ application }, args)
 
     return this._connection.send(route, argList)

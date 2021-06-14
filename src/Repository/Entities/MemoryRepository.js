@@ -7,7 +7,7 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2021-05-13
+ * @created 2021-06-14
  */
 class MemoryRepository extends Repository {
 
@@ -22,7 +22,7 @@ class MemoryRepository extends Repository {
    * @param {String} args.value 
    */
   async set(application, objectType, objectId, args) {
-    const route = { path: '/{application}/memory/{objectType}/{objectId}', method: 'PUT', version: 1 }
+    const route = { path: '/v1/{application}/memory/{objectType}/{objectId}', method: 'PUT', version: 1 }
     const argList = Object.assign({ application, objectType, objectId }, args)
     const requiredArguments = ['key', 'value']
     this._assertValidArguments(requiredArguments, argList)
