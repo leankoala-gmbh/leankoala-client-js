@@ -16,9 +16,9 @@ class UserRepository extends Repository {
    *
    * @param application
    * @param {Object} args
-   * @param {String} args.userName 
-   * @param {String} args.email 
-   * @param {String} args.password 
+   * @param {String} args.userName
+   * @param {String} args.email
+   * @param {String} args.password
    * @param {Number} args.company  (optional)
    * @param {String} args.fullName The users full name. (optional)
    * @param {String} args.firstName The users first name. (optional)
@@ -76,8 +76,8 @@ class UserRepository extends Repository {
    * @param application
    * @param user
    * @param {Object} args
-   * @param {String} args.password_old 
-   * @param {String} args.password_new 
+   * @param {String} args.password_old
+   * @param {String} args.password_new
    */
   async changePassword(application, user, args) {
     const route = { path: '/{application}/user/{user}/password', method: 'PUT', version: 1 }
@@ -142,7 +142,7 @@ class UserRepository extends Repository {
    *
    * @param application
    * @param {Object} args
-   * @param {String} args.activation_key 
+   * @param {String} args.activation_key
    */
   async activate(application, args) {
     const route = { path: '/{application}/user/activate', method: 'POST', version: 1 }

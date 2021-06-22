@@ -8,7 +8,7 @@ const ENVIRONMENT_PRODUCTION = 'production'
 
 const SERVER_LOCAL = 'http://localhost:8082/'
 const SERVER_STAGE = 'https://auth.stage.koalityengine.com/'
-const SERVER_PRODUCTION = 'https://api.cluster1.koalityengine.com/'
+const SERVER_PRODUCTION = 'https://auth.koalityengine.com/'
 
 /**
  * The KoalityEngine client is used to connect to an instance of the KoalityEngine
@@ -251,6 +251,7 @@ class LeankoalaClient {
       this._companies = args.user.companies
     }
 
+    console.log('b')
     this._repositoryCollection.setMasterConnection(this._masterConnection)
 
     if (args.autoSelectCompany) {
