@@ -61,6 +61,7 @@ class LeankoalaClient {
    * @param {String} [args.username] the user name for the user that should be logged in
    * @param {String} [args.password the password for the given user
    * @param {String} [args.wakeUpToken] the wakeup token can be used to log in instead of username and pasword
+   * @param {String} [args.accessToken] the token fill this in the client generator
    * @param {Boolean} [args.withMemories] return the users memory on connect
    * @param {String} [args.language] the preferred language (default: en; implemented: de, en)
    * @param {Object} [args.axiosAdapter] the preferred language (default: en; implemented: de, en)
