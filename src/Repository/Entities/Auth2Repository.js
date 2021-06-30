@@ -19,7 +19,7 @@ class Auth2Repository extends Repository {
    * @param {Boolean} args.withMemories If true all Memory entities will be attached in the answer. (default: false)
    */
   async loginWithCredentials(application, args) {
-    const route = { path: '/v1/{application}/auth/login', method: 'POST', version: 1 }
+    const route = { path: '{application}/auth/login', method: 'POST', version: 1 }
     const argList = Object.assign({ application }, args)
     const requiredArguments = ['emailOrUserName', 'password']
     this._assertValidArguments(requiredArguments, argList)
@@ -36,7 +36,7 @@ class Auth2Repository extends Repository {
    * @param {Boolean} args.with_memories If true all Memory entities will be attached in the answer. (default: false)
    */
   async createTokenByRefreshToken(application, user, args) {
-    const route = { path: '/v1/{application}/auth/refresh/{user}', method: 'POST', version: 1 }
+    const route = { path: '{application}/auth/refresh/{user}', method: 'POST', version: 1 }
     const argList = Object.assign({ application, user }, args)
 
     return this._connection.send(route, argList)
@@ -51,7 +51,7 @@ class Auth2Repository extends Repository {
    * @param {Boolean} args.with_memories If true all Memory entities will be attached in the answer. (default: false)
    */
   async createToken(application, user, args) {
-    const route = { path: '/v1/{application}/auth/token/{user}', method: 'POST', version: 1 }
+    const route = { path: '{application}/auth/token/{user}', method: 'POST', version: 1 }
     const argList = Object.assign({ application, user }, args)
 
     return this._connection.send(route, argList)

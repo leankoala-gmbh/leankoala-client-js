@@ -30,7 +30,7 @@ class ApplicationRepository extends Repository {
    * @param {Object} args
    */
   async getPrimaryCluster(application, args) {
-    const route = { path: '/v1/{application}/cluster/primary', method: 'POST', version: 1 }
+    const route = { path: '{application}/cluster/primary', method: 'POST', version: 1 }
     const argList = Object.assign({ application }, args)
 
     return this._connection.send(route, argList)

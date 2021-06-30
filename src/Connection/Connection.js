@@ -142,6 +142,10 @@ class Connection {
     await this.refreshAccessToken(true, args.withMemories)
   }
 
+  getAccessToken() {
+    return this._accessToken
+  }
+
   /**
    * Return the expire date (timestamp) of the refresh token
    *
@@ -326,12 +330,14 @@ class Connection {
       tokens = await this.send(this._routes['authenticateByPassword'], {
         username: args.username,
         password: args.password,
-        with_memories: args.withMemories
+        with_memories: args.withMemories,
+        withMemories: args.withMemories
       }, true)
     } else if (args.loginToken) {
       tokens = await this.send(this._routes['authenticateByToken'], {
         access_token: args.loginToken,
         with_memories: args.withMemories,
+        withMemories: args.withMemories
       }, true)
     }else{
       throw new Error('User name or login token is not set. At least one of them must be set..')
@@ -340,6 +346,10 @@ class Connection {
     this._accessToken = tokens['token']
     this._refreshToken = tokens['refresh_token']
     this._user = tokens['user']
+
+    if(tokens.memories) {
+      this._user.memories = tokens.memories
+    }
 
     this._refreshTokenExpireDate(true)
   }
@@ -400,10 +410,16 @@ class Connection {
         user: user.id,
         access_token: this._refreshToken,
         with_memories: withMemories,
+        withMemories: withMemories,
         application: 'koality'
       }, true)
 
       this._user = tokens['user']
+
+      if(tokens.memories) {
+        this._user.memories = tokens.memories
+      }
+
       this.setAccessToken(tokens['token'], this._refreshToken)
     }
   }

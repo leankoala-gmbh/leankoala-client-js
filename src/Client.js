@@ -148,8 +148,10 @@ class LeankoalaClient {
       this._repositoryCollection.setMasterConnection(this._masterConnection)
     } else if (args.hasOwnProperty('wakeUpToken')) {
       await this._initConnectionViaWakeUpToken(args)
-    } else if (args.hasOwnProperty('accessToken')) {
+    } else if (args.hasOwnProperty('accessToken') && args.accessToken) {
       await this._initConnectionViaMasterTokens(args)
+    } else if (args.hasOwnProperty('refreshToken')) {
+      await this._initConnectionViaRefreshToken(args)
     } else {
       await this._initConnectionViaCredentials(args)
     }
@@ -239,6 +241,27 @@ class LeankoalaClient {
     }
   }
 
+  async _initConnectionViaRefreshToken(args) {
+    this._masterConnection = new Connection(this._getMasterServer(), args.axios);
+    this._masterConnection.setRefreshRoute(this._routes['masterRefresh'])
+
+    await this._masterConnection.connect(args)
+
+    this._masterUser = this._masterConnection.getUser()
+
+    this._masterUser.masterId = this._masterUser.id
+
+    this._masterToken = this._masterConnection.getAccessToken()
+
+    this._companies = this._masterUser.companies
+
+    this._repositoryCollection.setMasterConnection(this._masterConnection)
+
+    if (args.autoSelectCompany) {
+      await this._autoSelectCompany()
+    }
+  }
+
   async _initConnectionViaMasterTokens(args) {
     this._masterConnection = new Connection(this._getMasterServer(), args.axios);
     this._masterConnection.setAccessToken(args.accessToken, args.refreshToken)
@@ -251,7 +274,6 @@ class LeankoalaClient {
       this._companies = args.user.companies
     }
 
-    console.log('b')
     this._repositoryCollection.setMasterConnection(this._masterConnection)
 
     if (args.autoSelectCompany) {
@@ -265,6 +287,7 @@ class LeankoalaClient {
       throw new Error('Unable to auto select the company. User is not connected to any.')
     }
     const company = this._companies[0]
+
     await this.switchCompany(company.id)
   }
 

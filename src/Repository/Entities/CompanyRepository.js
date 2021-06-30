@@ -21,7 +21,7 @@ class CompanyRepository extends Repository {
    * @param {Boolean} args.deleteIfNoCompany  (default: false)
    */
   async disconnectUser(application, company, user, args) {
-    const route = { path: '/v1/{application}/company/{company}/disconnect/{user}', method: 'PUT', version: 1 }
+    const route = { path: '{application}/company/{company}/disconnect/{user}', method: 'PUT', version: 1 }
     const argList = Object.assign({ application, company, user }, args)
 
     return this._connection.send(route, argList)
