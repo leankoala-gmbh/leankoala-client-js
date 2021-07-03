@@ -237,7 +237,8 @@ class Connection {
    */
   async send(route, data, withoutToken = false) {
 
-    const fullData = Object.assign(data, this._defaultParameters)
+    let defaultParameter = this._defaultParameters;
+    const fullData = Object.assign(defaultParameter, data)
 
     const method = route['method'].toUpperCase()
     const url = this._getUrl(route, fullData)

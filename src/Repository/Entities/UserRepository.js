@@ -133,7 +133,7 @@ class UserRepository extends Repository {
     const requiredArguments = ['email']
     this._assertValidArguments(requiredArguments, argList)
 
-    return this._connection.send(route, argList, false)
+    return this._connection.send(route, argList, true)
   }
 
   /**
