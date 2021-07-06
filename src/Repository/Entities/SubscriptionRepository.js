@@ -7,13 +7,13 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2021-05-11
+ * @created 2021-07-06
  */
 class SubscriptionRepository extends Repository {
 
   constructor() {
-      super()
-      this._connectionType = 'ClusterConnection'
+    super()
+    this._connectionType = 'ClusterConnection'
   }
 
   /**
@@ -33,7 +33,7 @@ class SubscriptionRepository extends Repository {
   }
 
   /**
-   * Set the companies credit card plan.
+   * Set the companies credit card plans.
    *
    * request url: /kapi/v1/subscription/company/{company}/plans/creditcard
    * request method: POST
@@ -44,6 +44,25 @@ class SubscriptionRepository extends Repository {
    */
   async setCompanyCreditCardPlans(company, args) {
     const route = { path: 'subscription/company/{company}/plans/creditcard', method: 'POST', version: 1 }
+    const argList = Object.assign({ company }, args)
+    const requiredArguments = ['quantity']
+    this._assertValidArguments(requiredArguments, argList)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
+   * Set the companies free plans.
+   *
+   * request url: /kapi/v1/subscription/company/{company}/plans/free
+   * request method: POST
+   *
+   * @param company
+   * @param {Object} args
+   * @param {Number} args.quantity The number of packets to be used
+   */
+  async setCompanyFreePlans(company, args) {
+    const route = { path: 'subscription/company/{company}/plans/free', method: 'POST', version: 1 }
     const argList = Object.assign({ company }, args)
     const requiredArguments = ['quantity']
     this._assertValidArguments(requiredArguments, argList)
@@ -130,7 +149,7 @@ class SubscriptionRepository extends Repository {
   }
 
   /**
-   * Get a list invoices.
+   * Get a list invoices for the given company.
    *
    * request url: /kapi/v1/subscription/company/{company}/invoices
    * request method: GET
@@ -141,6 +160,22 @@ class SubscriptionRepository extends Repository {
   async getCompanyInvoices(company, args) {
     const route = { path: 'subscription/company/{company}/invoices', method: 'GET', version: 1 }
     const argList = Object.assign({ company }, args)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
+   * End all trials.
+   *
+   * request url: /kapi/v1/subscription/trial/{providerIdentifier}/end
+   * request method: POST
+   *
+   * @param providerIdentifier
+   * @param {Object} args
+   */
+  async endTrials(providerIdentifier, args) {
+    const route = { path: 'subscription/trial/{providerIdentifier}/end', method: 'POST', version: 1 }
+    const argList = Object.assign({ providerIdentifier }, args)
 
     return this._connection.send(route, argList)
   }
