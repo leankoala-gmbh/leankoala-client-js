@@ -7,7 +7,7 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2021-07-06
+ * @created 2021-07-19
  */
 class SequenceRepository extends Repository {
 
@@ -19,14 +19,30 @@ class SequenceRepository extends Repository {
   /**
    * Get a list of possible commands
    *
-   * request url: /kapi/v1/sequences/{project}/comands/
+   * request url: /kapi/v1/sequences/{project}/commands
    * request method: GET
    *
    * @param project
    * @param {Object} args
    */
   async getCommands(project, args) {
-    const route = { path: 'sequences/{project}/comands/', method: 'GET', version: 1 }
+    const route = { path: 'sequences/{project}/commands', method: 'GET', version: 1 }
+    const argList = Object.assign({ project }, args)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
+   * Get a list of possible commands
+   *
+   * request url: /kapi/v1/sequences/{project}/sequences
+   * request method: GET
+   *
+   * @param project
+   * @param {Object} args
+   */
+  async getSequences(project, args) {
+    const route = { path: 'sequences/{project}/sequences', method: 'GET', version: 1 }
     const argList = Object.assign({ project }, args)
 
     return this._connection.send(route, argList)
