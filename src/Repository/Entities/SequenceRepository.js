@@ -7,7 +7,7 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2021-07-19
+ * @created 2021-07-21
  */
 class SequenceRepository extends Repository {
 
@@ -56,9 +56,9 @@ class SequenceRepository extends Repository {
    *
    * @param project
    * @param {Object} args
-   * @param {String} args.name
-   * @param {String} args.startUrl
-   * @param {Array} args.steps  (optional)
+   * @param {String} args.name The human readable name of the sequence.
+   * @param {String} args.startUrl The url the sequence starts at.
+   * @param {Array} args.steps List of steps of the sequence. (optional)
    */
   async createSequence(project, args) {
     const route = { path: 'sequences/{project}/sequence', method: 'POST', version: 1 }
@@ -77,13 +77,61 @@ class SequenceRepository extends Repository {
    *
    * @param project
    * @param {Object} args
-   * @param {String} args.name  (optional)
-   * @param {String} args.startUrl  (optional)
-   * @param {Array} args.steps  (optional)
+   * @param {String} args.name The human readable name of the sequence. (optional)
+   * @param {String} args.startUrl The url the sequence starts at. (optional)
+   * @param {Array} args.steps List of steps of the sequence. (optional)
    */
   async updateSequence(project, args) {
     const route = { path: 'sequences/{project}/sequence', method: 'PUT', version: 1 }
     const argList = Object.assign({ project }, args)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
+   * Activate an existing sequence.
+   *
+   * request url: /kapi/v1/sequences/{sequence}/activate
+   * request method: PUT
+   *
+   * @param sequence
+   * @param {Object} args
+   */
+  async activateSequence(sequence, args) {
+    const route = { path: 'sequences/{sequence}/activate', method: 'PUT', version: 1 }
+    const argList = Object.assign({ sequence }, args)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
+   * Deactivate an existing sequence.
+   *
+   * request url: /kapi/v1/sequences/{sequence}/deactivate
+   * request method: PUT
+   *
+   * @param sequence
+   * @param {Object} args
+   */
+  async deactivateSequence(sequence, args) {
+    const route = { path: 'sequences/{sequence}/deactivate', method: 'PUT', version: 1 }
+    const argList = Object.assign({ sequence }, args)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
+   * Return a list of recent runs.
+   *
+   * request url: /kapi/v1/sequences/{sequence}/recent
+   * request method: PUT
+   *
+   * @param sequence
+   * @param {Object} args
+   */
+  async getRecentRuns(sequence, args) {
+    const route = { path: 'sequences/{sequence}/recent', method: 'PUT', version: 1 }
+    const argList = Object.assign({ sequence }, args)
 
     return this._connection.send(route, argList)
   }
