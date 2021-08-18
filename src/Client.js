@@ -185,6 +185,9 @@ class LeankoalaClient {
     await this._masterConnection.connect(masterConnectionArgs)
     this._repositoryCollection.setMasterConnection(this._masterConnection)
 
+    const user = this._masterConnection.getUser()
+    this._masterUser['preferredLanguage'] = user.preferredLanguage
+
     if (wakeUpToken.company) {
       this._clusterConnection = new Connection(wakeUpToken.company.cluster.apiEndpoint, args.axios)
       this._clusterConnection.setRefreshRoute(this._routes.clusterRefresh)
