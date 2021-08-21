@@ -91,7 +91,7 @@ class Connection {
 
       await this.refreshAccessToken(true, args.withMemories)
     } else if (args.hasOwnProperty('accessToken')) {
-      this._accessToken = args['accessToken']
+      this.setAccessToken(args['accessToken'])
       this._accessExpireTimestamp = (Date.now() / 1000) + 60
     } else if (args.hasOwnProperty('wakeUpToken')) {
       await this._connectByWakeUpToken(args)
@@ -344,8 +344,8 @@ class Connection {
       throw new Error('User name or login token is not set. At least one of them must be set..')
     }
 
-    this._accessToken = tokens['token']
-    this._refreshToken = tokens['refresh_token']
+    this.setAccessToken( tokens['token'],tokens['refresh_token'] )
+
     this._user = tokens['user']
 
     if(tokens.memories) {
