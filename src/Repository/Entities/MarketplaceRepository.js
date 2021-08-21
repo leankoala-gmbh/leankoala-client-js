@@ -74,7 +74,7 @@ class MarketplaceRepository extends Repository {
    * @param system
    * @param suggestionIdentifier
    * @param {Object} args
-   * @param {String} args.url 
+   * @param {String} args.url
    */
   async setComponent(system, suggestionIdentifier, args) {
     const route = { path: 'marketplace/features/components/{system}/{suggestionIdentifier}', method: 'POST', version: 1 }
@@ -130,7 +130,7 @@ class MarketplaceRepository extends Repository {
    * @param company
    * @param featureIdentifier
    * @param {Object} args
-   * @param {Array} args.projects 
+   * @param {Array} args.projects
    */
   async activateFeature(company, featureIdentifier, args) {
     const route = { path: 'marketplace/marketplace/feature/activate/{company}/{featureIdentifier}', method: 'POST', version: 1 }
@@ -150,7 +150,7 @@ class MarketplaceRepository extends Repository {
    * @param company
    * @param featureIdentifier
    * @param {Object} args
-   * @param {Array} args.projects 
+   * @param {Array} args.projects
    */
   async deactivateFeature(company, featureIdentifier, args) {
     const route = { path: 'marketplace/marketplace/feature/deactivate/{company}/{featureIdentifier}', method: 'POST', version: 1 }
@@ -237,7 +237,38 @@ class MarketplaceRepository extends Repository {
 
     return this._connection.send(route, argList)
   }
+  
+  /**
+   * Return all the status of the health checks of the systems components.
+   *
+   * request url: /kapi/v1/marketplace/plugins/incidents/system/{system}
+   * request method: GET
+   *
+   * @param system
+   * @param {Object} args
+   */
+  async getSystemPluginStatus(system, args) {
+    const route = { path: 'marketplace/plugins/incidents/system/{system}', method: 'GET', version: 1 }
+    const argList = Object.assign({ system }, args)
 
+    return this._connection.send(route, argList)
+  }
+
+  /**
+   * Return all the status of the health checks of the systems components.
+   *
+   * request url: /kapi/v1/marketplace/plugins/incidents/user/{user}
+   * request method: GET
+   *
+   * @param user
+   * @param {Object} args
+   */
+  async getUserPluginStatus(user, args) {
+    const route = { path: 'marketplace/plugins/incidents/user/{user}', method: 'GET', version: 1 }
+    const argList = Object.assign({ user }, args)
+
+    return this._connection.send(route, argList)
+  }
 }
 
 module.exports = MarketplaceRepository
