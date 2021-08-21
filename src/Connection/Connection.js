@@ -237,12 +237,6 @@ class Connection {
    */
   async send(route, data, withoutToken = false) {
 
-    let defaultParameter = this._defaultParameters;
-    const fullData = Object.assign(defaultParameter, data)
-
-    const method = route['method'].toUpperCase()
-    const url = this._getUrl(route, fullData)
-
     let headers = {
       'accept-language': this._preferredLanguage
     }
@@ -251,6 +245,12 @@ class Connection {
       await this.refreshAccessToken()
       headers['Authorization'] = 'Bearer ' + this._accessToken
     }
+
+    let defaultParameter = this._defaultParameters;
+    const fullData = Object.assign(defaultParameter, data)
+
+    const method = route['method'].toUpperCase()
+    const url = this._getUrl(route, fullData)
 
     let response = {}
 
