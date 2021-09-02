@@ -246,8 +246,8 @@ class Connection {
       headers['Authorization'] = 'Bearer ' + this._accessToken
     }
 
-    let defaultParameter = this._defaultParameters;
-    const fullData = Object.assign(defaultParameter, data)
+    let defaultParameters = Object.assign({}, this._defaultParameters)
+    const fullData = Object.assign(defaultParameters, data)
 
     const method = route['method'].toUpperCase()
     const url = this._getUrl(route, fullData)
