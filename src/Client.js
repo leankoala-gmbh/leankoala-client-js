@@ -217,6 +217,15 @@ class LeankoalaClient {
 
         return results
     }
+    
+
+    /**
+     * Trigger Token Refresh
+     * @param { string } token
+     */
+     setRefreshToken(token) {
+       this._refreshToken = token
+     }
 }
 
 module.exports = LeankoalaClient
