@@ -1,6 +1,8 @@
 const jwtDecode = require('jwt-decode')
 
 const BadRequestError = require('./BadRequestError')
+const ForbiddenError = require('./ForbiddenError')
+const RefreshTokenInvalidError = require('./RefreshTokenInvalidError')
 
 /**
  * This class takes care of the connection between the KoalityEngine server and the client. It
@@ -312,7 +314,11 @@ class Connection {
         payload.identifier = responseData.identifier
       }
       this._publish('failure', payload)
-      throw new BadRequestError(payload)
+      if (response.status === 403) {
+        throw new ForbiddenError(responseData.message)
+      } else {
+        throw new BadRequestError(payload)
+      }
     }
   }
 
@@ -340,7 +346,7 @@ class Connection {
         with_memories: args.withMemories,
         withMemories: args.withMemories
       }, true)
-    }else{
+    } else {
       throw new Error('User name or login token is not set. At least one of them must be set..')
     }
 
@@ -348,7 +354,7 @@ class Connection {
 
     this._user = tokens['user']
 
-    if(tokens.memories) {
+    if (tokens.memories) {
       this._user.memories = tokens.memories
     }
 
@@ -406,18 +412,24 @@ class Connection {
   async refreshAccessToken(forceRefresh = false, withMemories = false) {
     if (forceRefresh || Math.floor(Date.now() / 1000) + 10 > this._accessExpireTimestamp) {
       const user = this.getUser()
-      const tokens = await this.send(this._refreshRoute, {
-        user_id: user.id,
-        user: user.id,
-        access_token: this._refreshToken,
-        with_memories: withMemories,
-        withMemories: withMemories,
-        application: 'koality'
-      }, true)
-
+      let tokens = {}
+      try {
+        tokens = await this.send(this._refreshRoute, {
+          user_id: user.id,
+          user: user.id,
+          access_token: this._refreshToken,
+          with_memories: withMemories,
+          withMemories: withMemories,
+          application: 'koality'
+        }, true)
+      } catch (error) {
+        this._publish('refresh.invalid', {message: error.message})
+        console.log('hier')
+        throw new RefreshTokenInvalidError(error.message)
+      }
       this._user = tokens['user']
 
-      if(tokens.memories) {
+      if (tokens.memories) {
         this._user.memories = tokens.memories
       }
 
