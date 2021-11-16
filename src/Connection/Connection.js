@@ -406,6 +406,7 @@ class Connection {
   async refreshAccessToken(forceRefresh = false, withMemories = false) {
     if (forceRefresh || Math.floor(Date.now() / 1000) + 10 > this._accessExpireTimestamp) {
       const user = this.getUser()
+
       const tokens = await this.send(this._refreshRoute, {
         user_id: user.id,
         user: user.id,

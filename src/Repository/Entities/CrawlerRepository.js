@@ -7,7 +7,7 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2021-05-11
+ * @created 2021-11-16
  */
 class CrawlerRepository extends Repository {
 
@@ -26,7 +26,8 @@ class CrawlerRepository extends Repository {
    * @param {Object} args
    * @param {Number} args.user The user (id) that starts the crawl and gets informed when the crawl
    *                            finishes
-   * @param {String} args.checklist_name The check lists name
+   * @param {String} args.checklist_name The check lists name (optional)
+   * @param {Array} args.collections The additional collections (optional)
    * @param {String} args.name The crawls name
    * @param {Number} args.system The systems id
    * @param {Number} args.depth Number of URLs to be crawled (default: 5)
@@ -36,7 +37,7 @@ class CrawlerRepository extends Repository {
   async runCrawl(project, args) {
     const route = { path: 'crawler/crawl/{project}', method: 'POST', version: 1 }
     const argList = Object.assign({ project }, args)
-    const requiredArguments = ['user', 'checklist_name', 'name', 'system']
+    const requiredArguments = ['user', 'name', 'system']
     this._assertValidArguments(requiredArguments, argList)
 
     return this._connection.send(route, argList)
@@ -106,6 +107,22 @@ class CrawlerRepository extends Repository {
    */
   async getCrawlerStatus(project, args) {
     const route = { path: 'crawler/status/{project}', method: 'GET', version: 1 }
+    const argList = Object.assign({ project }, args)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
+   * Get all collections that can be crawled.
+   *
+   * request url: /kapi/v1/crawler/collections/{project}
+   * request method: POST
+   *
+   * @param project
+   * @param {Object} args
+   */
+  async getCrawlableCollections(project, args) {
+    const route = { path: 'crawler/collections/{project}', method: 'POST', version: 1 }
     const argList = Object.assign({ project }, args)
 
     return this._connection.send(route, argList)
