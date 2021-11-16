@@ -114,16 +114,14 @@ class CrawlerRepository extends Repository {
 
   /**
    * Get all collections that can be crawled.
-   *
-   * request url: /kapi/v1/crawler/collections/{project}
+   * request url: /kapi/v1/crawler/collections
    * request method: POST
    *
-   * @param project
    * @param {Object} args
    */
-  async getCrawlableCollections(project, args) {
-    const route = { path: 'crawler/collections/{project}', method: 'POST', version: 1 }
-    const argList = Object.assign({ project }, args)
+  async getCrawlableCollections(args) {
+    const route = { path: 'crawler/collections', method: 'POST', version: 1 }
+    const argList = Object.assign({  }, args)
 
     return this._connection.send(route, argList)
   }
