@@ -7,7 +7,7 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2021-11-16
+ * @created 2021-11-17
  */
 class CrawlerRepository extends Repository {
 
@@ -44,6 +44,33 @@ class CrawlerRepository extends Repository {
   }
 
   /**
+   * Run a crawl for a given checklist
+   *
+   * request url: /kapi/v1/crawler/crawl/company/{company}
+   * request method: POST
+   *
+   * @param company
+   * @param {Object} args
+   * @param {Number} args.user The user (id) that starts the crawl and gets informed when the crawl
+   *                            finishes
+   * @param {String} args.checklist_name The check lists name (optional)
+   * @param {Array} args.collections The additional collections (optional)
+   * @param {String} args.name The crawls name
+   * @param {Number} args.system The systems id
+   * @param {Number} args.depth Number of URLs to be crawled (default: 5)
+   * @param {String} args.path The URL the crawler starts to crawl (default: /)
+   * @param {Number} args.parallel_requests Number of parallel requests that can be done (default: 8)
+   */
+  async runCompanyCrawl(company, args) {
+    const route = { path: 'crawler/crawl/company/{company}', method: 'POST', version: 1 }
+    const argList = Object.assign({ company }, args)
+    const requiredArguments = ['user', 'name', 'system']
+    this._assertValidArguments(requiredArguments, argList)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
    * Return all crawl by the given parameters
    *
    * request url: /kapi/v1/crawler/crawl/{project}/crawls
@@ -59,6 +86,22 @@ class CrawlerRepository extends Repository {
     const argList = Object.assign({ project }, args)
     const requiredArguments = ['system']
     this._assertValidArguments(requiredArguments, argList)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
+   * Return all crawl of the given company
+   *
+   * request url: /kapi/v1/crawler/crawl/company/{company}/crawls
+   * request method: POST
+   *
+   * @param company
+   * @param {Object} args
+   */
+  async listCompanyCrawls(company, args) {
+    const route = { path: 'crawler/crawl/company/{company}/crawls', method: 'POST', version: 1 }
+    const argList = Object.assign({ company }, args)
 
     return this._connection.send(route, argList)
   }
