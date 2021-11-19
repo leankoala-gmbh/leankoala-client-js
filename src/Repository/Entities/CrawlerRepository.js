@@ -7,7 +7,7 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2021-11-17
+ * @created 2021-11-19
  */
 class CrawlerRepository extends Repository {
 
@@ -56,7 +56,6 @@ class CrawlerRepository extends Repository {
    * @param {String} args.checklist_name The check lists name (optional)
    * @param {Array} args.collections The additional collections (optional)
    * @param {String} args.name The crawls name
-   * @param {Number} args.system The systems id
    * @param {Number} args.depth Number of URLs to be crawled (default: 5)
    * @param {String} args.path The URL the crawler starts to crawl (default: /)
    * @param {Number} args.parallel_requests Number of parallel requests that can be done (default: 8)
@@ -64,7 +63,7 @@ class CrawlerRepository extends Repository {
   async runCompanyCrawl(company, args) {
     const route = { path: 'crawler/crawl/company/{company}', method: 'POST', version: 1 }
     const argList = Object.assign({ company }, args)
-    const requiredArguments = ['user', 'name', 'system']
+    const requiredArguments = ['user', 'name']
     this._assertValidArguments(requiredArguments, argList)
 
     return this._connection.send(route, argList)
@@ -151,6 +150,22 @@ class CrawlerRepository extends Repository {
   async getCrawlerStatus(project, args) {
     const route = { path: 'crawler/status/{project}', method: 'GET', version: 1 }
     const argList = Object.assign({ project }, args)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
+   * Return the crawler status for a given company.
+   *
+   * request url: /kapi/v1/crawler/status/comapny/{comapny}
+   * request method: GET
+   *
+   * @param comapny
+   * @param {Object} args
+   */
+  async getCompanyCrawlerStatus(comapny, args) {
+    const route = { path: 'crawler/status/comapny/{comapny}', method: 'GET', version: 1 }
+    const argList = Object.assign({ comapny }, args)
 
     return this._connection.send(route, argList)
   }
