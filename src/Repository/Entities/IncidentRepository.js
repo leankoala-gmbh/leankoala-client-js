@@ -7,13 +7,29 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2021-05-11
+ * @created 2021-11-23
  */
 class IncidentRepository extends Repository {
 
   constructor() {
       super()
       this._connectionType = 'ClusterConnection'
+  }
+
+  /**
+   * Find all open incidents for the given company.
+   *
+   * request url: /kapi/v1/incident/incidents/company/{company}/search
+   * request method: POST
+   *
+   * @param company
+   * @param {Object} args
+   */
+  async findByCompany(company, args) {
+    const route = { path: 'incident/incidents/company/{company}/search', method: 'POST', version: 1 }
+    const argList = Object.assign({ company }, args)
+
+    return this._connection.send(route, argList)
   }
 
   /**
