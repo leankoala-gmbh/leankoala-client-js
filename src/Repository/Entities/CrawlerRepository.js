@@ -7,7 +7,7 @@ const Repository = require('../Repository')
  *
  * All changes made in this file will be overwritten by the next create run.
  *
- * @created 2021-11-26
+ * @created 2021-12-08
  */
 class CrawlerRepository extends Repository {
 
@@ -57,13 +57,13 @@ class CrawlerRepository extends Repository {
    * @param {Array} args.collections The additional collections (optional)
    * @param {String} args.name The crawls name
    * @param {Number} args.depth Number of URLs to be crawled (default: 50)
-   * @param {String} args.path The URL the crawler starts to crawl (default: /)
+   * @param {String} args.path The URL the crawler starts to crawl
    * @param {Number} args.parallel_requests Number of parallel requests that can be done (default: 8)
    */
   async runCompanyCrawl(company, args) {
     const route = { path: 'crawler/crawl/company/{company}', method: 'POST', version: 1 }
     const argList = Object.assign({ company }, args)
-    const requiredArguments = ['user', 'name']
+    const requiredArguments = ['user', 'name', 'path']
     this._assertValidArguments(requiredArguments, argList)
 
     return this._connection.send(route, argList)
@@ -125,14 +125,15 @@ class CrawlerRepository extends Repository {
   /**
    * Return the detailed information for a given crawl with all results.
    *
-   * request url: /kapi/v1/crawler/crawl/{crawl}
-   * request method: GET
+   * request url: /kapi/v1/crawler/crawl/detail/{crawl}
+   * request method: POST
    *
    * @param crawl
    * @param {Object} args
+   * @param {String} args.format The output format (default: json)
    */
   async getCrawl(crawl, args) {
-    const route = { path: 'crawler/crawl/{crawl}', method: 'GET', version: 1 }
+    const route = { path: 'crawler/crawl/detail/{crawl}', method: 'POST', version: 1 }
     const argList = Object.assign({ crawl }, args)
 
     return this._connection.send(route, argList)
