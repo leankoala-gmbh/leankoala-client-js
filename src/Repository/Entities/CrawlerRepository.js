@@ -185,6 +185,59 @@ class CrawlerRepository extends Repository {
     return this._connection.send(route, argList)
   }
 
+  /**
+   * Set check status for a single url
+   *
+   * request url: /kapi/v1/crawler/company/{company}/check/status
+   * request method: POST
+   *
+   * @param company
+   * @param {Object} args
+   * @param {*} args.check_type The check type (DeadLink)
+   * @param {*} args.check_status The status that should be set
+   * @param {String} args.url The url that status is valid for
+   */
+  async setCheckStatus(company, args) {
+    const route = { path: 'crawler/company/{company}/check/status', method: 'POST', version: 1 }
+    const argList = Object.assign({ company }, args)
+    const requiredArguments = ['check_type', 'check_status', 'url']
+    this._assertValidArguments(requiredArguments, argList)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
+   * Delete check status by id
+   *
+   * request url: /kapi/v1/crawler/company/{company}/check/status/{crawlUrlStatus}
+   * request method: DELETE
+   *
+   * @param company
+   * @param crawlUrlStatus
+   * @param {Object} args
+   */
+  async deleteCheckStatus(company, crawlUrlStatus, args) {
+    const route = { path: 'crawler/company/{company}/check/status/{crawlUrlStatus}', method: 'DELETE', version: 1 }
+    const argList = Object.assign({ company, crawlUrlStatus }, args)
+
+    return this._connection.send(route, argList)
+  }
+
+  /**
+   * List check status by company
+   *
+   * request url: /kapi/v1/crawler/company/{company}/check/status
+   * request method: GET
+   *
+   * @param company
+   * @param {Object} args
+   */
+  async listCheckStatus(company, args) {
+    const route = { path: 'crawler/company/{company}/check/status', method: 'GET', version: 1 }
+    const argList = Object.assign({ company }, args)
+
+    return this._connection.send(route, argList)
+  }
 }
 
 module.exports = CrawlerRepository
