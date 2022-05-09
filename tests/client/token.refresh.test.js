@@ -1,4 +1,4 @@
-const LeankoalaClient = require('../../src/Client')
+const LeankoalaClient = require('../../src/360ApiClient')
 const moxios = require('moxios')
 const axios = require('axios')
 

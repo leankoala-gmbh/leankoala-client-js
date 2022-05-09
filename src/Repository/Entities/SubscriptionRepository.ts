@@ -1,6 +1,8 @@
-const Repository = require('../Repository')
-
-
+import Repository from '../Repository'
+import {
+  IRSubResponseBillingAddress,
+  IRSubResponseCompanySubscription, IRSubResponseCreditCard,
+} from '../../typescript/interfaces/repos/subscriptionRepo.interface';
 
 /**
  * This class was created by the LeanApiBundle.
@@ -10,7 +12,6 @@ const Repository = require('../Repository')
  * @created 2021-07-06
  */
 class SubscriptionRepository extends Repository {
-
   constructor() {
     super()
     this._connectionType = 'ClusterConnection'
@@ -25,7 +26,7 @@ class SubscriptionRepository extends Repository {
    * @param company
    * @param {Object} args
    */
-  async getCompanySubscription(company, args) {
+  async getCompanySubscription(company: string|number, args = {}): Promise<IRSubResponseCompanySubscription> {
     const route = { path: 'subscription/company/{company}/', method: 'GET', version: 1 }
     const argList = Object.assign({ company }, args)
 
@@ -42,7 +43,7 @@ class SubscriptionRepository extends Repository {
    * @param {Object} args
    * @param {Number} args.quantity The number of packets to be used
    */
-  async setCompanyCreditCardPlans(company, args) {
+  async setCompanyCreditCardPlans(company: string|number, args: { quantity: number }): Promise<void> {
     const route = { path: 'subscription/company/{company}/plans/creditcard', method: 'POST', version: 1 }
     const argList = Object.assign({ company }, args)
     const requiredArguments = ['quantity']
@@ -61,7 +62,7 @@ class SubscriptionRepository extends Repository {
    * @param {Object} args
    * @param {Number} args.quantity The number of packets to be used
    */
-  async setCompanyFreePlans(company, args) {
+  async setCompanyFreePlans(company: string|number, args: {quantity: number}): Promise<any> {
     const route = { path: 'subscription/company/{company}/plans/free', method: 'POST', version: 1 }
     const argList = Object.assign({ company }, args)
     const requiredArguments = ['quantity']
@@ -82,7 +83,7 @@ class SubscriptionRepository extends Repository {
    * @param {String} args.last_digits The last 4 digits of the credit card
    * @param {String} args.brand The credit cards brand
    */
-  async setCreditCard(company, args) {
+  async setCreditCard(company: string|number, args: IRSubResponseCreditCard): Promise<any> {
     const route = { path: 'subscription/company/{company}/creditcard', method: 'POST', version: 1 }
     const argList = Object.assign({ company }, args)
     const requiredArguments = ['stripe_cc_source', 'last_digits', 'brand']
@@ -107,7 +108,7 @@ class SubscriptionRepository extends Repository {
    * @param {String} args.usident The companies "Umsatzsteuer-Identifikationsnummer". (optional)
    * @param {String} args.email The email address the invoice information gets send to. (optional)
    */
-  async setBillingAddress(company, args) {
+  async setBillingAddress(company: string|number, args: IRSubResponseBillingAddress): Promise<any> {
     const route = { path: 'subscription/company/{company}/billingaddress', method: 'POST', version: 1 }
     const argList = Object.assign({ company }, args)
     const requiredArguments = ['company_name', 'country', 'postal_code', 'city', 'street']
@@ -125,7 +126,7 @@ class SubscriptionRepository extends Repository {
    * @param company
    * @param {Object} args
    */
-  async getBillingAddress(company, args) {
+  async getBillingAddress(company: string|number, args = {}): Promise<any> {
     const route = { path: 'subscription/company/{company}/billingaddress', method: 'GET', version: 1 }
     const argList = Object.assign({ company }, args)
 
@@ -141,7 +142,7 @@ class SubscriptionRepository extends Repository {
    * @param company
    * @param {Object} args
    */
-  async getSubscribedFeatures(company, args) {
+  async getSubscribedFeatures(company: string|number, args = {}): Promise<any> {
     const route = { path: 'subscription/company/{company}/features', method: 'GET', version: 1 }
     const argList = Object.assign({ company }, args)
 
@@ -157,7 +158,7 @@ class SubscriptionRepository extends Repository {
    * @param company
    * @param {Object} args
    */
-  async getCompanyInvoices(company, args) {
+  async getCompanyInvoices(company: string|number, args = {}): Promise<any> {
     const route = { path: 'subscription/company/{company}/invoices', method: 'GET', version: 1 }
     const argList = Object.assign({ company }, args)
 
@@ -173,13 +174,12 @@ class SubscriptionRepository extends Repository {
    * @param providerIdentifier
    * @param {Object} args
    */
-  async endTrials(providerIdentifier, args) {
+  async endTrials(providerIdentifier, args = {}): Promise<any> {
     const route = { path: 'subscription/trial/{providerIdentifier}/end', method: 'POST', version: 1 }
     const argList = Object.assign({ providerIdentifier }, args)
 
     return this._connection.send(route, argList)
   }
-
 }
 
-module.exports = SubscriptionRepository
+export default SubscriptionRepository

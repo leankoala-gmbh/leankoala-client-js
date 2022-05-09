@@ -1,6 +1,4 @@
-const Repository = require('../Repository')
-
-
+import Repository from '../Repository'
 
 /**
  * This class was created by the LeanApiBundle.
@@ -14,8 +12,8 @@ class Auth2Repository extends Repository {
   /**
    * @param application
    * @param {Object} args
-   * @param {String} args.emailOrUserName 
-   * @param {String} args.password 
+   * @param {String} args.emailOrUserName
+   * @param {String} args.password
    * @param {Boolean} args.withMemories If true all Memory entities will be attached in the answer. (default: false)
    */
   async loginWithCredentials(application, args) {
@@ -59,4 +57,4 @@ class Auth2Repository extends Repository {
 
 }
 
-module.exports = Auth2Repository
+export default Auth2Repository

@@ -1,6 +1,4 @@
-const Repository = require('../Repository')
-
-
+import Repository from '../Repository'
 
 /**
  * This class was created by the LeanApiBundle.
@@ -41,8 +39,8 @@ class AlertingChannelRepository extends Repository {
    * @param project
    * @param {Object} args
    * @param {String} args.name The name of the alert channel
-   * @param {*} args.type 
-   * @param {Array} args.options 
+   * @param {*} args.type
+   * @param {Array} args.options
    * @param {String} args.language The language the alert should be send in. If not value is set the
    *                               default provider language is taken. (optional)
    */
@@ -82,7 +80,7 @@ class AlertingChannelRepository extends Repository {
    * @param channel
    * @param {Object} args
    * @param {String} args.name  (optional)
-   * @param {*} args.type 
+   * @param {*} args.type
    * @param {Array} args.options  (optional)
    * @param {String} args.language The language the alert should be send in (optional)
    */
@@ -97,4 +95,4 @@ class AlertingChannelRepository extends Repository {
 
 }
 
-module.exports = AlertingChannelRepository
+export default AlertingChannelRepository

@@ -1,6 +1,4 @@
-const Repository = require('../Repository')
-
-
+import Repository from '../Repository'
 
 /**
  * This class was created by the LeanApiBundle.
@@ -38,7 +36,7 @@ class AlertingPolicyRepository extends Repository {
    *
    * @param project
    * @param {Object} args
-   * @param {String} args.name 
+   * @param {String} args.name
    * @param {String} args.interval  (default: immediately)
    * @param {Array} args.severities  (optional)
    * @param {Number} args.channels  (optional)
@@ -90,4 +88,4 @@ class AlertingPolicyRepository extends Repository {
 
 }
 
-module.exports = AlertingPolicyRepository
+export default AlertingPolicyRepository

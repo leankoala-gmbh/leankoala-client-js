@@ -18,7 +18,7 @@ client.setLanguage('de')
 
 ## Connect
 ```javascript
-# via username and password
+// via username and password
 await client.connect({ username: 'demo', password: 'demo', axios })
 
 # via wakeup token

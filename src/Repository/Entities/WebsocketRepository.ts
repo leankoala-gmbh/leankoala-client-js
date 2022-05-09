@@ -1,6 +1,5 @@
-const Repository = require('../Repository')
-
-
+import Repository from '../Repository'
+import {IRWebsocketGetRoomsResponse} from "../../typescript/interfaces/repos/websocketRepo.interface";
 
 /**
  * This class was created by the LeanApiBundle.
@@ -21,15 +20,13 @@ class WebsocketRepository extends Repository {
    * request url: /kapi/v1/websockets/rooms
    * request method: POST
    *
-   * @param {Object} args
    */
-  async getRooms(args) {
+  async getRooms(): Promise<IRWebsocketGetRoomsResponse> {
     const route = { path: 'websockets/rooms', method: 'POST', version: 1 }
-    const argList = Object.assign({  }, args)
+    const argList = Object.assign({}, {})
 
     return this._connection.send(route, argList)
   }
-
 }
 
-module.exports = WebsocketRepository
+export default WebsocketRepository

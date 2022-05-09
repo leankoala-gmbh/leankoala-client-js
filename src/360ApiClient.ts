@@ -1,14 +1,13 @@
-const Connection = require('./Connection/Connection')
-
-const RepositoryCollection = require('./Repository/RepositoryCollection')
-
-const ENVIRONMENT_LOCAL = 'local'
-const ENVIRONMENT_STAGE = 'stage'
-const ENVIRONMENT_PRODUCTION = 'production'
-
-const SERVER_LOCAL = 'http://localhost:8082/'
-const SERVER_STAGE = 'https://auth.stage.koalityengine.com/'
-const SERVER_PRODUCTION = 'https://auth.koalityengine.com/'
+import Connection from './Connection/Connection'
+import RepositoryCollection from './Repository/RepositoryCollection'
+import {TRepositories} from './typescript/interfaces/global/repos'
+import {
+  IClientConnectArgs,
+  EEnvironment, EServer,
+  IInitConnectionArgs, IInitConnectionViaMasterTokens, IInitConnectionViaWakeUpTokenArgs,
+  IRepositoryCollection, ISwitchClusterArgs,
+  ITokenObject, IRepositoryCollectionRepos
+} from './typescript/interfaces/360ApiClient.interface'
 
 /**
  * The KoalityEngine client is used to connect to an instance of the KoalityEngine
@@ -17,8 +16,24 @@ const SERVER_PRODUCTION = 'https://auth.koalityengine.com/'
  * @author Nils Langner (nils.langner@leankoala.com)
  * @created 2020-07-05
  */
-class LeankoalaClient {
-
+export class LeankoalaClient {
+  private _clusterConnection: any
+  private _masterConnection: any
+  private _user: any
+  private _companies: any
+  private _currentCompany: boolean
+  private readonly _axios: boolean
+  private readonly _environment: string
+  private _connectionStatus: string
+  private readonly _registeredEventListeners: any
+  private _masterToken: string | undefined
+  private readonly _routes: {
+    masterRefresh: {path: string; method: string; version: number}
+    clusterRefresh: {path: string; method: string; version: number}
+  }
+  private _repositoryCollection: Partial<IRepositoryCollection>  = {}
+  private _masterUser: any
+  private _refreshToken: string | undefined
   /**
    * Create a client and set the environment
    *
@@ -27,30 +42,25 @@ class LeankoalaClient {
   constructor(environment = 'production') {
     this._clusterConnection = false
     this._masterConnection = false
-
     this._user = {}
     this._companies = {}
     this._currentCompany = false
-
     this._axios = false
-
     this._environment = environment
     this._connectionStatus = 'disconnected'
-    this._registeredEventListeners = {};
-
-    this._masterToken = '';
-
+    this._registeredEventListeners = {}
+    this._masterToken = ''
     this._routes = {
       masterRefresh: {
         version: 1,
         path: '{application}/auth/refresh/{user}',
-        method: 'POST'
+        method: 'POST',
       },
       clusterRefresh: {
         version: 1,
         path: 'auth/tokens/refresh/{user_id}',
-        method: 'POST'
-      }
+        method: 'POST',
+      },
     }
   }
 
@@ -69,9 +79,11 @@ class LeankoalaClient {
    *
    * @param {function} [args.axios] a predefined axios instance
    */
-  async connect(args) {
-    args.autoSelectCompany = args.autoSelectCompany | false
+
+  async connect(args: IClientConnectArgs) {
+    args.autoSelectCompany = args.autoSelectCompany || false
     this._connectionStatus = 'connecting'
+
     try {
       this._repositoryCollection = new RepositoryCollection()
       await this._initConnection(args)
@@ -89,9 +101,7 @@ class LeankoalaClient {
    * @return {boolean}
    */
   isConnected() {
-    if (this._masterConnection === false) {
-      return false
-    }
+    if (!this._masterConnection) return false
 
     return Math.floor(Date.now() / 1000) < this._masterConnection.getExpireDate()
   }
@@ -118,17 +128,14 @@ class LeankoalaClient {
    *
    * @return {String}
    */
-  getWakeUpToken() {
-    let tokenObject = {
-      'master': this._masterConnection.getWakeUpToken(),
-      'company': this._currentCompany,
-      'user': this.getUser()
-    }
-
-    if (this._clusterConnection) {
-      tokenObject.cluster = this._clusterConnection.getWakeUpToken()
-    } else {
-      tokenObject.cluster = ''
+  getWakeUpToken(): string {
+    const tokenObject: ITokenObject = {
+      master: this._masterConnection.getWakeUpToken(),
+      company: this._currentCompany,
+      user: this.getUser(),
+      cluster: this._clusterConnection
+        ? this._clusterConnection.getWakeUpToken()
+        : null
     }
 
     return JSON.stringify(tokenObject)
@@ -141,17 +148,18 @@ class LeankoalaClient {
    *
    * @private
    */
-  async _initConnection(args) {
-    this._axios = args.axios
 
-    if (args.hasOwnProperty('noLogin')) {
-      this._masterConnection = new Connection(this._getMasterServer(), args.axios);
+  private async _initConnection(args: IInitConnectionArgs): Promise<void> {
+    // this._axios = args.axios
+
+    if ('noLogin' in args) {
+      this._masterConnection = new Connection(this._getMasterServer(), args.axios)
       this._repositoryCollection.setMasterConnection(this._masterConnection)
-    } else if (args.hasOwnProperty('wakeUpToken')) {
+    } else if ('wakeUpToken' in args) {
       await this._initConnectionViaWakeUpToken(args)
-    } else if (args.hasOwnProperty('accessToken') && args.accessToken) {
+    } else if ('accessToken' in args && args.accessToken) {
       await this._initConnectionViaMasterTokens(args)
-    } else if (args.hasOwnProperty('refreshToken')) {
+    } else if ('refreshToken' in args) {
       await this._initConnectionViaRefreshToken(args)
     } else {
       await this._initConnectionViaCredentials(args)
@@ -169,16 +177,17 @@ class LeankoalaClient {
    *
    * @private
    */
-  async _initConnectionViaWakeUpToken(args) {
 
+  private async _initConnectionViaWakeUpToken(args: IInitConnectionViaWakeUpTokenArgs) {
+    if (!('wakeUpToken' in args)) throw new Error('WakeUp Token is missing')
     const wakeUpToken = JSON.parse(args.wakeUpToken)
     this._masterUser = wakeUpToken.user
     this._currentCompany = wakeUpToken.company
 
     this._masterConnection = new Connection(this._getMasterServer(), args.axios)
 
-    let masterConnectionArgs = args
-    let masterWakeUpToken = wakeUpToken.master
+    const masterConnectionArgs = args
+    const masterWakeUpToken = wakeUpToken.master
     masterWakeUpToken.user.id = this._masterUser.masterId
     masterConnectionArgs.wakeUpToken = JSON.stringify(masterWakeUpToken)
     this._masterConnection.setRefreshRoute(this._routes.masterRefresh)
@@ -191,45 +200,50 @@ class LeankoalaClient {
     if (wakeUpToken.company) {
       this._clusterConnection = new Connection(wakeUpToken.company.cluster.apiEndpoint, args.axios)
       this._clusterConnection.setRefreshRoute(this._routes.clusterRefresh)
-      let clusterConnectionArgs = args
+      const clusterConnectionArgs = args
       clusterConnectionArgs.wakeUpToken = JSON.stringify(wakeUpToken.cluster)
       await this._clusterConnection.connect(clusterConnectionArgs)
       this._repositoryCollection.setClusterConnection(this._clusterConnection)
     }
   }
 
-  async _initConnectionViaCredentials(args) {
-    const apiServer = this._getMasterServer(this._environment)
 
-    if (!args.hasOwnProperty('axios')) {
-      throw new Error('Missing parameter axios. The HTTP client must be injected.')
-    }
+  private async _initConnectionViaCredentials(args: IClientConnectArgs) {
+    const apiServer = this._getMasterServer()
 
-    this._axios = args['axios']
+    // if (!('axios' in args)) {
+    //   throw new Error('Missing parameter axios. The HTTP client must be injected.')
+    // }
 
-    if (typeof this._axios !== 'function') {
-      throw new Error('The axios argument is not a function. Seems like it is not a valid axios object,')
-    }
+    // this._axios = args['axios']
+
+    // if (typeof this._axios !== 'function') {
+    //   throw new Error(
+    //     'The axios argument is not a function. Seems like it is not a valid axios object,',
+    //   )
+    // }
 
     this._masterConnection = new Connection(apiServer, this._axios)
 
-    const route = {version: 1, path: '{application}/auth/login', method: 'POST'}
+    const route = { version: 1, path: '{application}/auth/login', method: 'POST' }
 
-    const withMemories = Boolean(args.withMemories | false)
+    const withMemories = Boolean(args.withMemories || false)
 
-    const result = await this._masterConnection.send(route, {
-      emailOrUserName: args.username,
-      password: args.password,
-      'application': 'koality',
-      withMemories
-    }, true)
+    const result = await this._masterConnection.send(
+      route,
+      {
+        emailOrUserName: args.username,
+        password: args.password,
+        application: 'koality',
+        withMemories,
+      },
+      true,
+    )
 
     this._masterToken = result.token
-    this._refrehToken = result.refreshToken
-
+    this._refreshToken = result.refreshToken
     this._masterUser = result.user
     this._masterConnection.setUser(result.user)
-
     this._masterUser['masterId'] = result.user.id
 
     if (result.memories) {
@@ -237,7 +251,7 @@ class LeankoalaClient {
     }
     this._companies = result.companies
 
-    this._masterConnection.setAccessToken(this._masterToken, this._refrehToken);
+    this._masterConnection.setAccessToken(this._masterToken, this._refreshToken)
     this._repositoryCollection.setMasterConnection(this._masterConnection)
 
     if (args.autoSelectCompany) {
@@ -245,20 +259,16 @@ class LeankoalaClient {
     }
   }
 
-  async _initConnectionViaRefreshToken(args) {
-    this._masterConnection = new Connection(this._getMasterServer(), args.axios);
-    this._masterConnection.setRefreshRoute(this._routes['masterRefresh'])
 
+  private async _initConnectionViaRefreshToken(args: IClientConnectArgs) {
+    this._masterConnection = new Connection(this._getMasterServer(), args.axios)
+    this._masterConnection.setRefreshRoute(this._routes['masterRefresh'])
     await this._masterConnection.connect(args)
 
     this._masterUser = this._masterConnection.getUser()
-
     this._masterUser.masterId = this._masterUser.id
-
     this._masterToken = this._masterConnection.getAccessToken()
-
     this._companies = this._masterUser.companies
-
     this._repositoryCollection.setMasterConnection(this._masterConnection)
 
     if (args.autoSelectCompany) {
@@ -266,11 +276,12 @@ class LeankoalaClient {
     }
   }
 
-  async _initConnectionViaMasterTokens(args) {
-    this._masterConnection = new Connection(this._getMasterServer(), args.axios);
+  private async _initConnectionViaMasterTokens(args: IInitConnectionViaMasterTokens) {
+    this._masterConnection = new Connection(this._getMasterServer(), args.axios)
     this._masterConnection.setAccessToken(args.accessToken, args.refreshToken)
     this._masterToken = args.accessToken
-    if (args.hasOwnProperty('user')) {
+
+    if ('user' in args) {
       this._masterConnection.setUser(args.user)
       this._user = args.user
       this._user.masterId = args.user.id
@@ -283,10 +294,9 @@ class LeankoalaClient {
     if (args.autoSelectCompany) {
       await this._autoSelectCompany()
     }
-
   }
 
-  async _autoSelectCompany() {
+  private async _autoSelectCompany() {
     if (this._companies.length === 0) {
       throw new Error('Unable to auto select the company. User is not connected to any.')
     }
@@ -295,7 +305,13 @@ class LeankoalaClient {
     await this.switchCompany(company.id)
   }
 
-  async switchCompany(companyId) {
+  /**
+   * Returns the master server.
+   *
+   * @returns {string}
+   */
+  async switchCompany(companyId: string) {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const client = this
     let currentCompany
     this._companies.forEach(function (company) {
@@ -312,34 +328,38 @@ class LeankoalaClient {
     }
   }
 
-  async _switchCluster(cluster) {
+  /**
+   * Returns the master server.
+   * @param cluster
+   * @private
+   */
+  private async _switchCluster(cluster: ISwitchClusterArgs) {
     this._clusterConnection = new Connection(cluster.apiEndpoint, this._axios)
     this._repositoryCollection.setClusterConnection(this._clusterConnection)
     this._clusterConnection.addDefaultParameter('masterUserId', this._masterUser.id)
 
-    await this._clusterConnection.connect({loginToken: this._masterToken})
+    await this._clusterConnection.connect({ loginToken: this._masterToken })
 
     const clusterUser = this._clusterConnection.getUser()
     this._masterUser['clusterId'] = clusterUser['id']
     this._masterUser['id'] = clusterUser['id']
   }
 
-  _getMasterServer() {
-    let apiServer
+  /**
+   * Returns the master server.
+   * @returns {string}
+   */
+  private _getMasterServer() {
     switch (this._environment) {
-      case ENVIRONMENT_LOCAL:
-        apiServer = SERVER_LOCAL
-        break
-      case ENVIRONMENT_STAGE:
-        apiServer = SERVER_STAGE
-        break
-      case ENVIRONMENT_PRODUCTION:
-        apiServer = SERVER_PRODUCTION
-        break
+      case EEnvironment.Local:
+        return EServer.Local
+      case EEnvironment.Stage:
+        return EServer.Stage
+      case EEnvironment.Production:
+        return EServer.Production
       default:
         throw new Error('The given environment "' + this._environment + '" is unknown.')
     }
-    return apiServer
   }
 
   /**
@@ -347,10 +367,9 @@ class LeankoalaClient {
    *
    * @private
    */
-  _registerConnectionListeners() {
+  private _registerConnectionListeners() {
     const masterConnection = this._masterConnection
     const clusterConnection = this._clusterConnection
-
     const listeners = this._registeredEventListeners
 
     Object.keys(listeners).forEach((key) => {
@@ -374,7 +393,7 @@ class LeankoalaClient {
    *
    * @throws {Error}
    */
-  async getRepository(entityType) {
+  async getRepository<T extends TRepositories>(entityType: T): Promise<IRepositoryCollectionRepos[T]> {
     if (this._connectionStatus === 'disconnected') {
       throw new Error('Please connect the client before running this method.')
     }
@@ -389,6 +408,7 @@ class LeankoalaClient {
       }
       return this.getRepository(entityType)
     }
+    return {} as IRepositoryCollectionRepos[T]
   }
 
   /**
@@ -399,8 +419,8 @@ class LeankoalaClient {
    *
    * @private
    */
-  async _sleep(milliseconds) {
-    return new Promise(resolve => setTimeout(resolve, milliseconds))
+  private async _sleep(milliseconds: number): Promise<unknown> {
+    return new Promise((resolve) => setTimeout(resolve, milliseconds))
   }
 
   /**
@@ -415,6 +435,9 @@ class LeankoalaClient {
     return this._masterUser
   }
 
+  /**
+   * Return the current company.
+   */
   getCompany() {
     return this._currentCompany
   }
@@ -425,10 +448,11 @@ class LeankoalaClient {
    * @param {String} eventName
    * @param {CallableFunction} callback
    */
-  on(eventName, callback) {
-    if (!this._registeredEventListeners.hasOwnProperty(eventName)) {
+  on(eventName: string, callback: CallableFunction) {
+    if (!(eventName in this._registeredEventListeners)) {
       this._registeredEventListeners[eventName] = []
     }
+
     this._registeredEventListeners[eventName].push(callback)
 
     if (this._masterConnection) {
@@ -446,22 +470,21 @@ class LeankoalaClient {
    * @param promises
    * @returns Object
    */
-  async fetchAll(promises) {
-    const promiseArray = []
+  async fetchAll(promises): Promise<any> {
+    const promiseArray: string[] = []
     const results = {}
-    let count = 0;
+    let count = 0
 
-    Object.keys(promises).forEach((element) =>
-      promiseArray.push(promises[element])
-    )
+    Object.keys(promises).forEach((element) => promiseArray.push(promises[element]))
 
-    const promiseResults = await Promise.allSettled(promiseArray);
+    const promiseResults = await Promise.allSettled(promiseArray)
 
     Object.keys(promises).forEach((element) => {
-        results[element] = promiseResults[count].value
-        count++
-      }
-    )
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      results[element] = promiseResults[count].value
+      count++
+    })
 
     return results
   }
@@ -475,7 +498,7 @@ class LeankoalaClient {
    * @returns {boolean}
    */
   isWakeUpTokenExpired(token) {
-    const {master, cluster} = JSON.parse(token)
+    const { master, cluster } = JSON.parse(token)
 
     const time = Math.floor(new Date().getTime() / 1000)
 
@@ -494,9 +517,7 @@ class LeankoalaClient {
    * Trigger Token Refresh
    * @param { string } token
    */
-  setRefreshToken(token) {
+  setRefreshToken(token: string) {
     this._refreshToken = token
   }
 }
-
-module.exports = LeankoalaClient

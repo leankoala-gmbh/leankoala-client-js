@@ -1,4 +1,4 @@
-const LeankoalaClient = require('../src/Client')
+const LeankoalaClient = require('../src/360ApiClient')
 const axios = require('axios');
 
 const cliArgs = process.argv;

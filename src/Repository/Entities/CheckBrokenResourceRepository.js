@@ -1,6 +1,4 @@
-const Repository = require('../Repository')
-
-
+import Repository from '../Repository'
 
 /**
  * This class was created by the LeanApiBundle.
@@ -32,4 +30,4 @@ class CheckBrokenResourceRepository extends Repository {
 
 }
 
-module.exports = CheckBrokenResourceRepository
+export default CheckBrokenResourceRepository

@@ -1,6 +1,4 @@
-const Repository = require('../Repository')
-
-
+import Repository from '../Repository'
 
 /**
  * This class was created by the LeanApiBundle.
@@ -13,8 +11,8 @@ class ApplicationRepository extends Repository {
 
   /**
    * @param {Object} args
-   * @param {String} args.name 
-   * @param {String} args.identifier 
+   * @param {String} args.name
+   * @param {String} args.identifier
    */
   async createApplication(args) {
     const route = { path: '/api/application', method: 'POST', version: 1 }
@@ -38,4 +36,4 @@ class ApplicationRepository extends Repository {
 
 }
 
-module.exports = ApplicationRepository
+export default ApplicationRepository

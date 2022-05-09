@@ -1,4 +1,4 @@
-const Repository = require('../Repository')
+import Repository from '../Repository'
 
 /**
  * The result type for the createTokenByCredentials API request.
@@ -37,8 +37,8 @@ class AuthRepository extends Repository {
    * request method: POST
    *
    * @param {Object} args
-   * @param {String} args.username 
-   * @param {String} args.password 
+   * @param {String} args.username
+   * @param {String} args.password
    * @param {Boolean} args.expire  (default: true)
    * @param {Boolean} args.with_memories If true all Memory entities will be attached in the answer. (default: false)
    *
@@ -70,4 +70,4 @@ class AuthRepository extends Repository {
 
 }
 
-module.exports = AuthRepository
+export default AuthRepository
