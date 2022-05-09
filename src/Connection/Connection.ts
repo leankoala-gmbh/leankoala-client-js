@@ -9,7 +9,7 @@ import {
   IGetUrlArgs,
   IGetWakeUpTokenResult, IRefreshAccessToken,
   IRoute,
-  IUser
+  IUser, ISendHeaders
 } from '../typescript/interfaces/global/connection'
 
 /**
@@ -41,6 +41,7 @@ class Connection {
     authenticateByPassword: { path: string; method: string; version: number }
     authenticateByToken: { path: string; method: string; version: number }
   }
+
   private _connectionArgs: any
 
   /**
@@ -236,7 +237,7 @@ class Connection {
       })
     }
 
-    return url.replace(/(https?:\/\/)|(\/)+/g, "$1$2")
+    return url.replace(/(https?:\/\/)|(\/)+/g, '$1$2')
   }
 
   /**
@@ -253,13 +254,13 @@ class Connection {
    */
   async send(route: IRoute, data: object | {[key: string]: string}, withoutToken = false): Promise<IRefreshAccessToken> {
 
-    const headers = {
+    const headers: ISendHeaders = {
       'accept-language': this._preferredLanguage
     }
 
     if (!withoutToken) {
       await this.refreshAccessToken()
-      headers['Authorization'] = `Bearer ${this._accessToken}`
+      headers.Authorization = `Bearer ${this._accessToken}`
     }
 
     const defaultParameters = Object.assign({}, this._defaultParameters)
@@ -346,14 +347,14 @@ class Connection {
   async _authenticate(args: IAuthenticateArgs) {
     let tokens
     if (args.username) {
-      tokens = await this.send(this._routes['authenticateByPassword'], {
+      tokens = await this.send(this._routes.authenticateByPassword, {
         username: args.username,
         password: args.password,
         with_memories: args.withMemories,
         withMemories: args.withMemories
       }, true)
     } else if (args.loginToken) {
-      tokens = await this.send(this._routes['authenticateByToken'], {
+      tokens = await this.send(this._routes.authenticateByToken, {
         access_token: args.loginToken,
         with_memories: args.withMemories,
         withMemories: args.withMemories
@@ -362,8 +363,8 @@ class Connection {
       throw new Error('User name or login token is not set. At least one of them must be set..')
     }
 
-    this.setAccessToken(tokens['token'], tokens['refresh_token'])
-    this._user = tokens['user']
+    this.setAccessToken(tokens.token, tokens.refresh_token)
+    this._user = tokens.user
 
     this._user.memories = tokens.memories
 
@@ -381,11 +382,11 @@ class Connection {
    */
   _refreshTokenExpireDate(withRefreshToken = false) {
     const accessTokenData = jwtDecode(this._accessToken)
-    this._accessExpireTimestamp = Math.floor(Date.now() / 1000) + accessTokenData['ttl']
+    this._accessExpireTimestamp = Math.floor(Date.now() / 1000) + accessTokenData.ttl
 
     if (withRefreshToken) {
       const refreshTokenData = jwtDecode(this._refreshToken)
-      this._refreshExpireTimestamp = Math.floor(Date.now() / 1000) + refreshTokenData['ttl']
+      this._refreshExpireTimestamp = Math.floor(Date.now() / 1000) + refreshTokenData.ttl
     }
   }
 
@@ -445,7 +446,7 @@ class Connection {
         this._user.memories = tokens.memories
       }
 
-      this.setAccessToken(tokens['token'], this._refreshToken)
+      this.setAccessToken(tokens.token, this._refreshToken)
     }
   }
 

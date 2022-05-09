@@ -1,9 +1,10 @@
 import {TRepositories} from '../typescript/interfaces/global/repos'
+import {IRepositoryCollectionRepos} from '../typescript/interfaces/360ApiClient.interface'
 // import Sequence from './Entities/SequenceRepository'
 // import Marketplace from './Entities/MarketplaceRepository'
 import Subscription from './Entities/SubscriptionRepository'
 import Websocket from './Entities/WebsocketRepository'
-import {IRepositoryCollectionRepos} from "../typescript/interfaces/360ApiClient.interface";
+
 // import Incident from './Entities/IncidentRepository'
 // import CustomerHaendlerbund from './Entities/CustomerHaendlerbundRepository'
 // import CustomerHaendlerbundMetric from './Entities/CustomerHaendlerbundMetricRepository'

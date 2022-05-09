@@ -1,12 +1,11 @@
 import Connection from './Connection/Connection'
 import RepositoryCollection from './Repository/RepositoryCollection'
 import {TRepositories} from './typescript/interfaces/global/repos'
-import {
-  IClientConnectArgs,
+import { IClientConnectArgs,
   EEnvironment, EServer,
   IInitConnectionArgs, IInitConnectionViaMasterTokens, IInitConnectionViaWakeUpTokenArgs,
   IRepositoryCollection, ISwitchClusterArgs,
-  ITokenObject, IRepositoryCollectionRepos
+  ITokenObject, IRepositoryCollectionRepos,
 } from './typescript/interfaces/360ApiClient.interface'
 
 /**
@@ -27,13 +26,14 @@ export class LeankoalaClient {
   private _connectionStatus: string
   private readonly _registeredEventListeners: any
   private _masterToken: string | undefined
+  private _repositoryCollection: Partial<IRepositoryCollection>  = {}
+  private _masterUser: any
+  private _refreshToken: string | undefined
   private readonly _routes: {
     masterRefresh: {path: string; method: string; version: number}
     clusterRefresh: {path: string; method: string; version: number}
   }
-  private _repositoryCollection: Partial<IRepositoryCollection>  = {}
-  private _masterUser: any
-  private _refreshToken: string | undefined
+
   /**
    * Create a client and set the environment
    *
@@ -135,7 +135,7 @@ export class LeankoalaClient {
       user: this.getUser(),
       cluster: this._clusterConnection
         ? this._clusterConnection.getWakeUpToken()
-        : null
+        : null,
     }
 
     return JSON.stringify(tokenObject)
@@ -195,7 +195,7 @@ export class LeankoalaClient {
     this._repositoryCollection.setMasterConnection(this._masterConnection)
 
     const user = this._masterConnection.getUser()
-    this._masterUser['preferredLanguage'] = user.preferredLanguage
+    this._masterUser.preferredLanguage = user.preferredLanguage
 
     if (wakeUpToken.company) {
       this._clusterConnection = new Connection(wakeUpToken.company.cluster.apiEndpoint, args.axios)
@@ -244,10 +244,10 @@ export class LeankoalaClient {
     this._refreshToken = result.refreshToken
     this._masterUser = result.user
     this._masterConnection.setUser(result.user)
-    this._masterUser['masterId'] = result.user.id
+    this._masterUser.masterId = result.user.id
 
     if (result.memories) {
-      this._masterUser['memories'] = result.memories
+      this._masterUser.memories = result.memories
     }
     this._companies = result.companies
 
@@ -262,7 +262,7 @@ export class LeankoalaClient {
 
   private async _initConnectionViaRefreshToken(args: IClientConnectArgs) {
     this._masterConnection = new Connection(this._getMasterServer(), args.axios)
-    this._masterConnection.setRefreshRoute(this._routes['masterRefresh'])
+    this._masterConnection.setRefreshRoute(this._routes.masterRefresh)
     await this._masterConnection.connect(args)
 
     this._masterUser = this._masterConnection.getUser()
@@ -341,8 +341,8 @@ export class LeankoalaClient {
     await this._clusterConnection.connect({ loginToken: this._masterToken })
 
     const clusterUser = this._clusterConnection.getUser()
-    this._masterUser['clusterId'] = clusterUser['id']
-    this._masterUser['id'] = clusterUser['id']
+    this._masterUser.clusterId = clusterUser.id
+    this._masterUser.id = clusterUser.id
   }
 
   /**
@@ -507,12 +507,9 @@ export class LeankoalaClient {
       return true
     }
 
-    if (!master || master.expireDate < time) {
-      return true
-    }
-
-    return false
+    return !master || master.expireDate < time
   }
+
   /**
    * Trigger Token Refresh
    * @param { string } token

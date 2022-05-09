@@ -73,11 +73,11 @@ export interface IUser {
 }
 
 export enum EConnectionSendName {
-  Owner = "Owner",
+  Owner = 'Owner'
 }
 
 export enum EConnectionSendInterval {
-  Hour = "hour",
+  Hour = 'hour'
 }
 
 export interface IConnectionSendDataResult {
@@ -131,9 +131,9 @@ export interface IConnectionSendResult {
   status: number
   statusText: string
   headers: {
-    "cache-control": string
-    "content-length": string
-    "content-type": string
+    'cache-control': string
+    'content-length': string
+    'content-type': string
   }
   config: {
     url: string
@@ -141,8 +141,8 @@ export interface IConnectionSendResult {
     data: string
     headers: {
       Accept: string
-      "Content-Type": string
-      "accept-language": string
+      'Content-Type': string
+      'accept-language': string
       Authorization: string
     }
     transformRequest: null[]
@@ -211,4 +211,9 @@ export interface IRefreshAccessToken {
   }
   companies?: IRefreshAccessTokenCompany[]
   memories?: IRefreshAccessTokenMemories
+}
+
+export interface ISendHeaders {
+  'accept-language': string
+  Authorization?: string
 }

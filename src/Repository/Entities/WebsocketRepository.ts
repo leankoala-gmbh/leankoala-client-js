@@ -1,5 +1,5 @@
 import Repository from '../Repository'
-import {IRWebsocketGetRoomsResponse} from "../../typescript/interfaces/repos/websocketRepo.interface";
+import {IRWebsocketGetRoomsResponse} from '../../typescript/interfaces/repos/websocketRepo.interface'
 
 /**
  * This class was created by the LeanApiBundle.

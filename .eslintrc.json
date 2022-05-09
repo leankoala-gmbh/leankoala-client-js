@@ -22,7 +22,24 @@
     "prettier"
   ],
   "rules": {
+    "array-bracket-spacing": ["error", "never"],
+    "comma-spacing": ["error", { "before": false, "after": true }],
+    "lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
     "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/no-unused-vars": "off"
+    "@typescript-eslint/no-unused-vars": "off",
+    "array-callback-return": ["error", { "allowImplicit": true }],
+    "class-methods-use-this": [1, {
+      "exceptMethods": []
+    }],
+    "eqeqeq": [1, "always", { "null": "ignore" }],
+    "no-else-return": [1, { "allowElseIf": false }],
+    "dot-notation": [1, { "allowKeywords": true }],
+    "quotes": [2, "single", { "avoidEscape": true }],
+    "semi": [2, "never"],
+    "keyword-spacing": ["error", { "before": true }],
+    "max-params": ["error", 3],
+    "max-statements": ["off", 10],
+    "comma-dangle": ["error", "never"],
+    "no-unneeded-ternary": ["error", { "defaultAssignment": false }]
   }
 }

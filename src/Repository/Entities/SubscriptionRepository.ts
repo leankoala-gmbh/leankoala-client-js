@@ -1,8 +1,8 @@
 import Repository from '../Repository'
 import {
   IRSubResponseBillingAddress,
-  IRSubResponseCompanySubscription, IRSubResponseCreditCard,
-} from '../../typescript/interfaces/repos/subscriptionRepo.interface';
+  IRSubResponseCompanySubscription, IRSubResponseCreditCard
+} from '../../typescript/interfaces/repos/subscriptionRepo.interface'
 
 /**
  * This class was created by the LeanApiBundle.
