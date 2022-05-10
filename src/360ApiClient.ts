@@ -5,7 +5,7 @@ import { IClientConnectArgs,
   EEnvironment, EServer,
   IInitConnectionArgs, IInitConnectionViaMasterTokens, IInitConnectionViaWakeUpTokenArgs,
   IRepositoryCollection, ISwitchClusterArgs,
-  ITokenObject, IRepositoryCollectionRepos,
+  ITokenObject, IRepositoryCollectionRepos
 } from './typescript/interfaces/360ApiClient.interface'
 
 /**
@@ -21,7 +21,7 @@ export class LeankoalaClient {
   private _user: any
   private _companies: any
   private _currentCompany: boolean
-  private readonly _axios: boolean
+  private _axios: boolean
   private readonly _environment: string
   private _connectionStatus: string
   private readonly _registeredEventListeners: any
@@ -54,13 +54,13 @@ export class LeankoalaClient {
       masterRefresh: {
         version: 1,
         path: '{application}/auth/refresh/{user}',
-        method: 'POST',
+        method: 'POST'
       },
       clusterRefresh: {
         version: 1,
         path: 'auth/tokens/refresh/{user_id}',
-        method: 'POST',
-      },
+        method: 'POST'
+      }
     }
   }
 
@@ -135,7 +135,7 @@ export class LeankoalaClient {
       user: this.getUser(),
       cluster: this._clusterConnection
         ? this._clusterConnection.getWakeUpToken()
-        : null,
+        : null
     }
 
     return JSON.stringify(tokenObject)
@@ -150,7 +150,7 @@ export class LeankoalaClient {
    */
 
   private async _initConnection(args: IInitConnectionArgs): Promise<void> {
-    // this._axios = args.axios
+    this._axios = args.axios
 
     if ('noLogin' in args) {
       this._masterConnection = new Connection(this._getMasterServer(), args.axios)
@@ -211,17 +211,17 @@ export class LeankoalaClient {
   private async _initConnectionViaCredentials(args: IClientConnectArgs) {
     const apiServer = this._getMasterServer()
 
-    // if (!('axios' in args)) {
-    //   throw new Error('Missing parameter axios. The HTTP client must be injected.')
-    // }
+    if (!('axios' in args)) {
+      throw new Error('Missing parameter axios. The HTTP client must be injected.')
+    }
 
-    // this._axios = args['axios']
+    this._axios = args.axios
 
-    // if (typeof this._axios !== 'function') {
-    //   throw new Error(
-    //     'The axios argument is not a function. Seems like it is not a valid axios object,',
-    //   )
-    // }
+    if (typeof this._axios !== 'function') {
+      throw new Error(
+        'The axios argument is not a function. Seems like it is not a valid axios object,'
+      )
+    }
 
     this._masterConnection = new Connection(apiServer, this._axios)
 
@@ -235,9 +235,9 @@ export class LeankoalaClient {
         emailOrUserName: args.username,
         password: args.password,
         application: 'koality',
-        withMemories,
+        withMemories
       },
-      true,
+      true
     )
 
     this._masterToken = result.token

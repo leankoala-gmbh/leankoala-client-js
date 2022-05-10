@@ -1,7 +1,7 @@
 import Repository from '../Repository'
 import {
-  IRSubResponseBillingAddress,
-  IRSubResponseCompanySubscription, IRSubResponseCreditCard
+  IRSubResponseBillingAddress, IRSubResponseCompanyInvoices,
+  IRSubResponseCompanySubscription, IRSubResponseCreditCard, IRSubResponseSubFeatures
 } from '../../typescript/interfaces/repos/subscriptionRepo.interface'
 
 /**
@@ -62,7 +62,7 @@ class SubscriptionRepository extends Repository {
    * @param {Object} args
    * @param {Number} args.quantity The number of packets to be used
    */
-  async setCompanyFreePlans(company: string|number, args: {quantity: number}): Promise<any> {
+  async setCompanyFreePlans(company: string|number, args: {quantity: number}): Promise<void> {
     const route = { path: 'subscription/company/{company}/plans/free', method: 'POST', version: 1 }
     const argList = Object.assign({ company }, args)
     const requiredArguments = ['quantity']
@@ -83,7 +83,7 @@ class SubscriptionRepository extends Repository {
    * @param {String} args.last_digits The last 4 digits of the credit card
    * @param {String} args.brand The credit cards brand
    */
-  async setCreditCard(company: string|number, args: IRSubResponseCreditCard): Promise<any> {
+  async setCreditCard(company: string|number, args: IRSubResponseCreditCard): Promise<void> {
     const route = { path: 'subscription/company/{company}/creditcard', method: 'POST', version: 1 }
     const argList = Object.assign({ company }, args)
     const requiredArguments = ['stripe_cc_source', 'last_digits', 'brand']
@@ -108,7 +108,7 @@ class SubscriptionRepository extends Repository {
    * @param {String} args.usident The companies "Umsatzsteuer-Identifikationsnummer". (optional)
    * @param {String} args.email The email address the invoice information gets send to. (optional)
    */
-  async setBillingAddress(company: string|number, args: IRSubResponseBillingAddress): Promise<any> {
+  async setBillingAddress(company: string|number, args: IRSubResponseBillingAddress): Promise<void> {
     const route = { path: 'subscription/company/{company}/billingaddress', method: 'POST', version: 1 }
     const argList = Object.assign({ company }, args)
     const requiredArguments = ['company_name', 'country', 'postal_code', 'city', 'street']
@@ -126,7 +126,7 @@ class SubscriptionRepository extends Repository {
    * @param company
    * @param {Object} args
    */
-  async getBillingAddress(company: string|number, args = {}): Promise<any> {
+  async getBillingAddress(company: string|number, args = {}): Promise<IRSubResponseBillingAddress> {
     const route = { path: 'subscription/company/{company}/billingaddress', method: 'GET', version: 1 }
     const argList = Object.assign({ company }, args)
 
@@ -142,7 +142,7 @@ class SubscriptionRepository extends Repository {
    * @param company
    * @param {Object} args
    */
-  async getSubscribedFeatures(company: string|number, args = {}): Promise<any> {
+  async getSubscribedFeatures(company: string|number, args = {}): Promise<IRSubResponseSubFeatures> {
     const route = { path: 'subscription/company/{company}/features', method: 'GET', version: 1 }
     const argList = Object.assign({ company }, args)
 
@@ -158,7 +158,7 @@ class SubscriptionRepository extends Repository {
    * @param company
    * @param {Object} args
    */
-  async getCompanyInvoices(company: string|number, args = {}): Promise<any> {
+  async getCompanyInvoices(company: string|number, args = {}): Promise<IRSubResponseCompanyInvoices> {
     const route = { path: 'subscription/company/{company}/invoices', method: 'GET', version: 1 }
     const argList = Object.assign({ company }, args)
 

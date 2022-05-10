@@ -1,4 +1,10 @@
 import Repository from '../Repository'
+import {
+  IAlertResponseUpdate,
+  IRAlertCreate,
+  IRAlertResponseCreate,
+  IRAlertResponseList, IRAlertUpdate
+} from '../../typescript/interfaces/repos/alertingChannelRepo.interface'
 
 /**
  * This class was created by the LeanApiBundle.
@@ -10,8 +16,8 @@ import Repository from '../Repository'
 class AlertingChannelRepository extends Repository {
 
   constructor() {
-      super()
-      this._connectionType = 'ClusterConnection'
+    super()
+    this._connectionType = 'ClusterConnection'
   }
 
   /**
@@ -23,7 +29,7 @@ class AlertingChannelRepository extends Repository {
    * @param project
    * @param {Object} args
    */
-  async list(project, args) {
+  async list(project: string, args = {}): Promise<IRAlertResponseList> {
     const route = { path: 'alerting/channels/{project}', method: 'GET', version: 1 }
     const argList = Object.assign({ project }, args)
 
@@ -44,7 +50,7 @@ class AlertingChannelRepository extends Repository {
    * @param {String} args.language The language the alert should be send in. If not value is set the
    *                               default provider language is taken. (optional)
    */
-  async create(project, args) {
+  async create(project: string, args: IRAlertCreate): Promise<IRAlertResponseCreate> {
     const route = { path: 'alerting/channels/{project}', method: 'POST', version: 1 }
     const argList = Object.assign({ project }, args)
     const requiredArguments = ['name', 'type', 'options']
@@ -63,7 +69,7 @@ class AlertingChannelRepository extends Repository {
    * @param channel
    * @param {Object} args
    */
-  async delete(project, channel, args) {
+  async delete(project: string, channel: number, args = {}): Promise<void> {
     const route = { path: 'alerting/channels/{project}/{channel}', method: 'DELETE', version: 1 }
     const argList = Object.assign({ project, channel }, args)
 
@@ -84,7 +90,7 @@ class AlertingChannelRepository extends Repository {
    * @param {Array} args.options  (optional)
    * @param {String} args.language The language the alert should be send in (optional)
    */
-  async update(project, channel, args) {
+  async update(project: string, channel: number, args: IRAlertUpdate): Promise<IAlertResponseUpdate> {
     const route = { path: 'alerting/channels/{project}/{channel}', method: 'PUT', version: 1 }
     const argList = Object.assign({ project, channel }, args)
     const requiredArguments = ['type']
@@ -92,7 +98,6 @@ class AlertingChannelRepository extends Repository {
 
     return this._connection.send(route, argList)
   }
-
 }
 
 export default AlertingChannelRepository

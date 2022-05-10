@@ -1,5 +1,6 @@
-import {IRepoSubscription} from "./repos/subscriptionRepo.interface";
-import {IRWebsocket} from "./repos/websocketRepo.interface";
+import {IRepoSubscription} from './repos/subscriptionRepo.interface'
+import {IRWebsocket} from './repos/websocketRepo.interface'
+import {IRAlertingChannel} from './repos/alertingChannelRepo.interface'
 
 export enum EEnvironment {
   Local = 'local',
@@ -17,8 +18,8 @@ export interface IRepositoryCollectionRepo {
 }
 
 export enum ConnectionType {
-  ClusterConnection = "ClusterConnection",
-  MasterConnection = "MasterConnection",
+  ClusterConnection = 'ClusterConnection',
+  MasterConnection = 'MasterConnection',
 }
 
 export interface IRepositoryCollectionRepos {
@@ -32,7 +33,7 @@ export interface IRepositoryCollectionRepos {
   memory: IRepositoryCollectionRepo
   score: IRepositoryCollectionRepo
   alertingpolicy: IRepositoryCollectionRepo
-  alertingchannel: IRepositoryCollectionRepo
+  alertingchannel: IRAlertingChannel
   websocket: IRWebsocket
   metric: IRepositoryCollectionRepo
   auth: IRepositoryCollectionRepo
@@ -65,10 +66,6 @@ export interface IRepositoryCollection {
   setMasterConnection: any
   setClusterConnection: any
   getRepository: any
-}
-
-export type TRepoFactory<T> = {
-  [P in keyof T]: new() => T[P]
 }
 
 export interface IClientConnectArgs {

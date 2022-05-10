@@ -21,9 +21,9 @@ class WebsocketRepository extends Repository {
    * request method: POST
    *
    */
-  async getRooms(): Promise<IRWebsocketGetRoomsResponse> {
+  async getRooms(args = {}): Promise<IRWebsocketGetRoomsResponse> {
     const route = { path: 'websockets/rooms', method: 'POST', version: 1 }
-    const argList = Object.assign({}, {})
+    const argList = Object.assign({}, args)
 
     return this._connection.send(route, argList)
   }

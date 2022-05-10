@@ -1,9 +1,12 @@
 import {TRepositories} from '../typescript/interfaces/global/repos'
 import {IRepositoryCollectionRepos} from '../typescript/interfaces/360ApiClient.interface'
-// import Sequence from './Entities/SequenceRepository'
-// import Marketplace from './Entities/MarketplaceRepository'
+
+import AlertingChannel from './Entities/AlertingChannelRepository'
 import Subscription from './Entities/SubscriptionRepository'
 import Websocket from './Entities/WebsocketRepository'
+
+// import Sequence from './Entities/SequenceRepository'
+// import Marketplace from './Entities/MarketplaceRepository'
 
 // import Incident from './Entities/IncidentRepository'
 // import CustomerHaendlerbund from './Entities/CustomerHaendlerbundRepository'
@@ -13,7 +16,7 @@ import Websocket from './Entities/WebsocketRepository'
 // import Memory from './Entities/MemoryRepository'
 // import Score from './Entities/ScoreRepository'
 // import AlertingPolicy from './Entities/AlertingPolicyRepository'
-// import AlertingChannel from './Entities/AlertingChannelRepository'
+
 
 // import Metric from './Entities/MetricRepository'
 // import Auth from './Entities/AuthRepository'
@@ -57,9 +60,10 @@ export default class RepositoryCollection {
     this._clusterConnection = false
     this._repositories = {}
 
+    this._repositories.alertingchannel = new AlertingChannel()
     // this._repositories['sequence'] = new Sequence()
     // this._repositories['marketplace'] = new Marketplace()
-    this._repositories['subscription'] = new Subscription()
+    this._repositories.subscription = new Subscription()
     // this._repositories['crawler'] = new Crawler()
     // this._repositories['customerhaendlerbund'] = new CustomerHaendlerbund()
     // this._repositories['customerhaendlerbundmetric'] = new CustomerHaendlerbundMetric()
@@ -67,8 +71,8 @@ export default class RepositoryCollection {
     // this._repositories['memory'] = new Memory()
     // this._repositories['score'] = new Score()
     // this._repositories['alertingpolicy'] = new AlertingPolicy()
-    // this._repositories['alertingchannel'] = new AlertingChannel()
-    this._repositories['websocket'] = new Websocket()
+
+    this._repositories.websocket = new Websocket()
     // this._repositories['metric'] = new Metric()
     // this._repositories['auth'] = new Auth()
     // this._repositories['clusteruser'] = new ClusterUser()
@@ -114,10 +118,10 @@ export default class RepositoryCollection {
         repo.setConnection(this._masterConnection)
       }
       return this._repositories[repositoryName]
-    } else {
+    }
       throw new Error(`No repository with name ${repositoryName} found. Registered repositories are:
          ${JSON.stringify(Object.keys(this._repositories))}
         `)
-    }
+
   }
 }

@@ -18,5 +18,5 @@ export interface IRWebsocketGetRoomsResponse {
 }
 
 export interface IRWebsocket {
-  getRooms(args: object): Promise<IRWebsocketGetRoomsResponse>
+  getRooms(args?: object): Promise<IRWebsocketGetRoomsResponse>
 }
