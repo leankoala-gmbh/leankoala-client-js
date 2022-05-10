@@ -5,6 +5,8 @@ import AlertingChannel from './Entities/AlertingChannelRepository'
 import AlertingPolicy from './Entities/AlertingPolicyRepository'
 import Auth from './Entities/AuthRepository'
 import CheckA11y from './Entities/CheckA11yRepository'
+import CheckBrokenResource from './Entities/CheckBrokenResourceRepository'
+import CheckCertificate from './Entities/CheckCertificateRepository'
 
 import Subscription from './Entities/SubscriptionRepository'
 import Websocket from './Entities/WebsocketRepository'
@@ -35,12 +37,12 @@ import Websocket from './Entities/WebsocketRepository'
 // import Check from './Entities/CheckRepository'
 // import CheckLighthouse from './Entities/CheckLighthouseRepository'
 //
-// import CheckBrokenResource from './Entities/CheckBrokenResourceRepository'
+//
 // import CheckJavaScriptErrors from './Entities/CheckJavaScriptErrorsRepository'
 // import CheckFileSize from './Entities/CheckFileSizeRepository'
 // import CheckSitemap from './Entities/CheckSitemapRepository'
 // import CheckMobileFriendly from './Entities/CheckMobileFriendlyRepository'
-// import CheckCertificate from './Entities/CheckCertificateRepository'
+//
 // import CheckInsecureContent from './Entities/CheckInsecureContentRepository'
 // import CheckCookie from './Entities/CheckCookieRepository'
 // import CheckDeadLinks from './Entities/CheckDeadLinksRepository'
@@ -68,6 +70,8 @@ export default class RepositoryCollection {
     this._repositories.alertingpolicy = new AlertingPolicy()
     this._repositories.auth = new Auth()
     this._repositories.checka11y = new CheckA11y()
+    this._repositories.checkbrokenresource = new CheckBrokenResource()
+    this._repositories.checkcertificate = new CheckCertificate()
 
     // this._repositories['sequence'] = new Sequence()
     // this._repositories['marketplace'] = new Marketplace()
@@ -94,7 +98,7 @@ export default class RepositoryCollection {
     // this._repositories['check'] = new Check()
     // this._repositories['checklighthouse'] = new CheckLighthouse()
     //
-    // this._repositories['checkbrokenresource'] = new CheckBrokenResource()
+    //
     // this._repositories['checkjavascripterrors'] = new CheckJavaScriptErrors()
     // this._repositories['checkfilesize'] = new CheckFileSize()
     // this._repositories['checksitemap'] = new CheckSitemap()

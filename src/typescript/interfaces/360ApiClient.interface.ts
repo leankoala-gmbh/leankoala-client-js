@@ -4,6 +4,8 @@ import {IRAlertingChannel} from './repos/alertingChannelRepo.interface'
 import {IRAlertingPolicy} from './repos/alertingPolicyRepo.interface'
 import {IRAuth} from './repos/authRepo.interface'
 import {IRCheckA11Y} from './repos/checkA11YRepo.interface'
+import {IRCheckBrokenResource} from './repos/checkBrokenResourceRepo.interface'
+import {IRCheckCertificate} from './repos/checkCertificateRepo.interfaces'
 
 export enum EEnvironment {
   Local = 'local',
@@ -51,12 +53,12 @@ export interface IRepositoryCollectionRepos {
   check: IRepositoryCollectionRepo
   checklighthouse: IRepositoryCollectionRepo
   checka11y: IRCheckA11Y
-  checkbrokenresource: IRepositoryCollectionRepo
+  checkbrokenresource: IRCheckBrokenResource
   checkjavascripterrors: IRepositoryCollectionRepo
   checkfilesize: IRepositoryCollectionRepo
   checksitemap: IRepositoryCollectionRepo
   checkmobilefriendly: IRepositoryCollectionRepo
-  checkcertificate: IRepositoryCollectionRepo
+  checkcertificate: IRCheckCertificate
   checkinsecurecontent: IRepositoryCollectionRepo
   checkcookie: IRepositoryCollectionRepo
   checkdeadlinks: IRepositoryCollectionRepo

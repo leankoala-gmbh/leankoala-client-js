@@ -1,13 +1,12 @@
+import {IRCheckGlobComponent} from '../global/checkRepos.interface'
+
 interface IRCheckA11YSuggestion {
   id: number
   identifier: string
   name: string
 }
 
-interface IRCheckA11YComponent {
-  id: number
-  name: string
-  url: string
+interface IRCheckA11YComponent extends IRCheckGlobComponent{
   suggestion: IRCheckA11YSuggestion
 }
 
@@ -56,7 +55,7 @@ export interface IRCheckA11YResultsResponse {
         url: string
         suggestion?: IRCheckA11YSuggestion
       }
-      results: IRCheckA11YResult[] | never[]
+      results: IRCheckA11YResult[]
     }
   }
 }

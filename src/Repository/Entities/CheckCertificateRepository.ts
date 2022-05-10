@@ -1,6 +1,5 @@
-const Repository = require('../Repository')
-
-
+import Repository from '../Repository'
+import {IRCheckCertificateResultsResponse} from '../../typescript/interfaces/repos/checkCertificateRepo.interfaces'
 
 /**
  * This class was created by the LeanApiBundle.
@@ -21,9 +20,9 @@ class CheckCertificateRepository extends Repository {
    * request method: GET
    *
    * @param system
-   * @param {Object} args
+   * @param {string} args
    */
-  async getExpirationResults(system, args) {
+  async getExpirationResults(system: string, args: string): Promise<IRCheckCertificateResultsResponse> {
     const route = { path: 'check/checks/{system}/certificate', method: 'GET', version: 1 }
     const argList = Object.assign({ system }, args)
 
@@ -32,4 +31,4 @@ class CheckCertificateRepository extends Repository {
 
 }
 
-module.exports = CheckCertificateRepository
+export default CheckCertificateRepository

@@ -1,4 +1,5 @@
 import Repository from '../Repository'
+import {IRCheckBrokenResourceResponse} from '../../typescript/interfaces/repos/checkBrokenResourceRepo.interface'
 
 /**
  * This class was created by the LeanApiBundle.
@@ -21,7 +22,7 @@ class CheckBrokenResourceRepository extends Repository {
    * @param system
    * @param {Object} args
    */
-  async getBrokenResources(system, args) {
+  async getBrokenResources(system: string, args = {}): Promise<IRCheckBrokenResourceResponse> {
     const route = { path: 'check/checks/{system}/brokenresources', method: 'GET', version: 1 }
     const argList = Object.assign({ system }, args)
 
