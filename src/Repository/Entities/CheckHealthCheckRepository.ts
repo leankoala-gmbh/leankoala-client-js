@@ -1,6 +1,5 @@
-const Repository = require('../Repository')
-
-
+import Repository from '../Repository'
+import {TCheckSystem} from '../../typescript/interfaces/global/checkRepos.interface'
 
 /**
  * This class was created by the LeanApiBundle.
@@ -23,7 +22,7 @@ class CheckHealthCheckRepository extends Repository {
    * @param system
    * @param {Object} args
    */
-  async getResults(system, args) {
+  async getResults(system: TCheckSystem, args = {}): Promise<any> {
     const route = { path: 'check/checks/{system}/healthchecks', method: 'GET', version: 1 }
     const argList = Object.assign({ system }, args)
 
@@ -32,4 +31,4 @@ class CheckHealthCheckRepository extends Repository {
 
 }
 
-module.exports = CheckHealthCheckRepository
+export default CheckHealthCheckRepository
