@@ -1,4 +1,5 @@
 import Repository from '../Repository'
+import {IRAuthCredentialsArgs, IRAuthRefreshTokenArgs} from '../../typescript/interfaces/repos/authRepo.interface'
 
 /**
  * The result type for the createTokenByCredentials API request.
@@ -44,7 +45,7 @@ class AuthRepository extends Repository {
    *
    * @return {createTokenByCredentialsResult}
    */
-  async createTokenByCredentials(args) {
+  async createTokenByCredentials(args: IRAuthCredentialsArgs): Promise<any> {
     const route = { path: 'auth/tokens/access', method: 'POST', version: 1 }
     const argList = Object.assign({  }, args)
     const requiredArguments = ['username', 'password']
@@ -61,7 +62,7 @@ class AuthRepository extends Repository {
    * @param {Object} args
    * @param {Boolean} args.with_memories If true all Memory entities will be attached in the answer. (default: false)
    */
-  async createTokenByRefreshToken(user, args) {
+  async createTokenByRefreshToken(user: string, args: IRAuthRefreshTokenArgs): Promise<any> {
     const route = { path: 'auth/tokens/refresh/{user}', method: 'POST', version: 1 }
     const argList = Object.assign({ user }, args)
 

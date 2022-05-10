@@ -2,6 +2,7 @@ import {IRepoSubscription} from './repos/subscriptionRepo.interface'
 import {IRWebsocket} from './repos/websocketRepo.interface'
 import {IRAlertingChannel} from './repos/alertingChannelRepo.interface'
 import {IRAlertingPolicy} from './repos/alertingPolicyRepo.interface'
+import {IRAuth} from './repos/authRepo.interface'
 
 export enum EEnvironment {
   Local = 'local',
@@ -37,7 +38,7 @@ export interface IRepositoryCollectionRepos {
   alertingchannel: IRAlertingChannel
   websocket: IRWebsocket
   metric: IRepositoryCollectionRepo
-  auth: IRepositoryCollectionRepo
+  auth: IRAuth
   clusteruser: IRepositoryCollectionRepo
   user: IRepositoryCollectionRepo
   invitation: IRepositoryCollectionRepo

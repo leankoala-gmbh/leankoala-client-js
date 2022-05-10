@@ -3,6 +3,7 @@ import {IRepositoryCollectionRepos} from '../typescript/interfaces/360ApiClient.
 
 import AlertingChannel from './Entities/AlertingChannelRepository'
 import AlertingPolicy from './Entities/AlertingPolicyRepository'
+import Auth from './Entities/AuthRepository'
 import Subscription from './Entities/SubscriptionRepository'
 import Websocket from './Entities/WebsocketRepository'
 
@@ -20,7 +21,7 @@ import Websocket from './Entities/WebsocketRepository'
 
 
 // import Metric from './Entities/MetricRepository'
-// import Auth from './Entities/AuthRepository'
+
 // import ClusterUser from './Entities/ClusterUserRepository'
 // import User from './Entities/UserRepository'
 // import Invitation from './Entities/InvitationRepository'
@@ -63,7 +64,7 @@ export default class RepositoryCollection {
 
     this._repositories.alertingchannel = new AlertingChannel()
     this._repositories.alertingpolicy = new AlertingPolicy()
-
+    this._repositories.auth = new Auth()
     // this._repositories['sequence'] = new Sequence()
     // this._repositories['marketplace'] = new Marketplace()
     this._repositories.subscription = new Subscription()
@@ -77,7 +78,7 @@ export default class RepositoryCollection {
 
     this._repositories.websocket = new Websocket()
     // this._repositories['metric'] = new Metric()
-    // this._repositories['auth'] = new Auth()
+    //
     // this._repositories['clusteruser'] = new ClusterUser()
     // this._repositories['user'] = new User()
     // this._repositories['invitation'] = new Invitation()
