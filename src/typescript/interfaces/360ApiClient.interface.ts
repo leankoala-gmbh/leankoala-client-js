@@ -8,6 +8,7 @@ import {IRCheckBrokenResource} from './repos/checkBrokenResourceRepo.interface'
 import {IRCheckCertificate} from './repos/checkCertificateRepo.interfaces'
 import {IRCheckCookies} from './repos/checkCookiesRepo.interface'
 import {IRCheckDeadlinks} from './repos/checkDeadlinksRepo.interface'
+import {IRCheckFilesize} from './repos/checkFilesizeRepo.interface'
 
 export enum EEnvironment {
   Local = 'local',
@@ -57,7 +58,7 @@ export interface IRepositoryCollectionRepos {
   checka11y: IRCheckA11Y
   checkbrokenresource: IRCheckBrokenResource
   checkjavascripterrors: IRepositoryCollectionRepo
-  checkfilesize: IRepositoryCollectionRepo
+  checkfilesize: IRCheckFilesize
   checksitemap: IRepositoryCollectionRepo
   checkmobilefriendly: IRepositoryCollectionRepo
   checkcertificate: IRCheckCertificate

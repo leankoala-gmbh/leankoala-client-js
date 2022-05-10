@@ -1,6 +1,9 @@
-const Repository = require('../Repository')
-
-
+import Repository from '../Repository'
+import {TCheckSystem} from '../../typescript/interfaces/global/checkRepos.interface'
+import {
+  IRCheckFilesizeIgnoreResponse,
+  IRCheckFilesizeResultsResponse
+} from '../../typescript/interfaces/repos/checkFilesizeRepo.interface'
 
 /**
  * This class was created by the LeanApiBundle.
@@ -23,7 +26,7 @@ class CheckFileSizeRepository extends Repository {
    * @param system
    * @param {Object} args
    */
-  async getResults(system, args) {
+  async getResults(system: TCheckSystem, args = {}): Promise<IRCheckFilesizeResultsResponse> {
     const route = { path: 'check/checks/{system}/performance/big', method: 'GET', version: 1 }
     const argList = Object.assign({ system }, args)
 
@@ -40,7 +43,7 @@ class CheckFileSizeRepository extends Repository {
    * @param {Object} args
    * @param {Array} args.patterns List of URLs (strings) that will be excluded from the dead link crawl
    */
-  async ignorePattern(system, args) {
+  async ignorePattern(system: TCheckSystem, args: { patterns: string[] }): Promise<IRCheckFilesizeIgnoreResponse> {
     const route = { path: 'check/checks/{system}/siteinfo/ignore', method: 'POST', version: 1 }
     const argList = Object.assign({ system }, args)
     const requiredArguments = ['patterns']
@@ -51,4 +54,4 @@ class CheckFileSizeRepository extends Repository {
 
 }
 
-module.exports = CheckFileSizeRepository
+export default CheckFileSizeRepository
