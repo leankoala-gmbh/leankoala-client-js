@@ -1,6 +1,6 @@
-const Repository = require('../Repository')
-
-
+import Repository from '../Repository'
+import {TCheckSystem} from '../../typescript/interfaces/global/checkRepos.interface'
+import {IRCheckInsecureContentResponse} from '../../typescript/interfaces/repos/checkInsecureContentRepo.interface'
 
 /**
  * This class was created by the LeanApiBundle.
@@ -25,7 +25,7 @@ class CheckInsecureContentRepository extends Repository {
    * @param system
    * @param {Object} args
    */
-  async getInsecureElements(system, args) {
+  async getInsecureElements(system: TCheckSystem, args = {}): Promise<IRCheckInsecureContentResponse> {
     const route = { path: 'check/checks/{system}/insecure', method: 'GET', version: 1 }
     const argList = Object.assign({ system }, args)
 
@@ -34,4 +34,4 @@ class CheckInsecureContentRepository extends Repository {
 
 }
 
-module.exports = CheckInsecureContentRepository
+export default CheckInsecureContentRepository

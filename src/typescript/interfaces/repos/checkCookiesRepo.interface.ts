@@ -9,6 +9,7 @@ export interface IRCheckCookiesResponse {
     [key: string]: {
       component: IRCheckCookiesComponent
       domains?: string[]
+      error?: string
     }
   }
 }

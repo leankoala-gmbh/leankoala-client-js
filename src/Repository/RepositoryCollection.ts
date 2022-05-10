@@ -11,6 +11,7 @@ import CheckCookie from './Entities/CheckCookieRepository'
 import CheckDeadLinks from './Entities/CheckDeadLinksRepository'
 import CheckFileSize from './Entities/CheckFileSizeRepository'
 import CheckHealthCheck from './Entities/CheckHealthCheckRepository'
+import CheckInsecureContent from './Entities/CheckInsecureContentRepository'
 
 import Subscription from './Entities/SubscriptionRepository'
 import Websocket from './Entities/WebsocketRepository'
@@ -47,7 +48,7 @@ import Websocket from './Entities/WebsocketRepository'
 // import CheckSitemap from './Entities/CheckSitemapRepository'
 // import CheckMobileFriendly from './Entities/CheckMobileFriendlyRepository'
 //
-// import CheckInsecureContent from './Entities/CheckInsecureContentRepository'
+//
 //
 //
 //
@@ -80,6 +81,9 @@ export default class RepositoryCollection {
     this._repositories.checkdeadlinks = new CheckDeadLinks()
     this._repositories.checkfilesize = new CheckFileSize()
     this._repositories.checkhealthcheck = new CheckHealthCheck()
+    this._repositories.checkinsecurecontent = new CheckInsecureContent()
+
+
     // this._repositories['sequence'] = new Sequence()
     // this._repositories['marketplace'] = new Marketplace()
     this._repositories.subscription = new Subscription()
@@ -111,7 +115,7 @@ export default class RepositoryCollection {
     // this._repositories['checksitemap'] = new CheckSitemap()
     // this._repositories['checkmobilefriendly'] = new CheckMobileFriendly()
     // this._repositories['checkcertificate'] = new CheckCertificate()
-    // this._repositories['checkinsecurecontent'] = new CheckInsecureContent()
+    //
     //
     //
     //

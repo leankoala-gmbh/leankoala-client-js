@@ -10,6 +10,7 @@ import {IRCheckCookies} from './repos/checkCookiesRepo.interface'
 import {IRCheckDeadlinks} from './repos/checkDeadlinksRepo.interface'
 import {IRCheckFilesize} from './repos/checkFilesizeRepo.interface'
 import {IRCheckHealthCheck} from './repos/checkHealthCheckRepo.interface'
+import {IRCheckInsecureContent} from './repos/checkInsecureContentRepo.interface'
 
 export enum EEnvironment {
   Local = 'local',
@@ -63,7 +64,7 @@ export interface IRepositoryCollectionRepos {
   checksitemap: IRepositoryCollectionRepo
   checkmobilefriendly: IRepositoryCollectionRepo
   checkcertificate: IRCheckCertificate
-  checkinsecurecontent: IRepositoryCollectionRepo
+  checkinsecurecontent: IRCheckInsecureContent
   checkcookie: IRCheckCookies
   checkdeadlinks: IRCheckDeadlinks
   checkhealthcheck: IRCheckHealthCheck
