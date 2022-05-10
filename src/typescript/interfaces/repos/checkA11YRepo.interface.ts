@@ -1,4 +1,4 @@
-import {IRCheckGlobComponent} from '../global/checkRepos.interface'
+import {IRCheckGlobComponent, IRCheckGlobSuggestion} from '../global/checkRepos.interface'
 
 interface IRCheckA11YSuggestion {
   id: number
@@ -6,8 +6,8 @@ interface IRCheckA11YSuggestion {
   name: string
 }
 
-interface IRCheckA11YComponent extends IRCheckGlobComponent{
-  suggestion: IRCheckA11YSuggestion
+interface IRCheckA11YComponent extends IRCheckGlobComponent {
+  suggestion: IRCheckGlobSuggestion
 }
 
 interface IRCheckA11YResult {

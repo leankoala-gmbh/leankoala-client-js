@@ -1,6 +1,5 @@
-const Repository = require('../Repository')
-
-
+import Repository from '../Repository'
+import {IRCheckCookiesResponse} from '../../typescript/interfaces/repos/checkCookiesRepo.interface'
 
 /**
  * This class was created by the LeanApiBundle.
@@ -27,7 +26,7 @@ class CheckCookieRepository extends Repository {
    * @param system
    * @param {Object} args
    */
-  async getDomains(system, args) {
+  async getDomains(system: string|number, args = {}): Promise<IRCheckCookiesResponse> {
     const route = { path: 'check/checks/{system}/cookies/domains', method: 'GET', version: 1 }
     const argList = Object.assign({ system }, args)
 
@@ -36,4 +35,4 @@ class CheckCookieRepository extends Repository {
 
 }
 
-module.exports = CheckCookieRepository
+export default CheckCookieRepository

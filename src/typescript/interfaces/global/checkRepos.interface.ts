@@ -3,3 +3,9 @@ export interface IRCheckGlobComponent {
   name: string
   url: string
 }
+
+export interface IRCheckGlobSuggestion {
+  id: number
+  identifier: string
+  name: string
+}

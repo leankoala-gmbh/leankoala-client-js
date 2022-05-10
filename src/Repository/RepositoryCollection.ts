@@ -7,6 +7,7 @@ import Auth from './Entities/AuthRepository'
 import CheckA11y from './Entities/CheckA11yRepository'
 import CheckBrokenResource from './Entities/CheckBrokenResourceRepository'
 import CheckCertificate from './Entities/CheckCertificateRepository'
+import CheckCookie from './Entities/CheckCookieRepository'
 
 import Subscription from './Entities/SubscriptionRepository'
 import Websocket from './Entities/WebsocketRepository'
@@ -44,7 +45,7 @@ import Websocket from './Entities/WebsocketRepository'
 // import CheckMobileFriendly from './Entities/CheckMobileFriendlyRepository'
 //
 // import CheckInsecureContent from './Entities/CheckInsecureContentRepository'
-// import CheckCookie from './Entities/CheckCookieRepository'
+//
 // import CheckDeadLinks from './Entities/CheckDeadLinksRepository'
 // import CheckHealthCheck from './Entities/CheckHealthCheckRepository'
 // import Nixstats from './Entities/NixstatsRepository'
@@ -72,6 +73,7 @@ export default class RepositoryCollection {
     this._repositories.checka11y = new CheckA11y()
     this._repositories.checkbrokenresource = new CheckBrokenResource()
     this._repositories.checkcertificate = new CheckCertificate()
+    this._repositories.checkcookie = new CheckCookie()
 
     // this._repositories['sequence'] = new Sequence()
     // this._repositories['marketplace'] = new Marketplace()
@@ -105,7 +107,7 @@ export default class RepositoryCollection {
     // this._repositories['checkmobilefriendly'] = new CheckMobileFriendly()
     // this._repositories['checkcertificate'] = new CheckCertificate()
     // this._repositories['checkinsecurecontent'] = new CheckInsecureContent()
-    // this._repositories['checkcookie'] = new CheckCookie()
+    //
     // this._repositories['checkdeadlinks'] = new CheckDeadLinks()
     // this._repositories['checkhealthcheck'] = new CheckHealthCheck()
     // this._repositories['nixstats'] = new Nixstats()
