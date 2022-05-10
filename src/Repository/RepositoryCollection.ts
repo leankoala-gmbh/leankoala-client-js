@@ -2,6 +2,7 @@ import {TRepositories} from '../typescript/interfaces/global/repos'
 import {IRepositoryCollectionRepos} from '../typescript/interfaces/360ApiClient.interface'
 
 import AlertingChannel from './Entities/AlertingChannelRepository'
+import AlertingPolicy from './Entities/AlertingPolicyRepository'
 import Subscription from './Entities/SubscriptionRepository'
 import Websocket from './Entities/WebsocketRepository'
 
@@ -15,7 +16,7 @@ import Websocket from './Entities/WebsocketRepository'
 // import CustomerMehrwertsteuercheck from './Entities/CustomerMehrwertsteuercheckRepository'
 // import Memory from './Entities/MemoryRepository'
 // import Score from './Entities/ScoreRepository'
-// import AlertingPolicy from './Entities/AlertingPolicyRepository'
+
 
 
 // import Metric from './Entities/MetricRepository'
@@ -61,6 +62,8 @@ export default class RepositoryCollection {
     this._repositories = {}
 
     this._repositories.alertingchannel = new AlertingChannel()
+    this._repositories.alertingpolicy = new AlertingPolicy()
+
     // this._repositories['sequence'] = new Sequence()
     // this._repositories['marketplace'] = new Marketplace()
     this._repositories.subscription = new Subscription()
@@ -70,7 +73,7 @@ export default class RepositoryCollection {
     // this._repositories['customermehrwertsteuercheck'] = new CustomerMehrwertsteuercheck()
     // this._repositories['memory'] = new Memory()
     // this._repositories['score'] = new Score()
-    // this._repositories['alertingpolicy'] = new AlertingPolicy()
+    //
 
     this._repositories.websocket = new Websocket()
     // this._repositories['metric'] = new Metric()

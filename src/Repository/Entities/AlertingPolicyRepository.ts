@@ -1,4 +1,9 @@
 import Repository from '../Repository'
+import {
+  IRAlertPolicyCreateArgs,
+  IRAlertPolicyCreateResponse,
+  IRAlertPolicyListResponse, IRAlertPolicyUpdateArgs
+} from '../../typescript/interfaces/repos/alertingPolicyRepo.interface'
 
 /**
  * This class was created by the LeanApiBundle.
@@ -23,7 +28,7 @@ class AlertingPolicyRepository extends Repository {
    * @param project
    * @param {Object} args
    */
-  async list(project, args) {
+  async list(project: string, args = {}): Promise<IRAlertPolicyListResponse> {
     const route = { path: 'alerting/policies/{project}', method: 'GET', version: 1 }
     const argList = Object.assign({ project }, args)
 
@@ -41,7 +46,7 @@ class AlertingPolicyRepository extends Repository {
    * @param {Array} args.severities  (optional)
    * @param {Number} args.channels  (optional)
    */
-  async create(project, args) {
+  async create(project: string, args: IRAlertPolicyCreateArgs): Promise<IRAlertPolicyCreateResponse> {
     const route = { path: 'alerting/policies/{project}', method: 'POST', version: 1 }
     const argList = Object.assign({ project }, args)
     const requiredArguments = ['name']
@@ -60,7 +65,7 @@ class AlertingPolicyRepository extends Repository {
    * @param policy
    * @param {Object} args
    */
-  async delete(project, policy, args) {
+  async delete(project: string, policy: number, args = {}): Promise<void> {
     const route = { path: 'alerting/policies/{project}/{policy}', method: 'DELETE', version: 1 }
     const argList = Object.assign({ project, policy }, args)
 
@@ -79,13 +84,12 @@ class AlertingPolicyRepository extends Repository {
    * @param {Array} args.severities  (optional)
    * @param {Number} args.channels  (optional)
    */
-  async update(project, policy, args) {
+  async update(project: string, policy: number, args: IRAlertPolicyUpdateArgs): Promise<IRAlertPolicyCreateResponse> {
     const route = { path: 'alerting/policies/{project}/{policy}', method: 'PUT', version: 1 }
     const argList = Object.assign({ project, policy }, args)
 
     return this._connection.send(route, argList)
   }
-
 }
 
 export default AlertingPolicyRepository

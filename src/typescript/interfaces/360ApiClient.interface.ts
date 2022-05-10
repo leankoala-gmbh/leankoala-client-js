@@ -1,6 +1,7 @@
 import {IRepoSubscription} from './repos/subscriptionRepo.interface'
 import {IRWebsocket} from './repos/websocketRepo.interface'
 import {IRAlertingChannel} from './repos/alertingChannelRepo.interface'
+import {IRAlertingPolicy} from './repos/alertingPolicyRepo.interface'
 
 export enum EEnvironment {
   Local = 'local',
@@ -32,7 +33,7 @@ export interface IRepositoryCollectionRepos {
   customermehrwertsteuercheck: IRepositoryCollectionRepo
   memory: IRepositoryCollectionRepo
   score: IRepositoryCollectionRepo
-  alertingpolicy: IRepositoryCollectionRepo
+  alertingpolicy: IRAlertingPolicy
   alertingchannel: IRAlertingChannel
   websocket: IRWebsocket
   metric: IRepositoryCollectionRepo
