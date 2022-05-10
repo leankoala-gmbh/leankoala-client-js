@@ -1,3 +1,5 @@
+export type TCheckSystem = string | number
+
 export interface IRCheckGlobComponent {
   id: number
   name: string

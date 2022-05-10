@@ -7,6 +7,7 @@ import {IRCheckA11Y} from './repos/checkA11YRepo.interface'
 import {IRCheckBrokenResource} from './repos/checkBrokenResourceRepo.interface'
 import {IRCheckCertificate} from './repos/checkCertificateRepo.interfaces'
 import {IRCheckCookies} from './repos/checkCookiesRepo.interface'
+import {IRCheckDeadlinks} from './repos/checkDeadlinksRepo.interface'
 
 export enum EEnvironment {
   Local = 'local',
@@ -62,7 +63,7 @@ export interface IRepositoryCollectionRepos {
   checkcertificate: IRCheckCertificate
   checkinsecurecontent: IRepositoryCollectionRepo
   checkcookie: IRCheckCookies
-  checkdeadlinks: IRepositoryCollectionRepo
+  checkdeadlinks: IRCheckDeadlinks
   checkhealthcheck: IRepositoryCollectionRepo
   nixstats: IRepositoryCollectionRepo
   incident: IRepositoryCollectionRepo
