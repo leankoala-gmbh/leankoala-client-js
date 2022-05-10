@@ -4,6 +4,8 @@ import {IRepositoryCollectionRepos} from '../typescript/interfaces/360ApiClient.
 import AlertingChannel from './Entities/AlertingChannelRepository'
 import AlertingPolicy from './Entities/AlertingPolicyRepository'
 import Auth from './Entities/AuthRepository'
+import CheckA11y from './Entities/CheckA11yRepository'
+
 import Subscription from './Entities/SubscriptionRepository'
 import Websocket from './Entities/WebsocketRepository'
 
@@ -32,7 +34,7 @@ import Websocket from './Entities/WebsocketRepository'
 // import Tool from './Entities/ToolRepository'
 // import Check from './Entities/CheckRepository'
 // import CheckLighthouse from './Entities/CheckLighthouseRepository'
-// import CheckA11y from './Entities/CheckA11yRepository'
+//
 // import CheckBrokenResource from './Entities/CheckBrokenResourceRepository'
 // import CheckJavaScriptErrors from './Entities/CheckJavaScriptErrorsRepository'
 // import CheckFileSize from './Entities/CheckFileSizeRepository'
@@ -65,6 +67,8 @@ export default class RepositoryCollection {
     this._repositories.alertingchannel = new AlertingChannel()
     this._repositories.alertingpolicy = new AlertingPolicy()
     this._repositories.auth = new Auth()
+    this._repositories.checka11y = new CheckA11y()
+
     // this._repositories['sequence'] = new Sequence()
     // this._repositories['marketplace'] = new Marketplace()
     this._repositories.subscription = new Subscription()
@@ -89,7 +93,7 @@ export default class RepositoryCollection {
     // this._repositories['tool'] = new Tool()
     // this._repositories['check'] = new Check()
     // this._repositories['checklighthouse'] = new CheckLighthouse()
-    // this._repositories['checka11y'] = new CheckA11y()
+    //
     // this._repositories['checkbrokenresource'] = new CheckBrokenResource()
     // this._repositories['checkjavascripterrors'] = new CheckJavaScriptErrors()
     // this._repositories['checkfilesize'] = new CheckFileSize()

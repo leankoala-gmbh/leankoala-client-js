@@ -3,6 +3,7 @@ import {IRWebsocket} from './repos/websocketRepo.interface'
 import {IRAlertingChannel} from './repos/alertingChannelRepo.interface'
 import {IRAlertingPolicy} from './repos/alertingPolicyRepo.interface'
 import {IRAuth} from './repos/authRepo.interface'
+import {IRCheckA11Y} from './repos/checkA11YRepo.interface'
 
 export enum EEnvironment {
   Local = 'local',
@@ -49,7 +50,7 @@ export interface IRepositoryCollectionRepos {
   tool: IRepositoryCollectionRepo
   check: IRepositoryCollectionRepo
   checklighthouse: IRepositoryCollectionRepo
-  checka11y: IRepositoryCollectionRepo
+  checka11y: IRCheckA11Y
   checkbrokenresource: IRepositoryCollectionRepo
   checkjavascripterrors: IRepositoryCollectionRepo
   checkfilesize: IRepositoryCollectionRepo

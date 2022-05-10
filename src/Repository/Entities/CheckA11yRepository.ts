@@ -1,4 +1,5 @@
 import Repository from '../Repository'
+import {IRCheckA11YResultsResponse} from '../../typescript/interfaces/repos/checkA11YRepo.interface'
 
 /**
  * This class was created by the LeanApiBundle.
@@ -23,7 +24,7 @@ class CheckA11yRepository extends Repository {
    * @param system
    * @param {Object} args
    */
-  async getResults(system, args) {
+  async getResults(system: string, args = {}): Promise<IRCheckA11YResultsResponse> {
     const route = { path: 'check/checks/{system}/a11y/results', method: 'GET', version: 1 }
     const argList = Object.assign({ system }, args)
 
