@@ -1,4 +1,8 @@
-[![Actions Status](https://github.com/leankoala-gmbh/leankoala-client-js/workflows/Run%20JEST%20tests/badge.svg)](https://github.com/leankoala-gmbh/leankoala-client-js/actions?query=workflow%3A%22Run+JEST+tests%22) [![DeepScan grade](https://deepscan.io/api/teams/10108/projects/12794/branches/203150/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=10108&pid=12794&bid=203150)
+# :warning: This package is abandoned and no longer maintained :warning:
+Please use the [leankoala-gmbh/leankoala-client-typescript](https://github.com/leankoala-gmbh/leankoala-client-typescript) TypeScript package instead. 
+
+
+
 
 # KoalityEngine JavaScript Client
 
